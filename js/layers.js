@@ -25,15 +25,4 @@ addLayer("p", {
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true}
-    upgrades: {
-        11: {
-            title:"Read the description"
-            description: "Double Points",
-            cost: new Decimal(1),
-            etc
-        },
-        etc
-    }
-    if (hasUpgrade('p', 11)) gain = gain.times(2)
-
 })
