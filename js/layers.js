@@ -25,4 +25,12 @@ addLayer("B", {
         {key: "B", description: "B: Reset for Base points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true}
+    upgrades: {
+        11: {
+            title: "Read Desc!",
+            description: "Double your point gain.",
+            cost: new Decimal(1),
+          },
+
+    },
 })
