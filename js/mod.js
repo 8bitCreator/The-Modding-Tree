@@ -43,8 +43,9 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-	return gain
 	if (hasMilestone('p', 0)) gain = gain.times(2)
+	return gain 
+	
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
