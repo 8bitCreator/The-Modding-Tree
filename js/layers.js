@@ -108,7 +108,7 @@ addLayer("p", {
             title: "V4",
             description: "Points boost Points + New layer",
             cost: new Decimal(5000),
-        unlocked(){ return hasUpgrade('p', 13)},
+        unlocked(){ return hasUpgrade('p', 14)},
         effect() { if (hasUpgrade('c', 11)) 
             return player.points.add(1).pow(0.15).times(upgradeEffect('c', 13))
          else
