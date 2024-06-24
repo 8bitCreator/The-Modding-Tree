@@ -218,7 +218,7 @@ addLayer("c", {
 },
 13: {
     title: "+V4",
-    description: "Concentrated Points boost V4+",
+    description: "Concentrated Points boost V4",
     cost: new Decimal(20),
 unlocked(){ return hasUpgrade('c', 12)},
 effect() {
