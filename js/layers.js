@@ -18,7 +18,9 @@ addLayer("p", {
         if (hasMilestone('p', 2)) mult = mult.times(2)
         return mult
     },
-    gainExp() { // Calculate the exponent on main currency from bonuses
+    gainExp() { // Calculate the exponent on main currency from 
+        exp = new Decimal(1)
+        if (hasMilestone('p', 4)) exp = exp.add(0.05)
         return new Decimal(1)
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -47,13 +49,15 @@ addLayer("p", {
         },
         3: {
             requirementDescription: "25 Prestiges",
-            effectDescription: "Prestiges boost points",
+            effectDescription: "Points ^1.2",
             done() { return player.p.points.gte(25) },
             unlocked() { return hasMilestone('p', 2)},
-            effect() {
-                return player[this.layer].points.add(1).pow(0.5)
-        }
-    }
-        
+    },
+    4: {
+        requirementDescription: "300 Points",
+        effectDescription: "Prestige ^1.05 + An Upgrade",
+        done() { return player.points.gte(300) },
+        unlocked() { return hasMilestone('p', 3)},
+} 
     }
 })
