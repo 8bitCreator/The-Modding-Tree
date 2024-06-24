@@ -86,9 +86,9 @@ addLayer("p", {
             cost: new Decimal(2500),
         unlocked(){ return hasUpgrade('p', 12)},
         effect() { if (hasUpgrade('c', 11)) 
-            return player.points.add(1).pow(0.15).times(upgradeEffect('c', 11))
+            return player.points.add(1).pow(0.35).times(upgradeEffect('c', 11))
          else
-         return player.points.add(1).pow(0.15)
+         return player.points.add(1).pow(0.35)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
@@ -97,19 +97,19 @@ addLayer("p", {
             description: "Prestiges boost Prestiges",
             cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
-        effect() { if (hasUpgrade('c', 11)) 
-            return player.points.add(1).pow(0.15).times(upgradeEffect('c', 12))
+        effect() { if (hasUpgrade('c', 12)) 
+            return player.points.add(1).pow(0.20).times(upgradeEffect('c', 12))
          else
-         return player.points.add(1).pow(0.15)
+         return player.points.add(1).pow(0.20)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
         15: {
             title: "V4",
             description: "Points boost Points + New layer",
-            cost: new Decimal(5000),
+            cost: new Decimal(10000),
         unlocked(){ return hasUpgrade('p', 14)},
-        effect() { if (hasUpgrade('c', 11)) 
+        effect() { if (hasUpgrade('c', 13)) 
             return player.points.add(1).pow(0.15).times(upgradeEffect('c', 13))
          else
          return player.points.add(1).pow(0.15)
