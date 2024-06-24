@@ -6,7 +6,7 @@ addLayer("p", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#4BDC13",
+    color: "#0000FF",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "prestige points", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
@@ -87,7 +87,9 @@ addLayer("p", {
             description: "Prestiges boost points.",
             cost: new Decimal(250),
             unlocked() { return hasUpgrade('p', 11)},
-            effect() {
+            effect() {if (hasUpgrade('c', 14)) 
+                return player.points.add(1).pow(0.35).times(upgradeEffect('c', 14))
+                else
                 return player[this.layer].points.add(1).pow(0.35)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
@@ -154,6 +156,12 @@ addLayer("p", {
             cost: new Decimal(1e9),
         unlocked(){ return hasUpgrade('p', 17)},
         }, 
+        19: {
+            title: "V8",
+            description: "Condensated points^1.2",
+            cost: new Decimal(1e20),
+        unlocked(){ return hasUpgrade('c', 14)},
+        }, 
     } 
 
 }),
@@ -184,7 +192,7 @@ addLayer("c", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "c", description: "P: Reset for Concentrated points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "c", description: "C: Reset for Concentrated points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade('p', 15)},
     upgrades: {
@@ -215,6 +223,15 @@ effect() {
     return player.c.points.add(1).pow(0.05)
 },
 },
+14: {
+    title: "+V1",
+    description: "Concentrated Points boost 1+",
+    cost: new Decimal(20),
+unlocked(){ return hasUpgrade('c', 12)},
+effect() {
+    return player.c.points.add(1).pow(0.1)
+},
+},
 },
 milestones: {
     0: {
@@ -224,9 +241,9 @@ milestones: {
     },
 }
 })
-addLayer("p", {
-    name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
+addLayer("f", {
+    name: "Factors", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "F", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
@@ -249,7 +266,14 @@ addLayer("p", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "f", description: "F: Reset for Factor points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){return hasUpgrade('p', 18)},
+    milestones: {
+        0: {
+            requirementDescription: "1 Factor Points",
+            effectDescription: "10x Points, 2x Prestige, 1.5x Concentrated Points, 2 new upgrades",
+            done() { return player.c.points.gte(30) },
+        },
+    }
 })
