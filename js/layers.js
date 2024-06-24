@@ -19,7 +19,7 @@ addLayer("p", {
         if (hasUpgrade('p', 11)) mult = mult.times(10)   
         if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13)) 
         if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))       
-        if (hasUpgrade('p', 18)) mult = mult.times(100)        
+        if (hasUpgrade('p', 18)) mult = mult.times(10)        
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -150,8 +150,8 @@ addLayer("p", {
         }, 
         18: {
             title: "V7",
-            description: "New layer +100x prestige",
-            cost: new Decimal(1e8),
+            description: "New layer +10x prestige",
+            cost: new Decimal(1e9),
         unlocked(){ return hasUpgrade('p', 17)},
         }, 
     } 
@@ -223,4 +223,33 @@ milestones: {
         done() { return player.c.points.gte(30) },
     },
 }
+})
+addLayer("p", {
+    name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#4BDC13",
+    requires: new Decimal(1e15), // Can be a function that takes requirement increases into account
+    resource: "Factor Points", // Name of prestige currency
+    baseResource: "Prestige Points", // Name of resource prestige is based on
+    baseAmount() {return player.p.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)  
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from 
+        exp = new Decimal(1)
+        return exp
+    },
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return true},
 })
