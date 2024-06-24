@@ -18,7 +18,8 @@ addLayer("p", {
         if (hasMilestone('p', 2)) mult = mult.times(2)
         if (hasUpgrade('p', 11)) mult = mult.times(10)   
         if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13)) 
-        if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))                
+        if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))       
+            if (hasUpgrade('p', 18)) mult = mult.times(100)        
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -70,7 +71,7 @@ addLayer("p", {
 5: {
     requirementDescription: "1e9",
     effectDescription: "Generate automatically prestige points",
-    done() { return player.points.gte(1000000000) },
+    done() { return player.points.gte(1e9) },
     unlocked() { return hasMilestone('c', 0)},
 } 
     },
@@ -127,6 +128,34 @@ addLayer("p", {
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
+        16: {
+            title: "V5",
+            description: "Points boost Concentrated Points",
+            cost: new Decimal(1e7),
+        unlocked(){ return hasMilestone('c', 0)},
+        effect() {
+         
+         return player.points.add(1).pow(0.05)
+        },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        }, 
+        17: {
+            title: "V6",
+            description: "Prestige boost Concentrated Points",
+            cost: new Decimal(1e8),
+        unlocked(){ return hasUpgrade('p', 16)},
+        effect() {
+         
+         return player.points.add(1).pow(0.01)
+        },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        }, 
+        18: {
+            title: "V6",
+            description: "New layer +100x prestige",
+            cost: new Decimal(1e8),
+        unlocked(){ return hasUpgrade('p', 17)},
+        }, 
     } 
 
 }),
@@ -146,7 +175,9 @@ addLayer("c", {
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)               
+        mult = new Decimal(1)       
+        if (hasUpgrade('p', 16)) mult = mult.times(upgradeEffect('p', 16))         
+         if (hasUpgrade('p', 17)) mult = mult.times(upgradeEffect('p', 17))         
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
