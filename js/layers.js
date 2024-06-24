@@ -70,7 +70,7 @@ addLayer("p", {
 5: {
     requirementDescription: "1e9",
     effectDescription: "Generate automatically prestige points",
-    done() { return player.p,points.gte(100000000) },
+    done() { return player.points.gte(1000000000) },
     unlocked() { return hasMilestone('c', 0)},
 } 
     },
