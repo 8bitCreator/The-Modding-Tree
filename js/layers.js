@@ -19,7 +19,7 @@ addLayer("p", {
         if (hasUpgrade('p', 11)) mult = mult.times(10)   
         if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13)) 
         if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))       
-            if (hasUpgrade('p', 18)) mult = mult.times(100)        
+        if (hasUpgrade('p', 18)) mult = mult.times(100)        
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -134,7 +134,6 @@ addLayer("p", {
             cost: new Decimal(1e7),
         unlocked(){ return hasMilestone('c', 0)},
         effect() {
-         
          return player.points.add(1).pow(0.05)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
@@ -145,8 +144,7 @@ addLayer("p", {
             cost: new Decimal(1e8),
         unlocked(){ return hasUpgrade('p', 16)},
         effect() {
-         
-         return player.points.add(1).pow(0.01)
+          return player.points.add(1).pow(0.01)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
