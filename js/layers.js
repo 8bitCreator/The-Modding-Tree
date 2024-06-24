@@ -71,7 +71,7 @@ addLayer("p", {
         unlocked(){ return hasMilestone('p', 4)},
         },
         12: {
-            title: "Read the Description",
+            title: "V1",
             description: "Prestiges boost points.",
             cost: new Decimal(250),
             unlocked() { return hasUpgrade('p', 11)},
@@ -81,7 +81,7 @@ addLayer("p", {
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
         13: {
-            title: "Read the Desc V2",
+            title: "V2",
             description: "Point boost Prestiges",
             cost: new Decimal(2500),
         unlocked(){ return hasUpgrade('p', 12)},
@@ -97,18 +97,22 @@ addLayer("p", {
             description: "Prestiges boost Prestiges",
             cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
-        effect() {
-            return player.p.points.add(1).pow(0.10)
+        effect() { if (hasUpgrade('c', 11)) 
+            return player.points.add(1).pow(0.15).times(upgradeEffect('c', 12))
+         else
+         return player.points.add(1).pow(0.15)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
         15: {
-            title: "V3",
+            title: "V4",
             description: "Points boost Points + New layer",
             cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
-        effect() {
-            return player.points.add(1).pow(0.20)
+        effect() { if (hasUpgrade('c', 11)) 
+            return player.points.add(1).pow(0.15).times(upgradeEffect('c', 13))
+         else
+         return player.points.add(1).pow(0.15)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
@@ -150,8 +154,26 @@ addLayer("c", {
             cost: new Decimal(10),
         unlocked(){ return hasUpgrade('p', 15)},
         effect() {
-            return player.c.points.add(1).pow(0.25)
+            return player.c.points.add(1).pow(0.35)
         },
-    }
+    },
+    12: {
+        title: "+V3",
+        description: "Concentrated Points boost V3",
+        cost: new Decimal(10),
+    unlocked(){ return hasUpgrade('c', 11)},
+    effect() {
+        return player.c.points.add(1).pow(0.35)
+    },
+},
+13: {
+    title: "+V3",
+    description: "Concentrated Points boost V3",
+    cost: new Decimal(10),
+unlocked(){ return hasUpgrade('c', 12)},
+effect() {
+    return player.c.points.add(1).pow(0.35)
+},
+}
 }
 })
