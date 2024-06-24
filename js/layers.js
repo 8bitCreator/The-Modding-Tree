@@ -249,7 +249,7 @@ addLayer("f", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#4BDC13",
+    color: "#0066FF",
     requires: new Decimal(1e15), // Can be a function that takes requirement increases into account
     resource: "Factor Points", // Name of prestige currency
     baseResource: "Prestige Points", // Name of resource prestige is based on
