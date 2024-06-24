@@ -28,9 +28,9 @@ addLayer("p", {
 
     milestones: {
         0: {
-            requirementDescription: "5 Prestiges points",
+            requirementDescription: "2 Prestiges points",
             effectDescription: "2x points!",
-            done() { return player.p.points.gte(5) }
+            done() { return player.p.points.gte(2) }
         }
     }
 })
