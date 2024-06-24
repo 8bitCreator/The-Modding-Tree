@@ -142,8 +142,7 @@ addLayer("c", {
     hotkeys: [
         {key: "c", description: "P: Reset for Concentrated points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
-    unlocked(){ return hasUpgrade('p', 15)},
+    layerShown(){return hasUpgrade('p', 15)},
     upgrades: {
         11: {
             title: "New layer!?",
