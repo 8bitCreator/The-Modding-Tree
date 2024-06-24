@@ -225,9 +225,9 @@ effect() {
 },
 14: {
     title: "+V1",
-    description: "Concentrated Points boost 1+",
-    cost: new Decimal(20),
-unlocked(){ return hasUpgrade('c', 12)},
+    description: "Concentrated Points boost V1",
+    cost: new Decimal(1000),
+unlocked(){ return hasMilestone('f', 0)},
 effect() {
     return player.c.points.add(1).pow(0.1)
 },
@@ -273,7 +273,7 @@ addLayer("f", {
         0: {
             requirementDescription: "1 Factor Points",
             effectDescription: "10x Points, 2x Prestige, 1.5x Concentrated Points, 2 new upgrades",
-            done() { return player.c.points.gte(30) },
+            done() { return player.f.points.gte(1) },
         },
     }
 })
