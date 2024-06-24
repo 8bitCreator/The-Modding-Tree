@@ -108,7 +108,7 @@ addLayer("p", {
             cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
         effect() {
-            return player.p.points.add(1).pow(0.20)
+            return player.points.add(1).pow(0.20)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
@@ -117,7 +117,7 @@ addLayer("p", {
 }),
 addLayer("c", {
     name: "Concentration", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "c", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbol: "C", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
