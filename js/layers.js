@@ -16,6 +16,7 @@ addLayer("p", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasMilestone('p', 2)) mult = mult.times(2)
+        if (hasUpgrade('p', 11)) mult = mult.times(10)    
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -59,5 +60,14 @@ addLayer("p", {
         done() { return player.points.gte(300) },
         unlocked() { return hasMilestone('p', 3)},
 } 
-    }
+    },
+    upgrades: {
+        11: {
+            title: "10x Prestiges",
+            description: "Read the Title",
+            cost: new Decimal(25),
+        unlocked(){ return hasMilestone('p', 4)},
+        },
+    } 
+
 })
