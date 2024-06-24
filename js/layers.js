@@ -144,7 +144,7 @@ addLayer("p", {
             cost: new Decimal(1e8),
         unlocked(){ return hasUpgrade('p', 16)},
         effect() {
-          return player.points.add(1).pow(0.01)
+          return player.p.points.add(1).pow(0.01)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
