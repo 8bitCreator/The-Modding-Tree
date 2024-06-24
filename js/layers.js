@@ -19,7 +19,8 @@ addLayer("p", {
         if (hasUpgrade('p', 11)) mult = mult.times(10)   
         if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13)) 
         if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))       
-        if (hasUpgrade('p', 18)) mult = mult.times(10)        
+        if (hasUpgrade('p', 18)) mult = mult.times(10)
+        if (hasMilestone('f', 0)) mult = mult.times(5)            
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -183,7 +184,8 @@ addLayer("c", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)       
         if (hasUpgrade('p', 16)) mult = mult.times(upgradeEffect('p', 16))         
-         if (hasUpgrade('p', 17)) mult = mult.times(upgradeEffect('p', 17))         
+         if (hasUpgrade('p', 17)) mult = mult.times(upgradeEffect('p', 17))
+            if (hasMilestone('f', 0)) gain = gain.times(2.5)           
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -272,7 +274,7 @@ addLayer("f", {
     milestones: {
         0: {
             requirementDescription: "1 Factor Points",
-            effectDescription: "10x Points, 2x Prestige, 1.5x Concentrated Points, 2 new upgrades",
+            effectDescription: "10x Points, 5x Prestige, 2.5x Concentrated Points, 2 new upgrades",
             done() { return player.f.points.gte(1) },
         },
     }
