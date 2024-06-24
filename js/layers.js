@@ -149,7 +149,7 @@ addLayer("p", {
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
         18: {
-            title: "V6",
+            title: "V7",
             description: "New layer +100x prestige",
             cost: new Decimal(1e8),
         unlocked(){ return hasUpgrade('p', 17)},
