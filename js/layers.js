@@ -16,7 +16,9 @@ addLayer("p", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasMilestone('p', 2)) mult = mult.times(2)
-        if (hasUpgrade('p', 11)) mult = mult.times(10)    
+        if (hasUpgrade('p', 11)) mult = mult.times(10)   
+        if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13)) 
+        if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))                
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -55,9 +57,9 @@ addLayer("p", {
             unlocked() { return hasMilestone('p', 2)},
     },
     4: {
-        requirementDescription: "300 Points",
+        requirementDescription: "150 Points",
         effectDescription: "Prestige ^1.05 + An Upgrade",
-        done() { return player.points.gte(300) },
+        done() { return player.points.gte(150) },
         unlocked() { return hasMilestone('p', 3)},
 } 
     },
@@ -71,12 +73,32 @@ addLayer("p", {
         12: {
             title: "Read the Description",
             description: "Prestiges boost points.",
-            cost: new Decimal(1000),
+            cost: new Decimal(250),
             unlocked() { return hasUpgrade('p', 11)},
             effect() {
                 return player[this.layer].points.add(1).pow(0.35)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        13: {
+            title: "Read the Desc V2",
+            description: "Point boost Prestiges",
+            cost: new Decimal(5000),
+        unlocked(){ return hasUpgrade('p', 12)},
+        effect() {
+            return player.points.add(1).pow(0.15)
+        },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        14: {
+            title: "V3",
+            description: "Prestiges boost Prestiges",
+            cost: new Decimal(12000),
+        unlocked(){ return hasUpgrade('p', 13)},
+        effect() {
+            return player.points.add(1).pow(0.10)
+        },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
     } 
 
