@@ -61,6 +61,12 @@ addLayer("p", {
         effectDescription: "Prestige ^1.05 + An Upgrade",
         done() { return player.points.gte(150) },
         unlocked() { return hasMilestone('p', 3)},
+},
+5: {
+    requirementDescription: "150 Points",
+    effectDescription: "Prestige ^1.05 + An Upgrade",
+    done() { return player.points.gte(150) },
+    unlocked() { return hasMilestone('c', 0)},
 } 
     },
     upgrades: {
@@ -160,20 +166,27 @@ addLayer("c", {
     12: {
         title: "+V3",
         description: "Concentrated Points boost V3",
-        cost: new Decimal(10),
+        cost: new Decimal(15),
     unlocked(){ return hasUpgrade('c', 11)},
     effect() {
         return player.c.points.add(1).pow(0.35)
     },
 },
 13: {
-    title: "+V3",
-    description: "Concentrated Points boost V3",
-    cost: new Decimal(10),
+    title: "+V4",
+    description: "Concentrated Points boost V3+ New Milestones",
+    cost: new Decimal(20),
 unlocked(){ return hasUpgrade('c', 12)},
 effect() {
     return player.c.points.add(1).pow(0.35)
 },
-}
+},
+},
+milestones: {
+    0: {
+        requirementDescription: "30 Concentrated Points",
+        effectDescription: "Unlock new Prestige milestones",
+        done() { return player.c.points.gte(30) },
+    },
 }
 })
