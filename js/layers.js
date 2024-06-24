@@ -85,8 +85,10 @@ addLayer("p", {
             description: "Point boost Prestiges",
             cost: new Decimal(2500),
         unlocked(){ return hasUpgrade('p', 12)},
-        effect() {
-            return player.points.add(1).pow(0.15)
+        effect() { if (hasUpgrade('c', 11)) 
+            return player.points.add(1).pow(0.15).times(upgradeEffect('c', 11))
+         else
+         return player.points.add(1).pow(0.15)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
@@ -96,10 +98,61 @@ addLayer("p", {
             cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
         effect() {
-            return player.points.add(1).pow(0.10)
+            return player.p.points.add(1).pow(0.10)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        }, 
+        15: {
+            title: "V3",
+            description: "Points boost Points + New layer",
+            cost: new Decimal(5000),
+        unlocked(){ return hasUpgrade('p', 13)},
+        effect() {
+            return player.p.points.add(1).pow(0.20)
         },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        }, 
     } 
 
+}),
+addLayer("c", {
+    name: "Concentration", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "c", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#CCCCFF",
+    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    resource: "Concentrated Points", // Name of prestige currency
+    baseResource: "points", // Name of resource prestige is based on
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)               
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from 
+        exp = new Decimal(1)
+        return exp
+    },
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "c", description: "P: Reset for Concentrated points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return true},
+    unlocked(){ return hasUpgrade('p', 15)},
+    upgrades: {
+        11: {
+            title: "New layer!?",
+            description: "Concentrated Points boost V2",
+            cost: new Decimal(10),
+        unlocked(){ return hasUpgrade('p', 15)},
+        effect() {
+            return player.c.points.add(1).pow(0.25)
+        },
+    }
+}
 })
