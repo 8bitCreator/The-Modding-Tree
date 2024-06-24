@@ -264,7 +264,7 @@ addLayer("f", {
         exp = new Decimal(1)
         return exp
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "f", description: "F: Reset for Factor points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
