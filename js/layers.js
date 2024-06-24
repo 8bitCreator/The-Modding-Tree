@@ -68,9 +68,9 @@ addLayer("p", {
         unlocked() { return hasMilestone('p', 3)},
 },
 5: {
-    requirementDescription: "150 Points",
+    requirementDescription: "1e9",
     effectDescription: "Generate automatically prestige points",
-    done() { return player.points.gte(150) },
+    done() { return player.points.gte(1000000000) },
     unlocked() { return hasMilestone('c', 0)},
 } 
     },
@@ -165,7 +165,7 @@ addLayer("c", {
             cost: new Decimal(10),
         unlocked(){ return hasUpgrade('p', 15)},
         effect() {
-            return player.c.points.add(1).pow(0.35)
+            return player.c.points.add(1).pow(0.15)
         },
     },
     12: {
@@ -174,16 +174,16 @@ addLayer("c", {
         cost: new Decimal(15),
     unlocked(){ return hasUpgrade('c', 11)},
     effect() {
-        return player.c.points.add(1).pow(0.35)
+        return player.c.points.add(1).pow(0.10)
     },
 },
 13: {
     title: "+V4",
-    description: "Concentrated Points boost V3+ New Milestones",
+    description: "Concentrated Points boost V4+ New Milestones",
     cost: new Decimal(20),
 unlocked(){ return hasUpgrade('c', 12)},
 effect() {
-    return player.c.points.add(1).pow(0.35)
+    return player.c.points.add(1).pow(0.05)
 },
 },
 },
