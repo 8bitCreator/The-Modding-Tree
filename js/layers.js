@@ -20,7 +20,7 @@ addLayer("p", {
         if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13)) 
         if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))       
         if (hasUpgrade('p', 18)) mult = mult.times(10)
-        if (hasMilestone('f', 0)) mult = mult.times(5)            
+         
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -185,7 +185,7 @@ addLayer("c", {
         mult = new Decimal(1)       
         if (hasUpgrade('p', 16)) mult = mult.times(upgradeEffect('p', 16))         
          if (hasUpgrade('p', 17)) mult = mult.times(upgradeEffect('p', 17))
-            if (hasMilestone('f', 0)) gain = gain.times(2.5)           
+                       
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
