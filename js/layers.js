@@ -69,7 +69,7 @@ addLayer("p", {
 },
 5: {
     requirementDescription: "150 Points",
-    effectDescription: "Prestige ^1.05 + An Upgrade",
+    effectDescription: "Generate automatically prestige points",
     done() { return player.points.gte(150) },
     unlocked() { return hasMilestone('c', 0)},
 } 
@@ -109,9 +109,9 @@ addLayer("p", {
             cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
         effect() { if (hasUpgrade('c', 12)) 
-            return player.points.add(1).pow(0.20).times(upgradeEffect('c', 12))
+            return player.p.points.add(1).pow(0.20).times(upgradeEffect('c', 12))
          else
-         return player.points.add(1).pow(0.20)
+         return player.p.points.add(1).pow(0.20)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
