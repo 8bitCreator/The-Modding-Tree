@@ -17,8 +17,8 @@ addLayer("p", {
         mult = new Decimal(1)
         if (hasMilestone('p', 2)) mult = mult.times(2)
         if (hasUpgrade('p', 11)) mult = mult.times(10)   
-        if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13)) 
-        if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))                
+        if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13)) 
+        if (hasUpgrade('p', 14)) mult = mult.times(upgradeEffect('p', 14))                
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
@@ -83,7 +83,7 @@ addLayer("p", {
         13: {
             title: "Read the Desc V2",
             description: "Point boost Prestiges",
-            cost: new Decimal(5000),
+            cost: new Decimal(2500),
         unlocked(){ return hasUpgrade('p', 12)},
         effect() {
             return player.points.add(1).pow(0.15)
@@ -93,7 +93,7 @@ addLayer("p", {
         14: {
             title: "V3",
             description: "Prestiges boost Prestiges",
-            cost: new Decimal(12000),
+            cost: new Decimal(5000),
         unlocked(){ return hasUpgrade('p', 13)},
         effect() {
             return player.points.add(1).pow(0.10)
