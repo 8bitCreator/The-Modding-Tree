@@ -25,5 +25,12 @@ addLayer("p", {
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true},
-    milestones:
+
+    milestones: {
+        0: {
+            requirementDescription: "5 Prestiges points",
+            effectDescription: "2x points!",
+            done() { return player.p.points.gte(5) }
+        }
+    }
 })
