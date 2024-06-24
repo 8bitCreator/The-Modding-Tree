@@ -221,7 +221,7 @@ effect() {
 milestones: {
     0: {
         requirementDescription: "30 Concentrated Points",
-        effectDescription: "Unlock new Prestige milestones",
+        effectDescription: "Unlock new Prestige Upgrades and a milestone",
         done() { return player.c.points.gte(30) },
     },
 }
