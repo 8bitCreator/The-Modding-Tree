@@ -72,7 +72,7 @@ addLayer("p", {
             title: "Read the Description",
             description: "Prestiges boost points.",
             cost: new Decimal(3),
-            unlocked() { return hasUpgrade('s', 11) || hasMilestone('p', 0)},
+            unlocked() { return hasUpgrade('p', 11) || hasMilestone('p', 0)},
             effect() {
                 return player[this.layer].points.add(1).pow(0.35)
             },
