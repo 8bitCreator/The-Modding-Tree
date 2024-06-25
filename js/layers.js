@@ -74,7 +74,13 @@ addLayer("p", {
     effectDescription: "Generate automatically prestige points",
     done() { return player.p.points.gte(1e9) },
     unlocked() { return hasMilestone('c', 0)},
-} 
+},
+6: {
+    requirementDescription: "1e9",
+    effectDescription: "Generate automatically prestige points",
+    done() { return player.p.points.gte(1e9) },
+    unlocked() { return hasMilestone('f', 0)},
+},
     },
     upgrades: {
         11: {
@@ -231,7 +237,7 @@ effect() {
     cost: new Decimal(1000),
 unlocked(){ return hasMilestone('f', 0)},
 effect() {
-    return player.c.points.add(1).pow(0.1)
+    return player.c.points.add(1).pow(0.25)
 },
 },
 },
@@ -274,7 +280,7 @@ addLayer("f", {
     milestones: {
         0: {
             requirementDescription: "1 Factor Points",
-            effectDescription: "10x Points, 5x Prestige, 2.5x Concentrated Points, 2 new upgrades",
+            effectDescription: "Unlock More Prestige Milestones and New upgrades",
             done() { return player.f.points.gte(1) },
         },
     }
