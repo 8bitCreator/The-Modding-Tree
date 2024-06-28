@@ -76,9 +76,9 @@ addLayer("p", {
     unlocked() { return hasMilestone('c', 0)},
 },
 6: {
-    requirementDescription: "1e9",
-    effectDescription: "Generate automatically prestige points",
-    done() { return player.p.points.gte(1e9) },
+    requirementDescription: "1e30",
+    effectDescription: "Generate automatically Condensated points",
+    done() { return player.p.points.gte(1e30) },
     unlocked() { return hasMilestone('f', 0)},
 },
     },
@@ -95,7 +95,7 @@ addLayer("p", {
             cost: new Decimal(250),
             unlocked() { return hasUpgrade('p', 11)},
             effect() {if (hasUpgrade('c', 14)) 
-                return player.points.add(1).pow(0.35).times(upgradeEffect('c', 14))
+                return player[this.layer].points.add(1).pow(0.35).times(upgradeEffect('c', 14))
                 else
                 return player[this.layer].points.add(1).pow(0.35)
             },
@@ -277,6 +277,11 @@ addLayer("f", {
         {key: "f", description: "F: Reset for Factor points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade('p', 18)},
+passiveGeneration(){
+         passive = new Decimal(0)
+         if (hasMilestone('p', 6)) passive = passive.add(1) //5% Prestige Points depending on Reset
+        return passive
+        },
     milestones: {
         0: {
             requirementDescription: "1 Factor Points",
