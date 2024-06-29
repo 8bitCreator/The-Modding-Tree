@@ -282,6 +282,7 @@ cost() { return new Decimal(10).mul(getBuyableAmount("c", 11)).pow(5).mul(15).ad
               return effect
             },
           },
+},
 })
 addLayer("f", {
     name: "Factors", // This is optional, only used in a few places, If absent it just uses the layer id.
