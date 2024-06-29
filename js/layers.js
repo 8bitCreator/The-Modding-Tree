@@ -1,4 +1,4 @@
-addLayer("p", {
+qqaddLayer("p", {
     name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
@@ -253,28 +253,7 @@ milestones: {
         done() { return player.c.points.gte(30) },
     },
 },
-buyables: {
-        11: {
-                title: "Are Points in a Flow State!?",
-                unlocked() {
-                    return hasUpgrade('p', 19)
-                },
-                cost(x) {
-                    return new Decimal(1000).pow(x)
-                },
-                
-                canAfford() {
-                    return player.points.gte(this.cost())
-                },
-                buy() {
-                    player.points = player.points.sub(this.cost())
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
-                },
-                effect(x) {
-                    return Decimal.pow(2, x)
-                },
-                effectDisplay() {return format(buyableEffect(this.layer, this.id))},
-            },
+
 
 })
 addLayer("f", {
@@ -312,9 +291,9 @@ addLayer("f", {
             done() { return player.f.points.gte(1) },
         },
 1: {
-            requirementDescription: "5 Factor Points",
-            effectDescription: "Unlock a new upgrade",
-            done() { return player.f.points.gte(5) },
+            requirementDescription: "2 Factor Points",
+            effectDescription: "Unlock a new layer",
+            done() { return player.f.points.gte(2) },
         },
     }
 })
