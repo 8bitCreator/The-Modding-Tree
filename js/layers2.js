@@ -25,5 +25,5 @@ addLayer("fl", {
     hotkeys: [
         {key: "L", description: "l: Reset for Flow points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade('p', 19)},
+    layerShown(){return hasMilestone('f', 1)},
 upgrades:
