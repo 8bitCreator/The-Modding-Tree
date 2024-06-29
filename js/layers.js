@@ -320,7 +320,7 @@ addLayer("f", {
         },
 1: {
             requirementDescription: "5 Factor Points",
-            effectDescription: "Unlock a new buyable",
+            effectDescription: "Unlock a new upgrade",
             done() { return player.f.points.gte(5) },
         },
     }
