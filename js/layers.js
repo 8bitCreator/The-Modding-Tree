@@ -192,10 +192,10 @@ addLayer("c", {
         mult = new Decimal(1)       
         if (hasUpgrade('p', 16)) mult = mult.times(upgradeEffect('p', 16))         
          if (hasUpgrade('p', 17)) mult = mult.times(upgradeEffect('p', 17)) 
-
+         if (hasUpgrade('l', 11)) mult = mult.times(upgradeEffect('l',11))  
  
                        
-        return mult
+       return mult
     },
     gainExp() { // Calculate the exponent on main currency from 
         exp = new Decimal(1)
