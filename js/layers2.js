@@ -26,4 +26,7 @@ addLayer("fl", {
         {key: "L", description: "l: Reset for Flow points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasMilestone('f', 1)},
-upgrades:
+upgrades:{
+11:{           title: "C1",
+            description: "Flow Points boost Condensated Points.",
+           cost: new Decimal(250),
