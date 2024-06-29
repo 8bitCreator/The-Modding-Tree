@@ -152,8 +152,10 @@ addLayer("p", {
             description: "Prestige boost Concentrated Points",
             cost: new Decimal(1e8),
         unlocked(){ return hasUpgrade('p', 16)},
-        effect() {
-          return player.p.points.add(1).pow(0.01)
+        effect() { if (hasUpgrade('l',12)
+          return player.p.points.add(1).pow(0.01).pow(upgradeEffect('l', 12)
+         else
+return player.p.points.add(1).pow(0.01)
         },
         effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         }, 
