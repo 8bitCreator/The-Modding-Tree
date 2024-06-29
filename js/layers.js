@@ -153,7 +153,7 @@ addLayer("p", {
             cost: new Decimal(1e8),
         unlocked(){ return hasUpgrade('p', 16)},
         effect() { if (hasUpgrade('l',12)
-          return player.p.points.add(1).pow(0.01).pow(upgradeEffect('l', 12)
+          return player.p.points.add(1).pow(0.01).pow(upgradeEffect('l', 12))
          else
 return player.p.points.add(1).pow(0.01)
         },
