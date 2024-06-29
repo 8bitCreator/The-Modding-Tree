@@ -86,7 +86,8 @@ addLayer("p", {
     effectDescription: "10x Points"
      done(){ return player.p.points.gte(10)},
   unlocked(){ return hasMilestone('f', 0)},
-    },
+    }
+},
     upgrades: {
         11: {
             title: "10x Prestiges",
