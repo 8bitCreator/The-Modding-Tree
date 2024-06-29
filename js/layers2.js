@@ -21,6 +21,7 @@ addLayer("l", {
         exp = new Decimal(1)
         return exp
     },
+    branches: [["c", 0],["p, 0]],
     row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "L", description: "l: Reset for Flow points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -29,7 +30,7 @@ addLayer("l", {
 upgrades:{
 11:{         
 title: "C1",
-description: "Flow Points boost Condensated Points.",
+description: "Flow Points boost Concentrated Points.",
 cost: new Decimal(1),
 effect() {
     return player.l.points.add(1).pow(0.15)},
