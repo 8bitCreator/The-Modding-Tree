@@ -262,14 +262,7 @@ buyables: {
                 cost(x) {
                     return new Decimal(1000).pow(x)
                 },
-                display() {
-                    let amount = getBuyableAmount('c', 11)
-                    return `
-                    <br /> You can't Access to that Milestone Right :/ Heres a little Boost.
-                    <br /><b><h3>Amount:</h3></b> ${formatWhole(amount)}
-                    <br /><b><h3>Currently boosting Concentrated Points by:</h3></b> ${this.effectDisplay(temp.c.buyables[11].effect)}
-                    <br /><b><h3>Cost:</h3></b> ${format(temp.c.buyables[11].cost)} Notes`
-                },
+                
                 canAfford() {
                     return player.points.gte(this.cost())
                 },
