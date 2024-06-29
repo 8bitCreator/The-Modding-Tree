@@ -192,6 +192,7 @@ addLayer("c", {
         mult = new Decimal(1)       
         if (hasUpgrade('p', 16)) mult = mult.times(upgradeEffect('p', 16))         
          if (hasUpgrade('p', 17)) mult = mult.times(upgradeEffect('p', 17)) 
+if (hasUpgrade('l', 11) mult = mult.times(HasUpgrade('l', 11))
  
                        
         return mult
