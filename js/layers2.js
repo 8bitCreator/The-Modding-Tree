@@ -36,13 +36,5 @@ effect() {
     return player.l.points.add(1).pow(0.15)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
-12:{         
-title: "C2",
-description: "V6 is Heavily boosted.",
-cost: new Decimal(2),
-effect() {
-    return player.l.points.add(1).pow(0.20)},
-            effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
-        },
 },
 })
