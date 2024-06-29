@@ -81,6 +81,11 @@ addLayer("p", {
     done() { return player.p.points.gte(1e30) },
     unlocked() { return hasMilestone('f', 0)},
 },
+7:{ 
+   requirementDescription: "10 Prestiges"
+    effectDescription: "10x Points"
+     done(){ return player.p.points.gte(10)},
+  unlocked(){ return hasMilestone('f', 0)},
     },
     upgrades: {
         11: {
@@ -171,11 +176,6 @@ return player.p.points.add(1).pow(0.01)
             cost: new Decimal(1e15),
         unlocked(){ return hasUpgrade('c', 14)},
         }, 
- 10:{
-     title:"V0"
-    description: "Points ^ 1.5"
-    cost: new Decimal(10)
-    },
 },
 
 }),
