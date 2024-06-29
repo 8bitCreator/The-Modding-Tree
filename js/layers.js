@@ -58,9 +58,9 @@ addLayer("p", {
             unlocked() { return hasMilestone('p', 1)},
         },
         3: {
-            requirementDescription: "25 Prestiges",
+            requirementDescription: "15 Prestiges",
             effectDescription: "Points ^1.2",
-            done() { return player.p.points.gte(25) },
+            done() { return player.p.points.gte(15) },
             unlocked() { return hasMilestone('p', 2)},
     },
     4: {
