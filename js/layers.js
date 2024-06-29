@@ -267,7 +267,7 @@ addLayer("f", {
     baseResource: "Prestige Points", // Name of resource prestige is based on
     baseAmount() {return player.p.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    exponent: 10000, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)  
         return mult
@@ -286,6 +286,11 @@ addLayer("f", {
             requirementDescription: "1 Factor Points",
             effectDescription: "Unlock More Prestige Milestones and New upgrades",
             done() { return player.f.points.gte(1) },
+        },
+1: {
+            requirementDescription: "1 Factor Points",
+            effectDescription: "Unlock a new buyable",
+            done() { return player.f.points.gte(5) },
         },
     }
 })
