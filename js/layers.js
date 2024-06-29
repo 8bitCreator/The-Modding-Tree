@@ -37,5 +37,10 @@ addLayer("p", {
      11:{
      title: "V0"
      description:"Points Boost Prestiges"
+     cost: new Decimal(1)
+     effect() { 
+      return player.p.points.add(1).pow(0.20)
+        },
+        effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        }, 
      
-      
