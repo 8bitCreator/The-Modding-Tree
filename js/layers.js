@@ -168,9 +168,13 @@ return player.p.points.add(1).pow(0.01)
         19: {
             title: "V8",
             description: "Concentrated points^1.2",
-            cost: new Decimal(1e20),
+            cost: new Decimal(1e15),
         unlocked(){ return hasUpgrade('c', 14)},
         }, 
+ 10:{
+     title:"V0"
+    description: "Points ^ 1.5"
+    cost: new Decimal(10)
     },
 
 
