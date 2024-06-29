@@ -6,7 +6,7 @@ addLayer("fl", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#1aa4b8",
+    color: "#483D8B",
     requires: new Decimal(1e10), // Can be a function that takes requirement increases into account
     resource: "Flow Points", // Name of prestige currency
     baseResource: "Concentrated Points", // Name of resource prestige is based on
@@ -27,11 +27,12 @@ addLayer("fl", {
     ],
     layerShown(){return hasMilestone('f', 1)},
 upgrades:{
-11:{           title: "C1",
-            description: "Flow Points boost Condensated Points.",
-           cost: new Decimal(1),
+11:{         
+title: "C1",
+description: "Flow Points boost Condensated Points.",
+cost: new Decimal(1),
 effect(){
-                return player[this.layer].points.add(1).pow(0.15)
+ return player[this.layer].points.add(1).pow(0.15)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
