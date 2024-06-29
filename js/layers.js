@@ -173,7 +173,7 @@ addLayer("p", {
 
 buyables: {
         11: {
-                title: "Nuclear Fusion",
+                title: "Are Points in a Flow State!?",
                 unlocked() {
                     return hasUpgrade('p', 19)
                 },
@@ -181,11 +181,11 @@ buyables: {
                     return new Decimal(1000).pow(x)
                 },
                 display() {
-                    let amount = getBuyableAmount('p', 11)
+                    let amount = getBuyableAmount('c', 11)
                     return `
                     <br /> You can't Access to that Milestone Right :/ Heres a little Boost.
                     <br /><b><h3>Amount:</h3></b> ${formatWhole(amount)}
-                    <br /><b><h3>Currently boosting songs by:</h3></b> ${this.effectDisplay(temp.p.buyables[11].effect)}
+                    <br /><b><h3>Currently boosting songs by:</h3></b> ${this.effectDisplay(temp.c.buyables[11].effect)}
                     <br /><b><h3>Cost:</h3></b> ${format(temp.p.buyables[11].cost)} Notes`
                 },
                 canAfford() {
