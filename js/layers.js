@@ -176,7 +176,7 @@ return player.p.points.add(1).pow(0.01)
     description: "Points ^ 1.5"
     cost: new Decimal(10)
     },
-
+},
 
 }),
 addLayer("c", {
