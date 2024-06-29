@@ -7,7 +7,7 @@ addLayer("l", {
 		points: new Decimal(0),
     }},
     color: "#483D8B",
-    requires: new Decimal(1e10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1e6), // Can be a function that takes requirement increases into account
     resource: "Flow Points", // Name of prestige currency
     baseResource: "Concentrated Points", // Name of resource prestige is based on
     baseAmount() {return player.c.points}, // Get the current amount of baseResource
@@ -35,6 +35,14 @@ cost: new Decimal(1),
 effect() {
     return player.l.points.add(1).pow(0.15)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+12:{         
+title: "C2",
+description: "V6 is Heavily boosted.",
+cost: new Decimal(2),
+effect() {
+    return player.l.points.add(1).pow(0.20)},
+            effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
         },
 },
 })
