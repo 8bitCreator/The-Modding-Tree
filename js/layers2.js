@@ -21,7 +21,7 @@ addLayer("l", {
         exp = new Decimal(1)
         return exp
     },
-    branches: [["c", 0],["p, 0]],
+    branches: [["c", 0],["p", 0]],
     row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "L", description: "l: Reset for Flow points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
