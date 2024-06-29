@@ -33,4 +33,7 @@ addLayer("p", {
         return passive
         },
 
-   
+  upgrades:{
+     11:{
+     title: Points 2x
+      
