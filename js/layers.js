@@ -203,6 +203,10 @@ addLayer("c", {
         {key: "c", description: "C: Reset for Concentrated points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade('p', 15)},
+passiveGeneration(){
+         passive = new Decimal(0)
+         if (hasMilestone('p', 6)) passive = passive.add(1) //100% Prestige Points depending on Reset
+        return passive}
     upgrades: {
         11: {
             title: "New layer!?",
@@ -277,11 +281,6 @@ addLayer("f", {
         {key: "f", description: "F: Reset for Factor points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade('p', 18)},
-passiveGeneration(){
-         passive = new Decimal(0)
-         if (hasMilestone('p', 6)) passive = passive.add(1) //5% Prestige Points depending on Reset
-        return passive
-        },
     milestones: {
         0: {
             requirementDescription: "1 Factor Points",
