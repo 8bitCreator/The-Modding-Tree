@@ -206,7 +206,7 @@ addLayer("c", {
 passiveGeneration(){
          passive = new Decimal(0)
          if (hasMilestone('p', 6)) passive = passive.add(1) //100% Prestige Points depending on Reset
-        return passive}
+        return passive},
     upgrades: {
         11: {
             title: "New layer!?",
@@ -297,7 +297,7 @@ addLayer("f", {
     baseResource: "Prestige Points", // Name of resource prestige is based on
     baseAmount() {return player.p.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    exponent: 10000, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)  
         return mult
