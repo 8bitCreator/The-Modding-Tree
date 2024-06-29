@@ -35,5 +35,7 @@ addLayer("p", {
 
   upgrades:{
      11:{
-     title: Points 2x
+     title: "V0"
+     description:"Points Boost Prestiges"
+     
       
