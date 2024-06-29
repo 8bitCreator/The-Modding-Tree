@@ -252,37 +252,7 @@ milestones: {
         done() { return player.c.points.gte(30) },
     },
 },
-buyables:{  
-11:{  title:"Condensater
-cost() { return new Decimal(10).mul(getBuyableAmount("c", 11)).pow(5).mul(15).add(1)  
 
-
-
-
-
-        },
-            canAfford() {
-              return player.c.points.gte(this.cost())
-            }, 
-            unlocked() { return (hasMilestone("f", 1)) && getBuyableAmount("c",11).lte(100)},
-            display() { 
-
-             let start = "<b><h2>Amount</h2>: " + getBuyableAmount("c", 11) + "</b><br>"
-             let eff = "<b><h2>Effect</h2>: x" + format(this.effect()) + "</b><br>"
-             let cost = "<b><h2>Cost</h2>: " + format(this.cost()) + "</b><br>"   
-             return "<br>" + start + eff + cost
-             },
-
-            buy() {
-              player.c.points = player.c.points.sub(this.cost())
-              setBuyableAmount("c", 11, getBuyableAmount("c", 11).add(1))
-            },
-            effect() {
-              let effect = new Decimal(1.2).mul(getBuyableAmount("c", 11).pow(2).add(1))
-              return effect
-            },
-          },
-},
 })
 addLayer("f", {
     name: "Factors", // This is optional, only used in a few places, If absent it just uses the layer id.
