@@ -44,11 +44,16 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 13: {
 title: "Advanced Bone tools", 
 description: "Are They Really Really Effective, Points Boost Paleolithic Points",
-cost: new Decimal(25),
+cost: new Decimal(10),
 effect() {
 return player.points.add(1).pow(0.20)
 },
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+},
+14: { 
+title: "Advanced Stone tools",
+description: "Right Stones >> Bones, 3x points, Advanced Bone tools Boost Bone tools",
+cost: new Decimal(100),
 },
 },
 })
