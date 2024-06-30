@@ -55,8 +55,8 @@ return player.points.add(1).pow(0.20)
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
 14:{
-title: "Advanced Stone tools"
-description: "5x Points + Advance Bone tools Boost Bone tools"
+title: "Advanced Stone tools",
+description: "5x Points + Advance Bone tools Boost Bone tools",
 cost: new Decimal(50),
 },
 },
