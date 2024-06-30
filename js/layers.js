@@ -36,7 +36,6 @@ cost: new Decimal(1),
 title:"Bone tools",
 description: "Are bone tools effective!?, Paleolithic Points Boost Points",
 cost: new Decimal(5),
-
 effect() {
 return player[this.layer].points.add(1).pow(0.35)
             },
