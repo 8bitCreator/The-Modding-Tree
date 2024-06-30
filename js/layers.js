@@ -64,5 +64,7 @@ unlocked(){ return hasUpgrade('p', 13)},
 title: "Fire",
 description: "Unlock a New Layer, We now Control the Fire",
 cost: new Decimal(250),
+unlocked(){ return hasUpgrade('p', 14)},
+},
 },
 })
