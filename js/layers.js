@@ -44,7 +44,7 @@ return player[this.layer].points.add(1).pow(0.35)
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
 13: {
-title: "Advanced Bone tools",
+title: "Advanced Bone tools", 
 description: "Are They Really Really Effective, Points Boost Paleolithic Points",
 cost: new Decimal(25),
 effect() {
