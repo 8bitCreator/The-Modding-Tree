@@ -36,6 +36,7 @@ cost: new Decimal(1),
 title:"Bone tools",
 description: "Are bone tools effective!?, Paleolithic Points Boost Points",
 cost: new Decimal(5),
+unlocked(){ return hasUpgrade('p', 11)},
 effect() { if (hasUpgrade('p', 14))
 return player.p.points.add(1).pow(0.35).times(upgradeEffect('p', 13))
 else
@@ -47,6 +48,7 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 title: "Advanced Bone tools", 
 description: "Are They Really Really Effective, Points Boost Paleolithic Points",
 cost: new Decimal(10),
+unlocked(){ return hasUpgrade('p', 12)},
 effect() {
 return player.points.add(1).pow(0.20)
 },
@@ -56,6 +58,7 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 title: "Advanced Stone tools",
 description: "Right Stones >> Bones, 3x points, Advanced Bone tools Boost Bone tools",
 cost: new Decimal(25),
+unlocked(){ return hasUpgrade('p', 13)},
 },
 },
 })
