@@ -36,6 +36,7 @@ cost: new Decimal(1),
 title:"V1",
 description: "Prestiges Boosts Points",
 cost: new Decimal(5),
+unlocked() { return HasUpgrade('p', 11)},
 effect() {
 return player[this.layer].points.add(1).pow(0.35)
             },
@@ -44,7 +45,8 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 13: {
 title:"V2",
 description: "Points boosts Prestiges",
-cost: new Decimal(100),
+cost: new Decimal(25),
+unlocked() { return HasUpgrade('p', 11)},
 effect() {
 return player.points.add(1).pow(0.20)
 },
