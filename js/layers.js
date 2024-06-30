@@ -40,6 +40,7 @@ effect() {
 return player[this.layer].points.add(1).pow(0.35)
             },
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+unlocked() { return HasUpgrade('p', 11)},
 },
 13: {
 title: "Advanced Bone tools", 
@@ -52,11 +53,13 @@ else
 return player.points.add(1).pow(0.20)
 },
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+unlocked() { return HasUpgrade('p', 12)},
 },
 14: { 
 title: "Advanced Stone tools",
 description: "Right Stones >> Bones, 3x points, Advanced Bone tools Boost Bone tools",
-cost: new Decimal(100),
+cost: new Decimal(25),
+unlocked() { return HasUpgrade('p', 13)},
 },
 },
 })
