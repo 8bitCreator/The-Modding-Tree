@@ -36,8 +36,10 @@ cost: new Decimal(1),
 title:"Bone tools",
 description: "Are bone tools effective!?, Paleolithic Points Boost Points",
 cost: new Decimal(5),
-effect() { 
-return player.points.add(1).pow(0.35)
+effect() { if (hasUpgrade('p', 14))
+return player.p.points.add(1).pow(0.35).times(upgradeEffect('p', 13))
+else
+return player.p.points.add(1).pow(0.35)
 },
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
