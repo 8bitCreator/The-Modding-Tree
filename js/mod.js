@@ -1,9 +1,9 @@
 let modInfo = {
-	name: "The Weird Tree",
+	name: "The ??? Tree",
 	id: "mymod",
-	author: "Freezy",
+	author: "nobody",
 	pointsName: "points",
-	modFiles: ["layers.js", "tree.js","layers2.js"],
+	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -41,10 +41,9 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
+
 	let gain = new Decimal(1)
-      
-	return gain 
-	
+	return gain
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
