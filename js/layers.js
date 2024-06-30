@@ -46,6 +46,9 @@ title: "Advanced Bone tools",
 description: "Are They Really Really Effective, Points Boost Paleolithic Points",
 cost: new Decimal(10),
 effect() {
+if (hasUpgrade('p', 14)) 
+return player.points.add(1).pow(0.20).times(upgradeEffect('p', 13))
+else
 return player.points.add(1).pow(0.20)
 },
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
