@@ -31,5 +31,14 @@ title:"2x",
 description:"Read Title",
 cost: new Decimal(1),
 },
+12:{ 
+title:"V1"
+description: "Prestiges Boost points
+cost: new decimal (5)
+effect() {
+return player[this.layer].points.add(1).pow(0.35)
+            },
+effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+},
 },
 })
