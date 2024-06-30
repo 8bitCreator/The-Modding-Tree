@@ -54,7 +54,7 @@ effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
 14:{
 title: "Advanced Stone tools",
-description: "5x Points + Advance Bone tools Boost Bone tools",
+description: "5x Points + Advanced Bone tools Boost Bone tools",
 cost: new Decimal(50),
 },
 },
