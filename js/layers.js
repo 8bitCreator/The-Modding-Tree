@@ -26,4 +26,10 @@ addLayer("p", {
     ],
     layerShown(){return true},
 upgrades:{
+11:{ 
+title:"2x",
+description:"Read Title",
+cost: new Decimal(1),
+},
+},
 })
