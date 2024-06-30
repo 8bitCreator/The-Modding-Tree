@@ -27,8 +27,6 @@ addLayer("p", {
     ],
     layerShown(){return true},
 upgrades:{
-rows:3
-cols:3
 11:{ 
 title:"Stone tools",
 description:"2x Points",
