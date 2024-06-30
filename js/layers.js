@@ -60,5 +60,9 @@ description: "Right Stones >> Bones, 3x points, Advanced Bone tools Boost Bone t
 cost: new Decimal(25),
 unlocked(){ return hasUpgrade('p', 13)},
 },
+15:{
+title: "Fire",
+description: "Unlock a New Layer, We now Control the Fire",
+cost: new Decimal(250),
 },
 })
