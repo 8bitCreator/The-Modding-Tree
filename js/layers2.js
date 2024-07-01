@@ -25,5 +25,6 @@ addLayer("f", {
 passiveGeneration() {
    passive = new Decimal(1)
    return passive
-},      
+},  
+treegen: new Decimal(1),    
 })
