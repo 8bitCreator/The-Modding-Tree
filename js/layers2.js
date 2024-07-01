@@ -6,7 +6,7 @@ addLayer("f", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#4BDC13",
+    color: "#FF4500",
     requires: new Decimal(1), // Can be a function that takes requirement increases into account
     resource: "Fire", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
@@ -26,5 +26,6 @@ addLayer("f", {
     ],
     layerShown(){return hasUpgrade('p', 15)},
     branches:[["p", 0]],
+    
 
 })
