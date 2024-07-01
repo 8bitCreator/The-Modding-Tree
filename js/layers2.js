@@ -7,7 +7,6 @@ addLayer("f", {
 		points: new Decimal(0),
     }},
     color: "#FF4500",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
     resource: "Fire", // Name of prestige currency
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
