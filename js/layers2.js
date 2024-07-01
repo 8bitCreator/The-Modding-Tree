@@ -26,4 +26,5 @@ passiveGeneration() {
    passive = new Decimal(1)
    return passive
 },      
+function
 })
