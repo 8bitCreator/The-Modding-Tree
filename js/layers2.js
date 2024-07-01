@@ -26,5 +26,7 @@ passiveGeneration() {
    passive = new Decimal(1)
    return passive
 },  
-treegen: new Decimal(1),    
+update(diff) {
+let gain = new Decimal(1)
+return gain },   
 })
