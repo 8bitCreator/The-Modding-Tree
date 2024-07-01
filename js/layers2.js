@@ -22,6 +22,8 @@ addLayer("f", {
     ],
     layerShown(){return hasUpgrade('p', 15)},
     branches:[["p", 0]],
-    
-
+passiveGeneration() {
+   passive = new Decimal(1)
+   return passive
+},      
 })
