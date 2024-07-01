@@ -24,6 +24,7 @@ addLayer("f", {
     hotkeys: [
         {key: "f", description: "F: Reset for fire points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){return hasUpgrade('p', 15)},
     branches:[["p", 0]],
+
 })
