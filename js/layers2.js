@@ -25,5 +25,5 @@ addLayer("p", {
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true}
-    branches:[["p", 0]]
+    branches:[["p", 0]],
 })
