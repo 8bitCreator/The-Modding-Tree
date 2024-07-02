@@ -35,7 +35,7 @@ cost: new Decimal(10),
 title: "Fire is the new paleolithic innovation!",
 description: "Fire Boosts paleolithic points by a tiny amount",
 cost: new Decimal(50),
-effect(){
+effect() {
  let base = player.f.points.add(1).max(1)
 f12 = Decimal.log5(base).add(1).max(1)
 return base
