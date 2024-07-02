@@ -24,5 +24,5 @@ addLayer("f", {
     branches:[["p", 0]],
 },  
 update(diff) {
-player[layer][currency] = player[layer][currency].add(mult.times(diff))},
+player.f.points= player.f.points.add(mult.times(diff))},
 })
