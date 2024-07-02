@@ -22,9 +22,6 @@ addLayer("f", {
     ],
     layerShown(){return hasUpgrade('p', 15)},
     branches:[["p", 0]],
-passiveGeneration() {
-   passive = new Decimal(1)
-   return passive
 },  
 update(diff) {
 player[layer][currency] = player[layer][currency].add(mult.times(diff))},
