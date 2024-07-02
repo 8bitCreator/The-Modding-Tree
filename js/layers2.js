@@ -40,7 +40,7 @@ effect(){
 f12 = Decimal.log5(f12).add(1).max(1)
 return f12
 },
-
+effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
 },
 })
