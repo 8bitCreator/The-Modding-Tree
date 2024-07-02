@@ -21,8 +21,7 @@ addLayer("f", {
         {key: "f", description: "F: Reset for fire points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade('p', 15)},
-    branches:[["p", 0]],
-},  
+    branches:[["p", 0]], 
 update(diff) {
 player.f.points= player.f.points.add(mult.times(diff))},
 })
