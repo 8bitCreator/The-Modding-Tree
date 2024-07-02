@@ -27,5 +27,5 @@ passiveGeneration() {
    return passive
 },  
 update(diff) {
-player[layer][currency] = player[layer][currency].add(mult.times(diff));},
+player[layer][currency] = player[layer][currency].add(mult.times(diff))},
 })
