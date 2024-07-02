@@ -28,6 +28,7 @@ passiveGeneration() {
 },  
 update(diff) {
 let gain = new Decimal(1)
+return gain
 player[layer][currency] = player[layer][currency].add(gain.times(diff));}
-return gain },   
+},   
 })
