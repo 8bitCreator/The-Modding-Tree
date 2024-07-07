@@ -41,9 +41,9 @@ title: "Hunting",
 description: "Food is Needed tho, Paleolithic Points Boost itself",
 cost: new Decimal(3),
 effect(){
-let P13 = player.p.points.add(1).max(1)
-P13 = decimal.log10(P13).add(10).max(10)
-return P13
+let eff = player.p.points.add(1).max(1)
+eff = decimal.log10(P13).add(10).max(10)
+return eff
 },
 effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
