@@ -11,7 +11,6 @@ addLayer("f", {
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
- if (hasUpgrade('f', 11)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -21,7 +20,7 @@ addLayer("f", {
     hotkeys: [
         {key: "f", description: "F: Reset for fire points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade('p', 15)},
+    layerShown(){return hasUpgrade('p', 23)},
     branches:[["p", 0]], 
 update(diff) {
 player.f.points = player.f.points.add(mult.times(diff))},
@@ -30,14 +29,6 @@ upgrades:{
 title: "Spark Mastery!?",
 description: "2x Fire",
 cost: new Decimal(10),
-},
-12:{
-title: "Fire is the new paleolithic innovation!",
-description: "Fire Boosts paleolithic points by a tiny amount",
-cost: new Decimal(50),
-effect() {
-return player.f.points.add(10).log()
-},
 },
 },
 })
