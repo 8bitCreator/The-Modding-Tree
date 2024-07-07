@@ -15,8 +15,6 @@ addLayer("p", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13))
-if (hasUpgrade('f', 12)) mult = mult.times(upgradeEffect('f', 13))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -32,40 +30,6 @@ upgrades:{
 title:"Stone tools",
 description:"2x Points",
 cost: new Decimal(1),
-},
-12:{ 
-title:"Bone tools",
-description: "Are bone tools effective!?, Paleolithic Points Boost Points",
-cost: new Decimal(5),
-unlocked(){ return hasUpgrade('p', 11)},
-effect() { if (hasUpgrade('p', 14))
-return player.p.points.add(1).pow(0.35).times(upgradeEffect('p', 13))
-else
-return player.p.points.add(1).pow(0.35)
-},
-effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
-},
-13: {
-title: "Advanced Bone tools", 
-description: "Are They Really Really Effective, Points Boost Paleolithic Points",
-cost: new Decimal(10),
-unlocked(){ return hasUpgrade('p', 12)},
-effect() {
-return player.points.add(1).pow(0.20)
-},
-effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
-},
-14: { 
-title: "Advanced Stone tools",
-description: "Right Stones >> Bones, 3x points, Advanced Bone tools Boost Bone tools",
-cost: new Decimal(25),
-unlocked(){ return hasUpgrade('p', 13)},
-},
-15:{
-title: "Fire",
-description: "Unlock a New Layer, We now Control the Fire",
-cost: new Decimal(250),
-unlocked(){ return hasUpgrade('p', 14)},
 },
 },
 })
