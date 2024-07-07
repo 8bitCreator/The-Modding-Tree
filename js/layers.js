@@ -32,9 +32,20 @@ description:"2x Points",
 cost: new Decimal(1),
 },
 12:{
-title: "Hunting",
-description: "Food is needed :/, 1.5x Points",
+title: "Spears",
+description: "Down with the animal :/, 1.5x Points",
 cost: new Decimal(2),
+},
+13:{
+title: "Hunting",
+description: "Food is Needed tho, Paleolithic Points Boost itself",
+cost: new Decimal(3),
+effect(){
+let P13 = player.p.points.add(1).max(1)
+P13 = decimal.log10(P13).add(10).max(10)
+return P13
+},
+effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 },
 },
 })
