@@ -31,5 +31,10 @@ title:"Stone tools",
 description:"2x Points",
 cost: new Decimal(1),
 },
+12:{
+title: "Hunting",
+description: "Food is needed :/, 1.5x Points",
+cost: new Decimal(2),
+},
 },
 })
