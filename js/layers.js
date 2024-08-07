@@ -8,8 +8,8 @@ addLayer("p", {
     }},
     color: "#8B4513",
     requires: new Decimal(10), 
-    resource: "stone tools",
-    baseResource: "food",
+    resource: "Prehistoric Points",
+    baseResource: "Historic Points",
     baseAmount() { return player.points }, 
     type: "normal", 
     exponent: 0.5,
@@ -28,12 +28,12 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
     upgrades: {
         11: {
             title: "Sharp Stones",
-            description: "Increase stone tool efficiency by 100%.",
+            description: "It increases stones tool efficiency if you didn't know :P.",
             cost: new Decimal(1),
         },
         12: {
             title: "Controlled Fire",
-            description: "Unlock controlled use of fire, increasing overall productivity.",
+            description: "It Unlocks controlled use of fire, increasing overall productivity.",
             cost: new Decimal(5),
         },
     },
@@ -43,7 +43,7 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
             title: "Hand Axes",
             cost(x) { return new Decimal(1).mul(x.add(1)) },
             display() { 
-                return "Hand Axes: Improve tool efficiency. Cost: " + format(this.cost()) + " stone tools. Amount: " + getBuyableAmount(this.layer, this.id)
+                return "Hand Axes: Improves tools efficiency. Cost: " + format(this.cost()) + " Prehistoric Points. Amount: " + getBuyableAmount(this.layer, this.id)
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
@@ -56,9 +56,9 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
 
     milestones: {
         0: {
-            requirementDescription: "10 Stone Tools",
+            requirementDescription: "100 Prehistoric Points",
             effectDescription: "Unlock the Neolithic Era.",
-            done() { return player.p.points.gte(10) }
+            done() { return player.p.points.gte(100) }
         },
     },
 
