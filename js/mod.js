@@ -1,13 +1,13 @@
 let modInfo = {
-	name: "The Historic Tree",
+	name: "The ??? Tree",
 	id: "mymod",
-	author: "Freezy",
+	author: "nobody",
 	pointsName: "points",
-	modFiles: ["layers.js", "tree.js", "layers2.js"],
+	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal(10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -42,22 +42,11 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1);
-	
-	// Check for Paleolithic buyables and apply their effect
-	if (player.p && player.p.buyables) { 
-		let handAxeEffect = buyableEffect('p', 11); // Hand Axe effect
-		gain = gain.times(handAxeEffect);
-	}
-
-	// Check for upgrades from Paleolithic layer and apply effects
-	if (hasUpgrade('p', 11)) gain = gain.times(2); // Sharp Stones
-	if (hasUpgrade('p', 12)) gain = gain.times(Math.log10(player.p.points.add(1).toNumber() + 1)); // Controlled Fire
-
-	return gain;
+	let gain = new Decimal(1)
+	return gain
 }
 
-// You can add non-layer related variables that should go into "player" and be saved here, along with default values
+// You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
 }}
 
@@ -70,13 +59,21 @@ function isEndgame() {
 	return player.points.gte(new Decimal("e280000000"))
 }
 
+
+
 // Less important things beyond this point!
 
 // Style for the background, can be a function
 var backgroundStyle = {
+
 }
 
-// You can change this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
+// You can change this if you have things that can be messed up by long tick lengths
+function maxTickLength() {
+	return(3600) // Default is 1 hour which is just arbitrarily large
+}
+
+// Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
 }
