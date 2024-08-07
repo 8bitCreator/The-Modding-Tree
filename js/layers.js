@@ -1,48 +1,69 @@
 addLayer("p", {
-    name: "Paleolithic", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    name: "Paleolithic",
+    symbol: "P",
+    position: 0,
     startData() { return {
         unlocked: true,
-		points: new Decimal(0),
+        points: new Decimal(0),
     }},
-    color: "#F6E4AD",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
-    resource: "Paleolithic Points", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
+    color: "#8B4513",
+    requires: new Decimal(10), 
+    resource: "stone tools",
+    baseResource: "food",
+    baseAmount() { return player.points }, 
+    type: "normal", 
+    exponent: 0.5,
+    gainMult() {
+        let mult = new Decimal(1)
+if (hasUpgrade(this.layer, 11)) mult = mult.times(2) 
+if (hasUpgrade(this.layer, 12)) mult = mult.times(2) 
         return mult
     },
-    gainExp() { // Calculate the exponent on main currency from bonuses
+    gainExp() {
         return new Decimal(1)
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "p", description: "P: Reset for paleolithic points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
-    layerShown(){return true},
-upgrades:{
-11:{ 
-title:"Stone tools",
-description:"2x Points",
-cost: new Decimal(1),
-},
-12:{
-title: "Spears",
-description: "Down with the animal :/, 1.5x Points",
-cost: new Decimal(2),
-},
-13:{
-title: "Hunting",
-description: "Food is Needed tho, Paleolithic Points Boost itself",
-cost: new Decimal(3),
-effect(){
-},
-effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
-},
-},
-})
+    row: 0,
+    layerShown() { return true },
+
+    upgrades: {
+        11: {
+            title: "Sharp Stones",
+            description: "Increase stone tool efficiency by 100%.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Controlled Fire",
+            description: "Unlock controlled use of fire, increasing overall productivity.",
+            cost: new Decimal(5),
+        },
+    },
+
+    buyables: {
+        11: {
+            title: "Hand Axes",
+            cost(x) { return new Decimal(1).mul(x.add(1)) },
+            display() { 
+                return "Hand Axes: Improve tool efficiency. Cost: " + format(this.cost()) + " stone tools. Amount: " + getBuyableAmount(this.layer, this.id)
+            },
+            canAfford() { return player[this.layer].points.gte(this.cost()) },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(this.cost())
+                addBuyables(this.layer, this.id, new Decimal(1))
+            },
+            effect(x) { return x.add(1).pow(0.5) },
+        },
+    },
+
+    milestones: {
+        0: {
+            requirementDescription: "10 Stone Tools",
+            effectDescription: "Unlock the Neolithic Era.",
+            done() { return player.p.points.gte(10) }
+        },
+    },
+
+    tooltip() { return "The era of technological advancements in basic tool-making and fire usage." },
+    tooltipLocked() { return "You need to unlock this era." },
+
+    branches: ["n"], // Points to Neolithic Era
+});
