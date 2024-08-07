@@ -35,6 +35,7 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
             title: "Controlled Fire",
             description: "It Unlocks controlled use of fire, increasing overall productivity.",
             cost: new Decimal(5),
+            unlocked() {  return hasUpgrade('p', 11), },
         },
     },
 
@@ -60,12 +61,14 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
         0: {
             requirementDescription: "100 Prehistoric Points",
             effectDescription: "Unlock the Neolithic Era.",
+            unlocked() {  return hasUpgrade('p', 11), },
             done() { return player.p.points.gte(100) }
         },
     },
 
     tooltip() { return "The era of technological advancements in basic tool-making and fire usage." },
     tooltipLocked() { return "You need to unlock this era." },
+   
 
     branches: ["n"], // Points to Neolithic Era
 });
