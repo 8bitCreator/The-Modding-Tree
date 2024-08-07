@@ -42,7 +42,7 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
     buyables: {
     11: {
         title: "Stone Gathering",
-        cost(x) { return new Decimal(10).pow(1) }, // Cost increases as you buy more
+        cost(x) { return new Decimal(10).pow(x.add(1)) }, // Cost increases as you buy more
         display() { 
             return "Stone Gathering: Increases points gained from tools. Cost: " + format(this.cost()) + " stone tools. Amount: " + getBuyableAmount(this.layer, this.id) + ".\n" + 
                    "Effect: Multiplies point gain by " + format(this.effect()) + ".";
