@@ -43,10 +43,17 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1);
-	// Adjust the following line for correct syntax to access the buyable effect
-	if (player.p && player.p.buyables) { // Ensure the layer exists and has buyables
-		gain = gain.times(buyableEffect('p', 11)); // Corrected syntax
+	
+	// Check for Paleolithic buyables and apply their effect
+	if (player.p && player.p.buyables) { 
+		let handAxeEffect = buyableEffect('p', 11); // Hand Axe effect
+		gain = gain.times(handAxeEffect);
 	}
+
+	// Check for upgrades from Paleolithic layer and apply effects
+	if (hasUpgrade('p', 11)) gain = gain.times(2); // Sharp Stones
+	if (hasUpgrade('p', 12)) gain = gain.times(Math.log10(player.p.points.add(1).toNumber() + 1)); // Controlled Fire
+
 	return gain;
 }
 
@@ -67,7 +74,6 @@ function isEndgame() {
 
 // Style for the background, can be a function
 var backgroundStyle = {
-
 }
 
 // You can change this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
