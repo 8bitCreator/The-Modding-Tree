@@ -39,21 +39,23 @@ if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
     },
 
     buyables: {
-        11: {
-            title: "Hand Axes",
-            cost(x) { return new Decimal(1).mul(x.add(1)) },
-            display() { 
-                return "Hand Axes: Improves tools efficiency. Cost: " + format(this.cost()) + " Prehistoric Points. Amount: " + getBuyableAmount(this.layer, this.id)
-            },
-            canAfford() { return player[this.layer].points.gte(this.cost()) },
-            buy() {
-                player[this.layer].points = player[this.layer].points.sub(this.cost())
-                addBuyables(this.layer, this.id, new Decimal(1))
-            },
-            effect(x) { return x.add(1).pow(0.5) },
+    11: {
+        title: "Stone Gathering",
+        cost(x) { return new Decimal(1).mul(x.add(1)) }, // Cost increases as you buy more
+        display() { 
+            return "Stone Gathering: Increases points gained from tools. Cost: " + format(this.cost()) + " stone tools. Amount: " + getBuyableAmount(this.layer, this.id) + ".\n" + 
+                   "Effect: Multiplies point gain by " + format(this.effect()) + ".";
+        },
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            addBuyables(this.layer, this.id, new Decimal(1))
+        },
+        effect() {
+            return getBuyableAmount(this.layer, this.id).add(1) // Effect: point gain multiplier
         },
     },
-
+},
     milestones: {
         0: {
             requirementDescription: "100 Prehistoric Points",
