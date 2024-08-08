@@ -50,8 +50,8 @@ addLayer("p", {
             effect() {
                 return new Decimal(2); // Effect value for this upgrade
             },
-            effectDescription() {
-                return "Primitive point gain is doubled.";
+           effectDescription() {
+                return "Primitive point gain is increased by " + format(this.effect()) + "x.";
             }
         },
         12: {
@@ -61,9 +61,9 @@ addLayer("p", {
             effect() {
                 return new Decimal(2); // Effect value for this upgrade
             },
-            effectDescription() {
-                return "Primitive point gain is doubled.";
+          effectDescription() {
+                return "Primitive point gain is increased by " + format(this.effect()) + "x.";
             }
-        }
-    },
+            }
+        },
 });
