@@ -55,7 +55,7 @@ addLayer("p", {
             },
             },
            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
-        },
+        
         12: {
             title: "Fire Discovery",
             description: "Increase primitive point and last upgrade effect gain by ",
@@ -65,7 +65,8 @@ addLayer("p", {
                 return eff  // Effect value for this upgrade
             },
           effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
-            }
+            },
+    },
             
         
 });
