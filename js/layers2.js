@@ -14,23 +14,14 @@ addLayer("f", {
     baseAmount() { return player.p.points }, // Base resource is primitive points
 
     requires: new Decimal(50), // Amount of primitive points required to unlock this layer
-    type: "normal",
+    type: "none",
     exponent: 0.5, // Base exponent for calculating fire points gain
 
     gainMult() {
         let mult = new Decimal(1); // Start with a base multiplier of 1
 
         // Check if upgrades are purchased and apply their effects
-        if (hasUpgrade("f", 11)) {
-            mult = mult.mul(upgradeEffect("f", 11)); // Apply effect of "Gathering Kindling"
-        }
-        if (hasUpgrade("f", 12)) {
-            mult = mult.mul(upgradeEffect("f", 12)); // Apply effect of "Flint Sparks"
-        }
-        if (hasUpgrade("f", 13)) {
-            mult = mult.mul(upgradeEffect("f", 13)); // Apply effect of "Tribal Bonfire"
-        }
-
+        
         return mult; // Return the total multiplier
     },
 
@@ -43,7 +34,17 @@ addLayer("f", {
 
     update(diff) {
         // Passive generation of fire points
-        let mult = this.gainMult(); // Get the multiplier for fire points
+        let mult = this.gainMult()
+            if (hasUpgrade("f", 11)) {
+            mult = mult.mul(upgradeEffect("f", 11)); // Apply effect of "Gathering Kindling"
+        }
+        if (hasUpgrade("f", 12)) {
+            mult = mult.mul(upgradeEffect("f", 12)); // Apply effect of "Flint Sparks"
+        }
+        if (hasUpgrade("f", 13)) {
+            mult = mult.mul(upgradeEffect("f", 13)); // Apply effect of "Tribal Bonfire"
+        }
+; // Get the multiplier for fire points
         player.f.points = player.f.points.add(mult.times(diff)); // Add fire points over time
     },
 
