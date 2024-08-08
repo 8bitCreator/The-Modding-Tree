@@ -66,6 +66,6 @@ addLayer("p", {
             },
           effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
             }
-            }
+            
         
 });
