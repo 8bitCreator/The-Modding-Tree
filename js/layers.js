@@ -62,6 +62,16 @@ addLayer("p", {
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
+         13: {
+            title: "Primitive Mind",
+            description: "increases knowledge by 2",
+            cost: new Decimal(300),
+            effect() {
+                let eff = new Decimal(2);
+                return eff; // Effect value for this upgrade
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
+        },
     },
 
     buyables: {
@@ -82,6 +92,13 @@ addLayer("p", {
                 player[this.layer].points = player[this.layer].points.sub(this.cost(getBuyableAmount(this.layer, this.id).add(1)));
                 addBuyables(this.layer, this.id, 1); // Increase the amount owned by 1
             },
+        },
+    },
+     milestones: {
+        0: {
+            requirementDescription: "1000 Primitive Points",
+            effectDescription: "Unlocks the Fire layer.",
+            done() { return player.p.points.gte(1000); }, // The milestone is achieved when you have 10 primitive points
         },
     },
 });
