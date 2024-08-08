@@ -54,8 +54,8 @@ addLayer("p", {
 
         12: {
             title: "Fire Discovery",
-            description: "Increase primitive points and last upgrade effect gain by ",
-            cost: new Decimal(10),
+            description: "Unlocks a new Layer about fire and increase primitive points and last upgrade effect gain by ",
+            cost: new Decimal(25),
             effect() {
                 let eff = new Decimal(2);
                 return eff; // Effect value for this upgrade
