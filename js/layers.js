@@ -45,19 +45,21 @@ addLayer("p", {
     upgrades: {
         11: {
             title: "Stone Tools",
-            description: "Increase primitive point gain by a factor of 2.",
+            description: "Boost Primitive point by",
             cost: new Decimal(5),
             effect() {
-                return new Decimal(2); // Effect value for this upgrade
+                let eff = new Decimal(2); 
+                return eff  // Effect value for this upgrade
             },
            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
         12: {
             title: "Fire Discovery",
-            description: "Increase primitive point gain by a factor of 2.",
+            description: "Increase primitive point and last upgrade effect gain by ",
             cost: new Decimal(10),
             effect() {
-                return new Decimal(2); // Effect value for this upgrade
+                 let eff = new Decimal(2); 
+                return eff  // Effect value for this upgrade
             },
           effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
             }
