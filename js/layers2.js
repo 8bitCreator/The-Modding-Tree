@@ -52,8 +52,8 @@ addLayer("f", {
     upgrades: {
         11: {
             title: "Gathering Kindling",
-            description: "Increase passive fire points generation by 10%.",
-            cost: new Decimal(10), // Cost in fire points
+            description: "Increase fire point by",
+            cost: new Decimal(100), // Cost in fire points
             effect() {
                 return new Decimal(1.1); // Increase passive generation by 10%
             },
@@ -63,7 +63,7 @@ addLayer("f", {
         12: {
             title: "Flint Sparks",
             description: "Boost passive fire points generation by 20%.",
-            cost: new Decimal(20),
+            cost: new Decimal(200),
             effect() {
                 return new Decimal(1.2); // Boost generation by 20%
             },
