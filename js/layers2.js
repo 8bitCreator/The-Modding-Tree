@@ -1,94 +1,89 @@
-addLayer("n", {
-    name: "Neolithic",
-    symbol: "N",
-    position: 1,
-    startData() { return {
-        unlocked: false,
-        points: new Decimal(0),
-    }},
-    color: "#228B22",
-    requires: new Decimal(10),
-    resource: "Neolithic Points",
-    baseResource: "Paleolithic Points",
-    baseAmount() { return player.p.points },
+addLayer("f", {
+    startData() {
+        return {
+            unlocked: true,
+            points: new Decimal(0), // Fire points
+        };
+    },
+
+    color: "#FF4500", // Bright orange color representing fire
+    resource: "fire points", // Resource name reflecting fire
+    row: 1, // Place it below the primitive points layer
+
+    baseResource: "primitive points", // Fire points are generated based on primitive points
+    baseAmount() { return player.p.points }, // Base resource is primitive points
+
+    requires: new Decimal(50), // Amount of primitive points required to unlock this layer
     type: "normal",
-    exponent: 0.5,
+    exponent: 0.5, // Base exponent for calculating fire points gain
+
     gainMult() {
-        let mult = new Decimal(1)
-        if (hasUpgrade(this.layer, 11)) mult = mult.times(2)
-        if (hasUpgrade(this.layer, 12)) mult = mult.times(2)
-        return mult
+        let mult = new Decimal(1); // Start with a base multiplier of 1
+
+        // Check if upgrades are purchased and apply their effects
+        if (hasUpgrade("f", 11)) {
+            mult = mult.mul(upgradeEffect("f", 11)); // Apply effect of "Gathering Kindling"
+        }
+        if (hasUpgrade("f", 12)) {
+            mult = mult.mul(upgradeEffect("f", 12)); // Apply effect of "Flint Sparks"
+        }
+        if (hasUpgrade("f", 13)) {
+            mult = mult.mul(upgradeEffect("f", 13)); // Apply effect of "Tribal Bonfire"
+        }
+
+        return mult; // Return the total multiplier
     },
+
     gainExp() {
-        return new Decimal(1)
+        let exp = new Decimal(1); // Start with a base exponent of 1
+        return exp; // Return the total exponent
     },
-    row: 1,
-    layerShown() { return player.p.best.gte(10) },
+
+    layerShown() { return player.p.points.gte(50) }, // Only show if you have enough primitive points
+
+    update(diff) {
+        // Passive generation of fire points
+        let mult = this.gainMult(); // Get the multiplier for fire points
+        player.f.points = player.f.points.add(mult.times(diff)); // Add fire points over time
+    },
 
     upgrades: {
         11: {
-            title: "Agricultural Techniques",
-            description:" You already Understand it so why are you reading this?",
-            cost: new Decimal(1),
+            title: "Gathering Kindling",
+            description: "Increase passive fire points generation by 10%.",
+            cost: new Decimal(10), // Cost in fire points
             effect() {
-                return new Decimal(2)
+                return new Decimal(1.1); // Increase passive generation by 10%
             },
-            effectDescription() {
-                return "increasing Points by " + format(this.effect()) + "x"
-            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
+
         12: {
-            title: "Pottery",
-            description: "Unlocking pottery helped making, enhancing storage and cooking methods.",
-            cost: new Decimal(5),
+            title: "Flint Sparks",
+            description: "Boost passive fire points generation by 20%.",
+            cost: new Decimal(20),
             effect() {
-                return new Decimal(2)
+                return new Decimal(1.2); // Boost generation by 20%
             },
-            effectDescription() {
-                return "increasing points by " + format(this.effect()) + "x"
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
+        },
+
+        13: {
+            title: "Tribal Bonfire",
+            description: "Doubles the passive fire points generation.",
+            cost: new Decimal(50),
+            effect() {
+                return new Decimal(2); // Double passive generation
             },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
     },
 
-    buyables: {
-        11: {
-            title: "Plows",
-            cost(x) { return new Decimal(1).mul(x.add(1)) },
-            display() { 
-                return "Plows: Improves farming efficiency. Cost: " + format(this.cost()) + " Neolithic Points. Amount: " + getBuyableAmount(this.layer, this.id)
-            },
-            canAfford() { return player[this.layer].points.gte(this.cost()) },
-            buy() {
-                player[this.layer].points = player[this.layer].points.sub(this.cost())
-                addBuyables(this.layer, this.id, new Decimal(1))
-            },
-            effect(x) { return x.add(1).pow(0.5) },
-        },
-        12: {
-            title: "Weaving Looms",
-            cost(x) { return new Decimal(3).mul(x.add(1)) },
-            display() { 
-                return "Weaving Looms: Improved production of textiles. Cost: " + format(this.cost()) + " Neolithic Points. Amount: " + getBuyableAmount(this.layer, this.id)
-            },
-            canAfford() { return player[this.layer].points.gte(this.cost()) },
-            buy() {
-                player[this.layer].points = player[this.layer].points.sub(this.cost())
-                addBuyables(this.layer, this.id, new Decimal(1))
-            },
-            effect(x) { return x.add(1).pow(0.7) },
-        },
+    effect() {
+        return player[this.layer].points.add(1).log(5); // Knowledge boost based on log base 5 of fire points
     },
 
-    milestones: {
-        0: {
-            requirementDescription: "10 Neolithic Points",
-            effectDescription: "Unlock the Rest of Paleolithic Upgrades",
-            done() { return player.n.points.gte(10) }
-        },
+    effectDescription() {
+        return "which increases knowledge by " + format(this.effect()) + "x based on your fire points.";
     },
-
-    tooltip() { return "The era of technological advancements in agriculture, pottery, and weaving." },
-    tooltipLocked() { return "You need to unlock this era." },
-
-    branches: [], // Can add future layers here
 });
