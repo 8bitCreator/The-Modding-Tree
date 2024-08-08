@@ -95,7 +95,7 @@ addLayer("p", {
         },
     },
      milestones: {
-        0: {
+        11: {
             requirementDescription: "1000 Primitive Points",
             effectDescription: "Unlocks the Fire layer.",
             done() { return player.p.points.gte(1000); }, // The milestone is achieved when you have 10 primitive points
