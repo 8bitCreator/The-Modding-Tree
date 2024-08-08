@@ -7,7 +7,7 @@ addLayer("p", {
     },
 
     color: "#A76D47", // Earthy brown color representing stone and nature
-    resource: "primitive points", // Updated resource name to reflect the Paleolithic theme
+    resource: "primitive points", // Resource name reflecting the Paleolithic theme
     row: 0,
 
     baseResource: "points",
@@ -16,13 +16,28 @@ addLayer("p", {
     requires: new Decimal(10),
 
     type: "normal",
-    exponent: 0.5,
+    exponent: 0.5, // Base exponent for calculating primitive points gain
 
     gainMult() {
-        return new Decimal(1);
+        let mult = new Decimal(1); // Start with a base multiplier of 1
+
+        // Check if the upgrades are purchased and apply their effects
+        if (hasUpgrade("p", 11)) {
+            mult = mult.mul(upgradeEffect("p", 11)); // Apply effect of Stone Tools
+        }
+        if (hasUpgrade("p", 12)) {
+            mult = mult.mul(upgradeEffect("p", 12)); // Apply effect of Fire Discovery
+        }
+
+        return mult; // Return the total multiplier
     },
+    
     gainExp() {
-        return new Decimal(1);
+        let exp = new Decimal(1); // Start with a base exponent of 1
+
+        // You can check for additional upgrades affecting the exponent here if needed
+
+        return exp; // Return the total exponent
     },
 
     layerShown() { return true },
@@ -30,24 +45,24 @@ addLayer("p", {
     upgrades: {
         11: {
             title: "Stone Tools",
-            description: "Increase primitive point gain by 10%",
+            description: "Increase primitive point gain by a factor of 2.",
             cost: new Decimal(5),
             effect() {
-                return new Decimal(1.1);
+                return new Decimal(2); // Effect value for this upgrade
             },
             effectDescription() {
-                return "Primitive point gain is increased by " + format(this.effect()) + "x.";
+                return "Primitive point gain is doubled.";
             }
         },
         12: {
             title: "Fire Discovery",
-            description: "Increase primitive point gain by 25%",
+            description: "Increase primitive point gain by a factor of 2.",
             cost: new Decimal(10),
             effect() {
-                return new Decimal(1.25);
+                return new Decimal(2); // Effect value for this upgrade
             },
             effectDescription() {
-                return "Primitive point gain is increased by " + format(this.effect()) + "x.";
+                return "Primitive point gain is doubled.";
             }
         }
     },
