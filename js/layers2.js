@@ -29,6 +29,21 @@ addLayer("f", {
         let exp = new Decimal(1); // Start with a base exponent of 1
         return exp; // Return the total exponent
     },
+    update(diff) {
+        // Passive generation of fire points
+        let mult = this.gainMult()
+            if (hasUpgrade("f", 11)) 
+            mult = mult.mul(upgradeEffect("f", 11)); // Apply effect of "Gathering Kindling"
+
+        if (hasUpgrade("f", 12)) 
+            mult = mult.mul(upgradeEffect("f", 12)); // Apply effect of "Flint Sparks"
+
+        if (hasUpgrade("f", 13)) 
+            mult = mult.mul(upgradeEffect("f", 13)); // Apply effect of "Tribal Bonfire"
+
+; // Get the multiplier for fire points
+        player.f.points = player.f.points.add(mult.times(diff)); // Add fire points over time
+    },
 
     layerShown() { return player.p.points.gte(50) }, // Only show if you have enough primitive points
 
