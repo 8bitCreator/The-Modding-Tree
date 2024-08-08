@@ -74,7 +74,7 @@ addLayer("p", {
                 const amount = getBuyableAmount(this.layer, this.id);
                 return "Current Amount: " + amount + 
                        "<br>Cost: " + format(this.cost(amount.add(1))) + 
-                       " primitive points<br>" +
+                       " knowledge<br>" +
                        "Effect: " + format(this.effect(amount)) + "x primitive points"; // Use effect based on amount
             },
             canAfford() { return player[this.layer].points.gte(this.cost(getBuyableAmount(this.layer, this.id).add(1))); },
