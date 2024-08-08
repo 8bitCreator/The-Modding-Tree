@@ -50,9 +50,7 @@ addLayer("p", {
             effect() {
                 return new Decimal(2); // Effect value for this upgrade
             },
-           effectDescription() {
-                return "Primitive point gain is increased by " + format(this.effect()) + "x.";
-            }
+           effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
         12: {
             title: "Fire Discovery",
@@ -61,9 +59,8 @@ addLayer("p", {
             effect() {
                 return new Decimal(2); // Effect value for this upgrade
             },
-          effectDescription() {
-                return "Primitive point gain is increased by " + format(this.effect()) + "x.";
+          effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
             }
             }
-        },
+        
 });
