@@ -44,9 +44,7 @@ function getPointGen() {
 
 	let gain = new Decimal(1)
 	gain = gain.mul(buyableEffect("p", 11))
-	if (hasUpgrade("p", 13)) gain = gain.mul(upgradeEffect("p" 13))
-		if (hasMilestone("p", 11) 
-        gain = gain.mul(layers.f.effect()); // Multiply by the knowledge boost from the fire layer
+	 // Multiply by the knowledge boost from the fire layer
     
 	return gain
 }
