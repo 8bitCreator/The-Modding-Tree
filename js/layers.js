@@ -49,8 +49,8 @@ addLayer("p", {
             cost: new Decimal(5),
             effect() {
                 let eff = new Decimal(2); 
-                 if (hasUpgrade("p", 11)) {
-            eff = eff.mul(upgradeEffect("p", 11));
+                 if (hasUpgrade("p", 12)) {
+            eff = eff.mul(upgradeEffect("p", 12));
                 return eff  // Effect value for this upgrade
             },
            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
