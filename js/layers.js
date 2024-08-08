@@ -67,14 +67,15 @@ addLayer("p", {
     buyables: {
         11: {
             title: "Power of the Ancients",
-            description: "Increase your primitive points by 5x each time you buy this. Cost is 10^x.",
+            description: "Increases knowledge by 5x each time you buy this. Cost is 10^x.",
             cost(x) { return new Decimal(10).pow(x); }, // Cost is 10^x
-            effect() { return new Decimal(5); }, // Each buy increases points by 5x
+            effect(x) { return new Decimal(5).pow(x); }, // Each buy increases points by 5^x
             display() {
-                return "Current Amount: " + getBuyableAmount(this.layer, this.id) + 
-                       "<br>Cost: " + format(this.cost(getBuyableAmount(this.layer, this.id).add(1))) + 
+                const amount = getBuyableAmount(this.layer, this.id);
+                return "Current Amount: " + amount + 
+                       "<br>Cost: " + format(this.cost(amount.add(1))) + 
                        " primitive points<br>" +
-                       "Effect: " + format(this.effect()) + "x primitive points";
+                       "Effect: " + format(this.effect(amount)) + "x primitive points"; // Use effect based on amount
             },
             canAfford() { return player[this.layer].points.gte(this.cost(getBuyableAmount(this.layer, this.id).add(1))); },
             buy() {
