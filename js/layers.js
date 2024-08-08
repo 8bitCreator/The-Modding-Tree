@@ -43,7 +43,7 @@ addLayer("p", {
         11: {
             title: "Stone Tools",
             description: "Boost Primitive points by ",
-            cost: new Decimal(5),
+            cost: new Decimal(2),
             effect() {
                 let eff = new Decimal(2);
                 if (hasUpgrade("p", 12)) eff = eff.mul(upgradeEffect("p", 12));
@@ -94,11 +94,5 @@ addLayer("p", {
             },
         },
     },
-     milestones: {
-        11: {
-            requirementDescription: "1000 Primitive Points",
-            effectDescription: "Unlocks the Fire layer.",
-            done() { return player.p.points.gte(1000); }, // The milestone is achieved when you have 10 primitive points
-        },
-    },
+    
 });
