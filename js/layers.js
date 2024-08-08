@@ -10,7 +10,7 @@ addLayer("p", {
     requires: new Decimal(10), // Cost to unlock prestige points
     resource: "insights", // Name of prestige currency
     baseResource: "points", // Name of resource prestige gain is based on
-    baseAmount() {return player.points}, // Current amount of baseResource
+    baseAmount() { return player.points }, // Current amount of baseResource
     type: "normal", // Prestige type
     exponent: 0.5, // Prestige exponent
     gainMult() { // Prestige gain multiplier
@@ -24,7 +24,7 @@ addLayer("p", {
     hotkeys: [
         {key: "p", description: "P: Reset for insights", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true}, // Layer visibility in the tree
+    layerShown() { return true }, // Layer visibility in the tree
 
     upgrades: {
         11: {
@@ -81,8 +81,21 @@ addLayer("p", {
     },
 
     doReset(resettingLayer) {
-        let keep = []
-        if (hasMilestone("p", 0)) keep.push("upgrades")
-        layerDataReset("p", keep)
+        let gain = this.getResetGain();
+        if (gain.gt(0)) {
+            player[this.layer].points = player[this.layer].points.add(gain);
+        }
+        let keep = [];
+        if (hasMilestone("p", 0)) keep.push("upgrades");
+        layerDataReset(this.layer, keep);
     },
-})
+
+    getResetGain() {
+        let base = this.baseAmount().div(this.requires).pow(this.exponent);
+        return base.times(this.gainMult()).pow(this.gainExp());
+    },
+
+    canReset() {
+        return this.baseAmount().gte(this.requires);
+    },
+});
