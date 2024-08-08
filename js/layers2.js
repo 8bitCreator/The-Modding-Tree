@@ -8,7 +8,7 @@ addLayer("f", {
 
     color: "#FF4500", // Bright orange color representing fire
     resource: "fire points", // Resource name reflecting fire
-    row: 1, // Place it below the primitive points layer
+    row: 0, // Place it below the primitive points layer
 
     baseResource: "primitive points", // Fire points are generated based on primitive points
     baseAmount() { return player.p.points }, // Base resource is primitive points
