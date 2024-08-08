@@ -53,6 +53,7 @@ addLayer("p", {
             eff = eff.mul(upgradeEffect("p", 12));
                 return eff  // Effect value for this upgrade
             },
+            },
            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
         },
         12: {
