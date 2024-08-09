@@ -1,98 +1,135 @@
-addLayer("p", {
+addLayer("e", {
     startData() {
         return {
             unlocked: true,
             points: new Decimal(0),
-        };
+            energyCap: new Decimal(100),
+            energyMult: new Decimal(1),
+        }
     },
 
-    color: "#A76D47", // Earthy brown color representing stone and nature
-    resource: "primitive points", // Resource name reflecting the Paleolithic theme
+    color: "#4BDC13",
+    resource: "energy",
     row: 0,
 
     baseResource: "points",
     baseAmount() { return player.points },
 
-    requires: new Decimal(10),
-
+    requires: new Decimal(2),
     type: "normal",
-    exponent: 0.5, // Base exponent for calculating primitive points gain
+    exponent: 0.5,
 
     gainMult() {
-        let mult = new Decimal(1); // Start with a base multiplier of 1
-
-        // Check if the upgrades are purchased and apply their effects
-        if (hasUpgrade("p", 11)) {
-            mult = mult.mul(upgradeEffect("p", 11)); // Apply effect of Stone Tools
-        }
-        if (hasUpgrade("p", 12)) {
-            mult = mult.mul(upgradeEffect("p", 12)); // Apply effect of Fire Discovery
-        }
-
-        return mult; // Return the total multiplier
+        return player.e.energyMult;
     },
-
     gainExp() {
-        let exp = new Decimal(1); // Start with a base exponent of 1
-        return exp; // Return the total exponent
+        return new Decimal(1);
     },
 
     layerShown() { return true },
 
     upgrades: {
         11: {
-            title: "Stone Tools",
-            description: "Boost Primitive points by ",
+            title: "Energy Boost",
+            description: "Increase energy capacity by 50.",
+            cost: new Decimal(1),
+            effect() {
+                return new Decimal(50);
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + ""; },
+            unlocked() { return true; },
+        },
+        12: {
+            title: "Energy Renovation",
+            description: "Boost buyable effect by 200%.",
             cost: new Decimal(2),
             effect() {
-                let eff = new Decimal(2);
-                if (hasUpgrade("p", 12)) eff = eff.mul(upgradeEffect("p", 12));
-                return eff; // Effect value for this upgrade 
+                return new Decimal(2);
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
+            unlocked() { return hasUpgrade("e", 11); },
+        },
+        13: {
+            title: "Energy Efficiency",
+            description: "Increase energy multiplier by 1.",
+            cost: new Decimal(3),
+            effect() {
+                return new Decimal(1);
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + ""; },
+        },
+        21: {
+            title: "Energy Capacity Upgrade",
+            description: "Increase energy capacity by 100.",
+            cost: new Decimal(4),
+            effect() {
+                return new Decimal(100);
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + ""; },
+        },
+        22: {
+            title: "Energy Boost",
+            description: "Boost buyable effect by 200%.",
+            cost: new Decimal(5),
+            effect() {
+                return new Decimal(2);
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
-
-        12: {
-            title: "Hunting",
-            description: "increases primitive points and last upgrade effect gain by ",
-            cost: new Decimal(25),
+        23: {
+            title: "Cost Reduction",
+            description: "Reduce buyable cost by 10%.",
+            cost: new Decimal(6),
             effect() {
-                let eff = new Decimal(2);
-                return eff; // Effect value for this upgrade
+                return new Decimal(0.9);
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
-         13: {
-            title: "Primitive Mind",
-            description: "increases knowledge by 2",
-            cost: new Decimal(300),
+        31: {
+            title: "Multiplier Boost",
+            description: "Increase energy multiplier by 2.",
+            cost: new Decimal(7),
             effect() {
-                let eff = new Decimal(2);
-                return eff; // Effect value for this upgrade
+                return new Decimal(2);
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + ""; },
+        },
+        32: {
+            title: "Additional Capacity",
+            description: "Increase energy capacity by 150.",
+            cost: new Decimal(8),
+            effect() {
+                return new Decimal(150);
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + ""; },
+        },
+        33: {
+            title: "Buyable Efficiency",
+            description: "Increase buyable effect by 300%.",
+            cost: new Decimal(9),
+            effect() {
+                return new Decimal(3);
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
     },
+});
 
-    buyables: {
-        11: {
-            title: "Power of the Ancients",
-            description: "Increases knowledge by 5x each time you buy this. Cost is 10^x.",
-            cost(x) { return new Decimal(10).pow(x); }, // Cost is 10^x
-            effect(x) { return new Decimal(5).pow(x); }, // Each buy increases points by 5^x
-            display() {
-                const amount = getBuyableAmount(this.layer, this.id);
-                return "Current Amount: " + amount + 
-                       "<br>Cost: " + format(this.cost(amount.add(1))) + 
-                       " primitive points<br>" +
-                       "Effect: " + format(this.effect(amount)) + "x knowledge"; // Use effect based on amount
-            },
-            canAfford() { return player[this.layer].points.gte(this.cost(getBuyableAmount(this.layer, this.id).add(1))); },
-            buy() {
-                player[this.layer].points = player[this.layer].points.sub(this.cost(getBuyableAmount(this.layer, this.id).add(1)));
-                addBuyables(this.layer, this.id, 1); // Increase the amount owned by 1
-            },
-        },
+addBuyable("e", {
+    title: "Energy Capacitor",
+    cost() {
+        let baseCost = new Decimal(10);
+        let multiplier = new Decimal(1).div(upgradeEffect("e", 23)).times(upgradeEffect("e", 33));
+        return baseCost.times(multiplier).floor();
     },
-    
+    effect() {
+        return new Decimal(1).add(player.e.points).div(100);
+    },
+    effectDisplay() {
+        return format(this.effect()) + "x";
+    },
+    buy() {
+        player.e.points = player.e.points.sub(this.cost());
+        player.e.energyCap = player.e.energyCap.add(this.effect());
+    },
 });
