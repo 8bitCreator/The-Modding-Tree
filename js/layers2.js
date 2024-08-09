@@ -32,7 +32,8 @@ addLayer("f", {
         // Passive generation of fire points
         if (this.isUnlocked()) {
             let mult = this.gainMult();
-
+            
+            // Check if any upgrades are purchased and apply their effects
             if (hasUpgrade("f", 11)) 
                 mult = mult.mul(upgradeEffect("f", 11)); // Apply effect of "Gathering Kindling"
 
@@ -48,8 +49,10 @@ addLayer("f", {
 
     layerShown() { return player.points.gte(100); }, // Only show if you have 100 knowledge points
 
+    // The onUnlock function should be triggered when the layer is unlocked
     onUnlock() {
         this.unlocked = true; // Make layer permanently unlocked
+        player.f.points = player.f.points.add(0); // Ensure it reflects in player data immediately
     },
 
     upgrades: {
