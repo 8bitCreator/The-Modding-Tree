@@ -38,22 +38,22 @@ addLayer("e", {
         // Calculate element gains per second
         let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(diff);
         if (player.e.upgrades[11]) { // Check if Ignite upgrade is purchased
-            fireGain = player.e.buyables[11].add(1).pow(0.5).mul(this.upgrades[11].effect()).mul(diff);
+            fireGain = fireGain.mul(player.e.upgrades[11].effect());
         }
 
         let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(diff);
         if (player.e.upgrades[12]) { // Check if Flow upgrade is purchased
-            waterGain = player.e.buyables[12].add(1).pow(0.5).mul(this.upgrades[12].effect()).mul(diff);
+            waterGain = waterGain.mul(player.e.upgrades[12].effect());
         }
 
         let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(diff);
         if (player.e.upgrades[13]) { // Check if Solidify upgrade is purchased
-            earthGain = player.e.buyables[13].add(1).pow(0.5).mul(this.upgrades[13].effect()).mul(diff);
+            earthGain = earthGain.mul(player.e.upgrades[13].effect());
         }
 
         let airGain = player.e.buyables[14].add(1).pow(0.5).mul(diff);
         if (player.e.upgrades[14]) { // Check if Gust upgrade is purchased
-            airGain = player.e.buyables[14].add(1).pow(0.5).mul(this.upgrades[14].effect()).mul(diff);
+            airGain = airGain.mul(player.e.upgrades[14].effect());
         }
 
         // Add the calculated gains to the respective element totals
