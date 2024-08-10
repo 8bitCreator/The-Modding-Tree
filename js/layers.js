@@ -1,20 +1,20 @@
 addLayer("e", {
-    name: "Elements", // Optional: name of the layer
-    symbol: "🌍", // Optional: symbol for the layer node
-    position: 1, // Optional: horizontal position within the row
+    name: "Elements", // Layer name
+    symbol: "🌍", // Layer symbol
+    position: 1, // Position in the row
     startData() { return {                  
         unlocked: true, // Layer is unlocked by default
-        points: new Decimal(0), // Main currency: total "element points"
+        points: new Decimal(0), // Main currency: Element Points
         fire: new Decimal(0), // Amount of Fire element
         water: new Decimal(0), // Amount of Water element
         earth: new Decimal(0), // Amount of Earth element
         air: new Decimal(0), // Amount of Air element
     }},
-    color: "#FFA500", // Orange color representing a mix of elemental colors
+    color: "#FFA500", // Color for the layer
     resource: "element points", // Main prestige currency
     row: 0, // Row in the tree, 0 is the first row
 
-    baseResource: "points", // Base resource for calculating prestige
+    baseResource: "points", // Base resource to calculate prestige
     baseAmount() { return player.points }, // Current amount of baseResource
     requires: new Decimal(10), // Requirement to unlock the layer
     type: "normal", // Prestige type
@@ -22,21 +22,32 @@ addLayer("e", {
 
     gainMult() { // Multiplier to prestige currency gain
         let mult = new Decimal(1)
-        // Additional multipliers can be added here
         return mult
     },
     gainExp() { // Exponent to prestige currency gain
         let exp = new Decimal(1)
-        // Additional exponents can be added here
         return exp
     },
 
     layerShown() { return true }, // Always show this layer
 
-    // Define the effects and descriptions of each element
+    // This function updates the elements over time
+    update(diff) {
+        // Calculate element gains per second and add to the total
+        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(diff)
+        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(diff)
+        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(diff)
+        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(diff)
+
+        player.e.fire = player.e.fire.add(fireGain)
+        player.e.water = player.e.water.add(waterGain)
+        player.e.earth = player.e.earth.add(earthGain)
+        player.e.air = player.e.air.add(airGain)
+    },
+
     effect() {
         return {
-            fireEffect: player.e.fire.add(1).pow(0.5), // Example effect: Fire increases something
+            fireEffect: player.e.fire.add(1).pow(0.5), // Fire increases something
             waterEffect: player.e.water.add(1).pow(0.5), // Water effect
             earthEffect: player.e.earth.add(1).pow(0.5), // Earth effect
             airEffect: player.e.air.add(1).pow(0.5), // Air effect
@@ -51,7 +62,6 @@ addLayer("e", {
         Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.`
     },
 
-    // Upgrades related to elements
     upgrades: {
         11: {
             title: "Ignite",
@@ -91,7 +101,6 @@ addLayer("e", {
         },
     },
 
-    // Buyables related to elements
     buyables: {
         11: {
             title: "Fire Generator",
@@ -125,7 +134,37 @@ addLayer("e", {
             },
             effectDisplay() { return format(this.effect()) + "x" },
         },
+        13: {
+            title: "Earth Digger",
+            cost(x) { return new Decimal(30).mul(x.add(1)) },
+            effect(x) { return x.add(1).pow(0.5) },
+            display() {
+                return `Dig for more Earth. Currently: ${format(player.e.buyables[13])} Earth.\n
+                        Each digger produces ${format(this.effect())} Earth per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[13]))} points.`
+            },
+            canAfford() { return player.points.gte(this.cost()) },
+            buy() {
+                player.points = player.points.sub(this.cost())
+                player.e.buyables[13] = player.e.buyables[13].add(1)
+            },
+            effectDisplay() { return format(this.effect()) + "x" },
+        },
+        14: {
+            title: "Air Collector",
+            cost(x) { return new Decimal(40).mul(x.add(1)) },
+            effect(x) { return x.add(1).pow(0.5) },
+            display() {
+                return `Collect more Air. Currently: ${format(player.e.buyables[14])} Air.\n
+                        Each collector produces ${format(this.effect())} Air per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[14]))} points.`
+            },
+            canAfford() { return player.points.gte(this.cost()) },
+            buy() {
+                player.points = player.points.sub(this.cost())
+                player.e.buyables[14] = player.e.buyables[14].add(1)
+            },
+            effectDisplay() { return format(this.effect()) + "x" },
+        },
     },
-
-    // Other features like milestones, challenges, etc. can be added similarly
 })
