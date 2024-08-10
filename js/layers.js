@@ -1,27 +1,108 @@
 addLayer("e", {
-    startData() {
-        return {
-            unlocked: true,
-            points: new Decimal(0),
-            buyables: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)] // Initialize buyable amounts
-        };
+    name: "Elements", // Layer name
+    symbol: "🌍", // Layer symbol
+    position: 1, // Position in the row
+    startData() { 
+        return {                  
+            unlocked: true, // Layer is unlocked by default
+            points: new Decimal(0), // Main currency: Element Points
+            fire: new Decimal(0), // Amount of Fire element
+            water: new Decimal(0), // Amount of Water element
+            earth: new Decimal(0), // Amount of Earth element
+            air: new Decimal(0), // Amount of Air element
+        }
+    },
+    color: "#FFA500", // Color for the layer
+    resource: "element points", // Main prestige currency
+    row: 0, // Row in the tree, 0 is the first row
+
+    baseResource: "points", // Base resource to calculate prestige
+    baseAmount() { return player.points }, // Current amount of baseResource
+    requires: new Decimal(10), // Requirement to unlock the layer
+    type: "normal", // Prestige type
+    exponent: 0.5, // Prestige currency gain exponent
+
+    gainMult() { // Multiplier to prestige currency gain
+        let mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Exponent to prestige currency gain
+        let exp = new Decimal(1)
+        return exp
     },
 
-    color: "#4BDC13",
-    resource: "elements",
-    row: 1,
+    layerShown() { return true }, // Always show this layer
 
+    // This function updates the elements over time
     update(diff) {
-        // Generate elements based on the buyables' effects
-        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(UpgradeEffect11).mul(diff);
-        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(UpgradeEffect12).mul(diff);
-        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(UpgradeEffect13).mul(diff);
-        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(UpgradeEffect14).mul(diff);
+        // Calculate element gains per second, incorporating the upgrade effects
+        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(this.upgrades[11].effect()).mul(diff);
+        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(this.upgrades[12].effect()).mul(diff);
+        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(this.upgrades[13].effect()).mul(diff);
+        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(this.upgrades[14].effect()).mul(diff);
 
-        player.e.points = player.e.points.add(fireGain).add(waterGain).add(earthGain).add(airGain);
+        // Add the calculated gains to the respective element totals
+        player.e.fire = player.e.fire.add(fireGain);
+        player.e.water = player.e.water.add(waterGain);
+        player.e.earth = player.e.earth.add(earthGain);
+        player.e.air = player.e.air.add(airGain);
     },
 
-    layerShown() { return true },
+    effect() {
+        return {
+            fireEffect: player.e.fire.add(1).pow(0.5), // Fire increases something
+            waterEffect: player.e.water.add(1).pow(0.5), // Water effect
+            earthEffect: player.e.earth.add(1).pow(0.5), // Earth effect
+            airEffect: player.e.air.add(1).pow(0.5), // Air effect
+        }
+    },
+
+    effectDescription() {
+        return `Your elements are enhancing your powers:
+        Fire (${format(player.e.fire)}): ${format(this.effect().fireEffect)}x boost,
+        Water (${format(player.e.water)}): ${format(this.effect().waterEffect)}x boost,
+        Earth (${format(player.e.earth)}): ${format(this.effect().earthEffect)}x boost,
+        Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.`
+    },
+
+    upgrades: {
+        11: {
+            title: "Ignite",
+            description: "Boost Fire gain based on your total Element Points.",
+            cost: new Decimal(1),
+            effect() {
+                return player.e.points.add(1).pow(0.25)
+            },
+            effectDisplay() { return format(this.effect()) + "x" }, // Tooltip display
+        },
+        12: {
+            title: "Flow",
+            description: "Boost Water gain based on your total Element Points.",
+            cost: new Decimal(2),
+            effect() {
+                return player.e.points.add(1).pow(0.25)
+            },
+            effectDisplay() { return format(this.effect()) + "x" },
+        },
+        13: {
+            title: "Solidify",
+            description: "Boost Earth gain based on your total Element Points.",
+            cost: new Decimal(3),
+            effect() {
+                return player.e.points.add(1).pow(0.25)
+            },
+            effectDisplay() { return format(this.effect()) + "x" },
+        },
+        14: {
+            title: "Gust",
+            description: "Boost Air gain based on your total Element Points.",
+            cost: new Decimal(4),
+            effect() {
+                return player.e.points.add(1).pow(0.25)
+            },
+            effectDisplay() { return format(this.effect()) + "x" },
+        },
+    },
 
     buyables: {
         11: {
@@ -29,7 +110,7 @@ addLayer("e", {
             cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
-                return `Currently: ${format(player.e.buyables[11])} Fire Generators.\n
+                return `Generate more Fire. Currently: ${format(player.e.buyables[11])} Fire Generators.\n
                         Each generator produces ${format(this.effect())} Fire per second.\n
                         Cost for next: ${format(this.cost(player.e.buyables[11]))} points.`
             },
@@ -45,7 +126,7 @@ addLayer("e", {
             cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
-                return `Currently: ${format(player.e.buyables[12])} Water Pumps.\n
+                return `Pump more Water. Currently: ${format(player.e.buyables[12])} Water Pumps.\n
                         Each pump produces ${format(this.effect())} Water per second.\n
                         Cost for next: ${format(this.cost(player.e.buyables[12]))} points.`
             },
@@ -61,7 +142,7 @@ addLayer("e", {
             cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
-                return `Currently: ${format(player.e.buyables[13])} Earth Diggers.\n
+                return `Dig for more Earth. Currently: ${format(player.e.buyables[13])} Earth Diggers.\n
                         Each digger produces ${format(this.effect())} Earth per second.\n
                         Cost for next: ${format(this.cost(player.e.buyables[13]))} points.`
             },
@@ -77,7 +158,7 @@ addLayer("e", {
             cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
-                return `Currently: ${format(player.e.buyables[14])} Air Collectors.\n
+                return `Collect more Air. Currently: ${format(player.e.buyables[14])} Air Collectors.\n
                         Each collector produces ${format(this.effect())} Air per second.\n
                         Cost for next: ${format(this.cost(player.e.buyables[14]))} points.`
             },
@@ -89,4 +170,4 @@ addLayer("e", {
             effectDisplay() { return format(this.effect()) + "x" },
         },
     },
-});
+})
