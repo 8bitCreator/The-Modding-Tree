@@ -65,7 +65,7 @@ addLayer("e", {
         Water (${format(player.e.water)}): ${format(this.effect().waterEffect)}x boost,
         Earth (${format(player.e.earth)}): ${format(this.effect().earthEffect)}x boost,
         Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.\n
-        Element Boost: ${format(elementBoost)}x`; // Add element boost display here
+        Elemental Boost: ${format(elementBoost)}x boost to all element gains (Fire, Water, Earth, and Air).`; // Clarified element boost display
     },
 
     buyables: {
