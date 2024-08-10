@@ -157,4 +157,15 @@ addLayer("e", {
             effect(x) { return x.add(1).pow(0.5) },
             display() {
                 return `Collect more Air. Currently: ${format(player.e.buyables[14])} Air.\n
-                        Each collector produces ${format(this.effect())} Air per
+                        Each collector produces ${format(this.effect())} Air per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[14]))} points.`
+            },
+            canAfford() { return player.points.gte(this.cost()) },
+            buy() {
+                player.points = player.points.sub(this.cost())
+                player.e.buyables[14] = player.e.buyables[14].add(1)
+            },
+            effectDisplay() { return format(this.effect()) + "x" },
+        },
+    },
+})
