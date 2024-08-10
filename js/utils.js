@@ -3,7 +3,7 @@
 function respecBuyables(layer) {
 	if (!layers[layer].buyables) return
 	if (!layers[layer].buyables.respec) return
-	if (!player[layer].noRespecConfirm && !confirm(tmp[layer].buyables.respecMessage || "Are you sure you want to respec? This will force you to do a \"" + (tmp[layer].name ? tmp[layer].name : layer) + "\"  as well!")) return
+	if (!player[layer].noRespecConfirm && !confirm(tmp[layer].buyables.respecMessage || "Are you sure you want to respec? This will force you to do a \"" + (tmp[layer].name ? tmp[layer].name : layer) + "\" reset as well!")) return
 	run(layers[layer].buyables.respec, layers[layer].buyables)
 	updateBuyableTemp(layer)
 	document.activeElement.blur()
@@ -110,29 +110,21 @@ function buyBuyable(layer, id) {
 }
 
 function clickClickable(layer, id) {
-    if (!player[layer].unlocked || tmp[layer].deactivated) return;
-    if (!tmp[layer].clickables[id].unlocked) return;
-    if (!tmp[layer].clickables[id].canClick) return;
+	if (!player[layer].unlocked || tmp[layer].deactivated) return
+	if (!tmp[layer].clickables[id].unlocked) return
+	if (!tmp[layer].clickables[id].canClick) return
 
-    // Use energy for clickables
-    if (!canPurchaseWithEnergy(layer, id, tmp[layer].clickables[id].energyCost)) return;
-
-    run(layers[layer].clickables[id].onClick, layers[layer].clickables[id]);
-    updateClickableTemp(layer);
+	run(layers[layer].clickables[id].onClick, layers[layer].clickables[id])
+	updateClickableTemp(layer)
 }
 
 function clickGrid(layer, id) {
-    if (!player[layer].unlocked || tmp[layer].deactivated) return;
-    if (!run(layers[layer].grid.getUnlocked, layers[layer].grid, id)) return;
-    if (!gridRun(layer, 'getCanClick', player[layer].grid[id], id)) return;
+	if (!player[layer].unlocked  || tmp[layer].deactivated) return
+	if (!run(layers[layer].grid.getUnlocked, layers[layer].grid, id)) return
+	if (!gridRun(layer, 'getCanClick', player[layer].grid[id], id)) return
 
-    // Use energy for grid clicks
-    if (!canPurchaseWithEnergy(layer, id, tmp[layer].grid[id].energyCost)) return;
-
-    gridRun(layer, 'onClick', player[layer].grid[id], id);
+	gridRun(layer, 'onClick', player[layer].grid[id], id)
 }
-
-
 
 // Function to determine if the player is in a challenge
 function inChallenge(layer, id) {
@@ -205,19 +197,19 @@ function prestigeNotify(layer) {
 	
 	if (isPlainObject(tmp[layer].tabFormat)) {
 		for (subtab in tmp[layer].tabFormat){
-			if (subtabNotify(layer, 'mainTabs', subtab))
+			if (subtabResetNotify(layer, 'mainTabs', subtab))
 				return true
 		}
 	}
 	for (family in tmp[layer].microtabs) {
 		for (subtab in tmp[layer].microtabs[family]){
-			if (subtabNotify(layer, family, subtab))
+			if (subtabResetNotify(layer, family, subtab))
 				return true
 		}
 	}
 	if (tmp[layer].autoPrestige || tmp[layer].passiveGeneration) return false
-	else if (tmp[layer].type == "static") return tmp[layer].can
-	else if (tmp[layer].type == "normal") return (tmp[layer].can && (tmp[layer].Gain.gte(player[layer].points.div(10))))
+	else if (tmp[layer].type == "static") return tmp[layer].canReset
+	else if (tmp[layer].type == "normal") return (tmp[layer].canReset && (tmp[layer].resetGain.gte(player[layer].points.div(10))))
 	else return false
 }
 
@@ -235,7 +227,7 @@ function subtabShouldNotify(layer, family, id) {
     else return subtab.shouldNotify
 }
 
-function subtabNotify(layer, family, id) {
+function subtabResetNotify(layer, family, id) {
 	let subtab = {}
 	if (family == "mainTabs") subtab = tmp[layer].tabFormat[id]
 	else subtab = tmp[layer].microtabs[family][id]
@@ -249,7 +241,7 @@ function nodeShown(layer) {
 
 function layerunlocked(layer) {
 	if (tmp[layer] && tmp[layer].type == "none") return (player[layer].unlocked)
-	return LAYERS.includes(layer) && (player[layer].unlocked || (tmp[layer].can && tmp[layer].layerShown))
+	return LAYERS.includes(layer) && (player[layer].unlocked || (tmp[layer].canReset && tmp[layer].layerShown))
 }
 
 function keepGoing() {
@@ -299,9 +291,9 @@ function addTime(diff, layer) {
 		console.log("Memory leak detected. Trying to fix...")
 		time = toNumber(time)
 		if (isNaN(time) || time == 0) {
-			console.log("Couldn't fix! ting...")
+			console.log("Couldn't fix! Resetting...")
 			time = layer ? player.timePlayed : 0
-			if (!layer) player.timePlayed = true
+			if (!layer) player.timePlayedReset = true
 		}
 	}
 	time += toNumber(diff)
@@ -418,61 +410,3 @@ function gridRun(layer, func, data, id) {
 	else
 		return layers[layer].grid[func];
 }
-// Checks if the player can afford a purchase using energy and if the cost is within capacity.
-function canPurchaseWithEnergy(layer, id, cost) {
-    let energy = player[layer].energy; // Assuming energy is stored in player[layer].energy
-    let capacity = player[layer].capacity; // Assuming capacity is stored in player[layer].capacity
-
-    // Check if the energy required exceeds the capacity
-    if (cost.gt(capacity)) {
-        return false;
-    }
-
-    // Check if the player has enough energy to afford the purchase
-    if (energy.lt(cost)) {
-        return false;
-    }
-
-    // If both conditions are met, the purchase can be made
-    return true;
-}
-
-// Deducts energy and performs the purchase logic.
-function purchaseWithEnergy(layer, id, cost) {
-    if (!canPurchaseWithEnergy(layer, id, cost)) return;
-
-    // Deduct the energy cost
-    player[layer].energy = player[layer].energy.sub(cost);
-
-    // Perform any additional purchase logic here, such as adding the item to the player's inventory, etc.
-    layers[layer].buyables[id].onPurchase(); // Assuming there's an onPurchase function for the buyable
-}
-
-// Increases the player's energy, ensuring it does not exceed capacity.
-function addEnergy(layer, amount) {
-    player[layer].energy = player[layer].energy.add(amount);
-
-    // Ensure energy does not exceed the capacity
-    if (player[layer].energy.gt(player[layer].capacity)) {
-        player[layer].energy = player[layer].capacity;
-    }
-}
-
-// Increases the player's energy capacity, and optionally increases current energy.
-function addCapacity(layer, amount) {
-    player[layer].capacity = player[layer].capacity.add(amount);
-
-    // Optionally, increase the current energy when capacity increases
-    player[layer].energy = player[layer].energy.add(amount);
-}
-function doReset(layer, force=false) {
-    player.points = new Decimal(0);
-    player[layer].points = new Decimal(0);
-    player[layer].energy = new Decimal(0);
-    player[layer].capacity = new Decimal(0);
-    // Reset other necessary resources here
-
-    // Example: Apply specific layer resets
-    if (layer == "someLayer") {
-        // Add logic for a specific layer reset, if necessary
-    }
