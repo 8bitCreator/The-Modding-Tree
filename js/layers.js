@@ -33,16 +33,23 @@ addLayer("e", {
 
     // This function updates the elements over time
     update(diff) {
-        // Calculate element gains per second and add to the total
-        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(diff)
-        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(diff)
-        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(diff)
-        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(diff)
+        // Base element gains per second
+        let baseFireGain = player.e.buyables[11].add(1).pow(0.5);
+        let baseWaterGain = player.e.buyables[12].add(1).pow(0.5);
+        let baseEarthGain = player.e.buyables[13].add(1).pow(0.5);
+        let baseAirGain = player.e.buyables[14].add(1).pow(0.5);
 
-        player.e.fire = player.e.fire.add(fireGain)
-        player.e.water = player.e.water.add(waterGain)
-        player.e.earth = player.e.earth.add(earthGain)
-        player.e.air = player.e.air.add(airGain)
+        // Apply upgrades to the gains
+        let fireGain = baseFireGain.mul(upgradeEffect(11)).mul(diff);
+        let waterGain = baseWaterGain.mul(upgradeEffect(12)).mul(diff);
+        let earthGain = baseEarthGain.mul(upgradeEffect(13)).mul(diff);
+        let airGain = baseAirGain.mul(upgradeEffect(14)).mul(diff);
+
+        // Update player's element totals
+        player.e.fire = player.e.fire.add(fireGain);
+        player.e.water = player.e.water.add(waterGain);
+        player.e.earth = player.e.earth.add(earthGain);
+        player.e.air = player.e.air.add(airGain);
     },
 
     effect() {
@@ -68,7 +75,7 @@ addLayer("e", {
             description: "Boost Fire gain based on your total Element Points.",
             cost: new Decimal(1),
             effect() {
-                return player.e.points.add(1).pow(0.25)
+                return player.e.points.add(1).pow(0.25);
             },
             effectDisplay() { return format(this.effect()) + "x" }, // Tooltip display
         },
@@ -77,7 +84,7 @@ addLayer("e", {
             description: "Boost Water gain based on your total Element Points.",
             cost: new Decimal(2),
             effect() {
-                return player.e.points.add(1).pow(0.25)
+                return player.e.points.add(1).pow(0.25);
             },
             effectDisplay() { return format(this.effect()) + "x" },
         },
@@ -86,7 +93,7 @@ addLayer("e", {
             description: "Boost Earth gain based on your total Element Points.",
             cost: new Decimal(3),
             effect() {
-                return player.e.points.add(1).pow(0.25)
+                return player.e.points.add(1).pow(0.25);
             },
             effectDisplay() { return format(this.effect()) + "x" },
         },
@@ -95,7 +102,7 @@ addLayer("e", {
             description: "Boost Air gain based on your total Element Points.",
             cost: new Decimal(4),
             effect() {
-                return player.e.points.add(1).pow(0.25)
+                return player.e.points.add(1).pow(0.25);
             },
             effectDisplay() { return format(this.effect()) + "x" },
         },
@@ -167,4 +174,4 @@ addLayer("e", {
             effectDisplay() { return format(this.effect()) + "x" },
         },
     },
-})
+});
