@@ -38,13 +38,27 @@ function canGenPoints(){
 }
 
 // Calculate points/sec!
+// Calculate points/sec!
 function getPointGen() {
-	if(!canGenPoints())
-		return new Decimal(0)
+    if (!canGenPoints()) 
+        return new Decimal(0);
+        
+    let gain = new Decimal(1); // Starting with a base gain of 1
 
-	let gain = new Decimal(1)
-	return gain
+    // Access element effects
+    let fireEffect = player.e.fire.add(1).pow(0.5); // Fire effect
+    let waterEffect = player.e.water.add(1).pow(0.5); // Water effect
+    let earthEffect = player.e.earth.add(1).pow(0.5); // Earth effect
+    let airEffect = player.e.air.add(1).pow(0.5); // Air effect
+
+    // Combine effects to determine total point generation
+    let totalEffect = fireEffect.mul(waterEffect).mul(earthEffect).mul(airEffect);
+    
+    gain = gain.mul(totalEffect); // Apply total effect to gain
+
+    return gain; // Return the final point generation
 }
+
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
