@@ -33,16 +33,17 @@ addLayer("e", {
 
     // This function updates the elements over time
     update(diff) {
-        // Calculate element gains per second and add to the total
-        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(diff)
-        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(diff)
-        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(diff)
-        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(diff)
+        // Calculate element gains per second, incorporating the upgrade effects
+        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(this.upgrades[11].effect()).mul(diff);
+        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(this.upgrades[12].effect()).mul(diff);
+        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(this.upgrades[13].effect()).mul(diff);
+        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(this.upgrades[14].effect()).mul(diff);
 
-        player.e.fire = player.e.fire.add(fireGain)
-        player.e.water = player.e.water.add(waterGain)
-        player.e.earth = player.e.earth.add(earthGain)
-        player.e.air = player.e.air.add(airGain)
+        // Add the calculated gains to the respective element totals
+        player.e.fire = player.e.fire.add(fireGain);
+        player.e.water = player.e.water.add(waterGain);
+        player.e.earth = player.e.earth.add(earthGain);
+        player.e.air = player.e.air.add(airGain);
     },
 
     effect() {
@@ -104,7 +105,7 @@ addLayer("e", {
     buyables: {
         11: {
             title: "Fire Generator",
-            cost(x) { return new Decimal(10).mul(x.add(1)) },
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
                 return `Generate more Fire. Currently: ${format(player.e.buyables[11])} Fire.\n
@@ -120,7 +121,7 @@ addLayer("e", {
         },
         12: {
             title: "Water Pump",
-            cost(x) { return new Decimal(20).mul(x.add(1)) },
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
                 return `Pump more Water. Currently: ${format(player.e.buyables[12])} Water.\n
@@ -136,7 +137,7 @@ addLayer("e", {
         },
         13: {
             title: "Earth Digger",
-            cost(x) { return new Decimal(30).mul(x.add(1)) },
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
                 return `Dig for more Earth. Currently: ${format(player.e.buyables[13])} Earth.\n
@@ -152,19 +153,8 @@ addLayer("e", {
         },
         14: {
             title: "Air Collector",
-            cost(x) { return new Decimal(40).mul(x.add(1)) },
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)) }, // Starting cost of 10
             effect(x) { return x.add(1).pow(0.5) },
             display() {
                 return `Collect more Air. Currently: ${format(player.e.buyables[14])} Air.\n
-                        Each collector produces ${format(this.effect())} Air per second.\n
-                        Cost for next: ${format(this.cost(player.e.buyables[14]))} points.`
-            },
-            canAfford() { return player.points.gte(this.cost()) },
-            buy() {
-                player.points = player.points.sub(this.cost())
-                player.e.buyables[14] = player.e.buyables[14].add(1)
-            },
-            effectDisplay() { return format(this.effect()) + "x" },
-        },
-    },
-})
+                        Each collector produces ${format(this.effect())} Air per
