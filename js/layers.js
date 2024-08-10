@@ -36,25 +36,11 @@ addLayer("e", {
     // This function updates the elements over time
     update(diff) {
         // Calculate element gains per second
-        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(diff);
-        if (player.e.upgrades[11]) { // Check if Ignite upgrade is purchased
-            fireGain = fireGain.mul(player.e.upgrades[11].effect());
-        }
-
-        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(diff);
-        if (player.e.upgrades[12]) { // Check if Flow upgrade is purchased
-            waterGain = waterGain.mul(player.e.upgrades[12].effect());
-        }
-
-        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(diff);
-        if (player.e.upgrades[13]) { // Check if Solidify upgrade is purchased
-            earthGain = earthGain.mul(player.e.upgrades[13].effect());
-        }
-
-        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(diff);
-        if (player.e.upgrades[14]) { // Check if Gust upgrade is purchased
-            airGain = airGain.mul(player.e.upgrades[14].effect());
-        }
+        let elementBoost = player.e.points.add(1).pow(0.5); // Boost based on Element Points
+        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(elementBoost).mul(diff);
+        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(elementBoost).mul(diff);
+        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(elementBoost).mul(diff);
+        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(elementBoost).mul(diff);
 
         // Add the calculated gains to the respective element totals
         player.e.fire = player.e.fire.add(fireGain);
@@ -73,50 +59,13 @@ addLayer("e", {
     },
 
     effectDescription() {
+        let elementBoost = player.e.points.add(1).pow(0.5); // Calculate element boost
         return `Your elements are enhancing your powers:
         Fire (${format(player.e.fire)}): ${format(this.effect().fireEffect)}x boost,
         Water (${format(player.e.water)}): ${format(this.effect().waterEffect)}x boost,
         Earth (${format(player.e.earth)}): ${format(this.effect().earthEffect)}x boost,
-        Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.`
-    },
-
-    upgrades: {
-        11: {
-            title: "Ignite",
-            description: "Boost Fire gain based on your total Element Points.",
-            cost: new Decimal(1),
-            effect() {
-                return player.e.points.add(1).pow(0.25);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; }, // Tooltip display
-        },
-        12: {
-            title: "Flow",
-            description: "Boost Water gain based on your total Element Points.",
-            cost: new Decimal(2),
-            effect() {
-                return player.e.points.add(1).pow(0.25);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        13: {
-            title: "Solidify",
-            description: "Boost Earth gain based on your total Element Points.",
-            cost: new Decimal(3),
-            effect() {
-                return player.e.points.add(1).pow(0.25);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        14: {
-            title: "Gust",
-            description: "Boost Air gain based on your total Element Points.",
-            cost: new Decimal(4),
-            effect() {
-                return player.e.points.add(1).pow(0.25);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
+        Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.\n
+        Element Boost: ${format(elementBoost)}x`; // Add element boost display here
     },
 
     buyables: {
