@@ -36,10 +36,25 @@ addLayer("e", {
     // This function updates the elements over time
     update(diff) {
         // Calculate element gains per second, incorporating the upgrade effects
-        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(this.upgrades[11].effect()).mul(diff);
-        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(this.upgrades[12].effect()).mul(diff);
-        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(this.upgrades[13].effect()).mul(diff);
-        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(this.upgrades[14].effect()).mul(diff);
+        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(diff);
+        if (player.e.upgrades[11]) { // Check if Ignite upgrade is purchased
+            fireGain = player.e.buyables[11].add(1).pow(0.5).mul(this.upgrades[11].effect()).mul(diff);
+        }
+
+        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(diff);
+        if (player.e.upgrades[12]) { // Check if Flow upgrade is purchased
+            waterGain = player.e.buyables[12].add(1).pow(0.5).mul(this.upgrades[12].effect()).mul(diff);
+        }
+
+        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(diff);
+        if (player.e.upgrades[13]) { // Check if Solidify upgrade is purchased
+            earthGain = player.e.buyables[13].add(1).pow(0.5).mul(this.upgrades[13].effect()).mul(diff);
+        }
+
+        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(diff);
+        if (player.e.upgrades[14]) { // Check if Gust upgrade is purchased
+            airGain = player.e.buyables[14].add(1).pow(0.5).mul(this.upgrades[14].effect()).mul(diff);
+        }
 
         // Add the calculated gains to the respective element totals
         player.e.fire = player.e.fire.add(fireGain);
@@ -165,9 +180,4 @@ addLayer("e", {
             canAfford() { return player.points.gte(this.cost()) },
             buy() {
                 player.points = player.points.sub(this.cost())
-                player.e.buyables[14] = player.e.buyables[14].add(1)
-            },
-            effectDisplay() { return format(this.effect()) + "x" },
-        },
-    },
-})
+                player
