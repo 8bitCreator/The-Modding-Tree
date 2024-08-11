@@ -51,10 +51,10 @@ addLayer("e", {
 
     effect() {
         return {
-            fireEffect: player.e.fire.add(1).pow(0.1), // Fire increases something
-            waterEffect: player.e.water.add(1).pow(0.1), // Water effect
-            earthEffect: player.e.earth.add(1).pow(0.1), // Earth effect
-            airEffect: player.e.air.add(1).pow(0.1), // Air effect
+            fireEffect: player.e.fire.add(1).pow(0.25), // Fire increases something
+            waterEffect: player.e.water.add(1).pow(0.25), // Water effect
+            earthEffect: player.e.earth.add(1).pow(0.25), // Earth effect
+            airEffect: player.e.air.add(1).pow(0.25), // Air effect
         }
     },
 
