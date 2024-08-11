@@ -37,10 +37,10 @@ addLayer("e", {
     update(diff) {
         // Calculate element gains per second
         let elementBoost = player.e.points.add(1).pow(0.5); // Boost based on Element Points
-        let fireGain = player.e.buyables[11].add(1).pow(0.5).mul(elementBoost).mul(diff);
-        let waterGain = player.e.buyables[12].add(1).pow(0.5).mul(elementBoost).mul(diff);
-        let earthGain = player.e.buyables[13].add(1).pow(0.5).mul(elementBoost).mul(diff);
-        let airGain = player.e.buyables[14].add(1).pow(0.5).mul(elementBoost).mul(diff);
+        let fireGain = player.e.buyables[11].add(1).pow(0.1).mul(elementBoost).mul(diff);
+        let waterGain = player.e.buyables[12].add(1).pow(0.1).mul(elementBoost).mul(diff);
+        let earthGain = player.e.buyables[13].add(1).pow(0.1).mul(elementBoost).mul(diff);
+        let airGain = player.e.buyables[14].add(1).pow(0.1).mul(elementBoost).mul(diff);
 
         // Add the calculated gains to the respective element totals
         player.e.fire = player.e.fire.add(fireGain);
