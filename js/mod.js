@@ -47,10 +47,10 @@ function getPointGen() {
     let gain = new Decimal(1); // Starting with a base gain of 1
 
     // Access element effects with further reduced power
-    let fireEffect = player.e.fire.add(1).pow(0.1); // Fire effect reduced power
-    let waterEffect = player.e.water.add(1).pow(0.1); // Water effect reduced power
-    let earthEffect = player.e.earth.add(1).pow(0.1); // Earth effect reduced power
-    let airEffect = player.e.air.add(1).pow(0.1); // Air effect reduced power
+    let fireEffect = player.e.fire.add(1).pow(0.25); // Fire effect reduced power
+    let waterEffect = player.e.water.add(1).pow(0.25); // Water effect reduced power
+    let earthEffect = player.e.earth.add(1).pow(0.25); // Earth effect reduced power
+    let airEffect = player.e.air.add(1).pow(0.25); // Air effect reduced power
 
     // Combine effects to determine total point generation
     let totalEffect = fireEffect.mul(waterEffect).mul(earthEffect).mul(airEffect);
