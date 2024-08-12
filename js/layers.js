@@ -48,7 +48,7 @@ addLayer("e", {
         player.e.earth = player.e.earth.add(earthGain);
         player.e.air = player.e.air.add(airGain);
 
-        // Call the auto-buy function if autoBuyables is enabled
+        // Call the auto-buy function if autoBuyables is enabled and milestone is reached
         if (player.e.autoBuyables) {
             this.autoBuyBuyables();
         }
@@ -68,8 +68,8 @@ addLayer("e", {
         return `Your elements are enhancing your powers:
         Fire (${format(player.e.fire)}): ${format(this.effect().fireEffect)}x boost,
         Water (${format(player.e.water)}): ${format(this.effect().waterEffect)}x boost,
-        Earth (${format(this.effect().earthEffect)}): ${format(this.effect().earthEffect)}x boost,
-        Air (${format(this.effect().airEffect)}): ${format(this.effect().airEffect)}x boost.\n
+        Earth (${format(player.e.earth)}): ${format(this.effect().earthEffect)}x boost,
+        Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.\n
         Elemental Boost: ${format(elementBoost)}x boost to all element gains (Fire, Water, Earth, and Air).`; // Clarified element boost display
     },
 
@@ -93,6 +93,7 @@ addLayer("e", {
                 player.e.buyables[11] = player.e.buyables[11].add(1);
             },
             effectDisplay() { return format(this.effect()) + "x"; },
+            style: { 'background-color': '#FF4500', 'color': '#FFFFFF' }, // Fire color (orange-red)
         },
         12: {
             title: "Water Pump",
@@ -113,6 +114,7 @@ addLayer("e", {
                 player.e.buyables[12] = player.e.buyables[12].add(1);
             },
             effectDisplay() { return format(this.effect()) + "x"; },
+            style: { 'background-color': '#1E90FF', 'color': '#FFFFFF' }, // Water color (blue)
         },
         13: {
             title: "Earth Digger",
@@ -133,6 +135,7 @@ addLayer("e", {
                 player.e.buyables[13] = player.e.buyables[13].add(1);
             },
             effectDisplay() { return format(this.effect()) + "x"; },
+            style: { 'background-color': '#8B4513', 'color': '#FFFFFF' }, // Earth color (saddle brown)
         },
         14: {
             title: "Air Collector",
@@ -153,6 +156,7 @@ addLayer("e", {
                 player.e.buyables[14] = player.e.buyables[14].add(1);
             },
             effectDisplay() { return format(this.effect()) + "x"; },
+            style: { 'background-color': '#87CEEB', 'color': '#FFFFFF' }, // Air color (sky blue)
         },
         21: {
             title: "Flame Generator",
@@ -169,76 +173,9 @@ addLayer("e", {
                 player.e.buyables[21] = player.e.buyables[21].add(1);
             },
             effectDisplay() { return format(this.effect()) + "x"; },
+            style: { 'background-color': '#FF6347', 'color': '#FFFFFF' }, // Flame color (tomato red)
         },
         22: {
             title: "Geyser",
             cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Water Pump base
-            display() {
-                return `Boost Water Pump base. Currently: ${format(player.e.buyables[22])} Geysers.\n
-                        Each Geyser multiplies Water Pump base by ${format(this.effect())}x.\n
-                        Cost for next: ${format(this.cost(player.e.buyables[22]))} points.`;
-            },
-            canAfford() { return player.points.gte(this.cost()); },
-            buy() {
-                player.points = player.points.sub(this.cost());
-                player.e.buyables[22] = player.e.buyables[22].add(1);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        23: {
-            title: "Quake Generator",
-            cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Earth Digger base
-            display() {
-                return `Boost Earth Digger base. Currently: ${format(player.e.buyables[23])} Quake Generators.\n
-                        Each Quake Generator multiplies Earth Digger base by ${format(this.effect())}x.\n
-                        Cost for next: ${format(this.cost(player.e.buyables[23]))} points.`;
-            },
-            canAfford() { return player.points.gte(this.cost()); },
-            buy() {
-                player.points = player.points.sub(this.cost());
-                player.e.buyables[23] = player.e.buyables[23].add(1);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        24: {
-            title: "Tornado Machine",
-            cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Air Collector base
-            display() {
-                return `Boost Air Collector base. Currently: ${format(player.e.buyables[24])} Tornado Machines.\n
-                        Each Tornado Machine multiplies Air Collector base by ${format(this.effect())}x.\n
-                        Cost for next: ${format(this.cost(player.e.buyables[24]))} points.`;
-            },
-            canAfford() { return player.points.gte(this.cost()); },
-            buy() {
-                player.points = player.points.sub(this.cost());
-                player.e.buyables[24] = player.e.buyables[24].add(1);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-    },
-
-    // Function to auto-buy the first four buyables
-    autoBuyBuyables() {
-        // Check if auto-buy is enabled
-        if (player.e.autoBuyables) {
-            const buyableIds = [11, 12, 13, 14]; // IDs of the first four buyables
-            for (let id of buyableIds) {
-                while (player.points.gte(this.buyables[id].cost(player.e.buyables[id]))) {
-                    this.buyables[id].buy();
-                }
-            }
-        }
-    },
-
-    milestones: {
-        0: {
-            requirementDescription: "Reach 1000 Element Points",
-            effectDescription: "Unlock auto-buying for the first four buyables.",
-            done() { return player.e.points.gte(1000); },
-            onComplete() { player.e.autoBuyables = true; }, // Unlock auto-buying
-        },
-    },
-});
+            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to
