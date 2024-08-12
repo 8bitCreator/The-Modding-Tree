@@ -222,19 +222,22 @@ addLayer("e", {
 
     // Function to auto-buy the first four buyables
     autoBuyBuyables() {
-        const buyableIds = [11, 12, 13, 14]; // IDs of the first four buyables
-        for (let id of buyableIds) {
-            while (player.points.gte(this.buyables[id].cost(player.e.buyables[id]))) {
-                this.buyables[id].buy();
+        // Check if auto-buy is enabled
+        if (player.e.autoBuyables) {
+            const buyableIds = [11, 12, 13, 14]; // IDs of the first four buyables
+            for (let id of buyableIds) {
+                while (player.points.gte(this.buyables[id].cost(player.e.buyables[id]))) {
+                    this.buyables[id].buy();
+                }
             }
         }
     },
 
     milestones: {
         0: {
-            requirementDescription: "Reach 100 Element Points",
+            requirementDescription: "Reach 1000 Element Points",
             effectDescription: "Unlock auto-buying for the first four buyables.",
-            done() { return player.e.points.gte(100); },
+            done() { return player.e.points.gte(1000); },
             onComplete() { player.e.autoBuyables = true; }, // Unlock auto-buying
         },
     },
