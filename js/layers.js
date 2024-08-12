@@ -10,6 +10,7 @@ addLayer("e", {
             water: new Decimal(0), // Amount of Water element
             earth: new Decimal(0), // Amount of Earth element
             air: new Decimal(0), // Amount of Air element
+            autoBuyables: false, // Auto-buyer is initially disabled
         }
     },
     color: "#FFA500", // Color for the layer
@@ -33,7 +34,6 @@ addLayer("e", {
 
     layerShown() { return true }, // Always show this layer
 
-    // This function updates the elements over time
     update(diff) {
         // Calculate element gains per second
         let elementBoost = player.e.points.add(1).pow(0.5); // Boost based on Element Points
@@ -47,6 +47,11 @@ addLayer("e", {
         player.e.water = player.e.water.add(waterGain);
         player.e.earth = player.e.earth.add(earthGain);
         player.e.air = player.e.air.add(airGain);
+
+        // Call the auto-buy function if autoBuyables is enabled
+        if (player.e.autoBuyables) {
+            this.autoBuyBuyables();
+        }
     },
 
     effect() {
@@ -63,160 +68,174 @@ addLayer("e", {
         return `Your elements are enhancing your powers:
         Fire (${format(player.e.fire)}): ${format(this.effect().fireEffect)}x boost,
         Water (${format(player.e.water)}): ${format(this.effect().waterEffect)}x boost,
-        Earth (${format(player.e.earth)}): ${format(this.effect().earthEffect)}x boost,
-        Air (${format(player.e.air)}): ${format(this.effect().airEffect)}x boost.\n
+        Earth (${format(this.effect().earthEffect)}): ${format(this.effect().earthEffect)}x boost,
+        Air (${format(this.effect().airEffect)}): ${format(this.effect().airEffect)}x boost.\n
         Elemental Boost: ${format(elementBoost)}x boost to all element gains (Fire, Water, Earth, and Air).`; // Clarified element boost display
     },
 
-   buyables: {
-    11: {
-        title: "Fire Generator",
-        cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
-        effect(x) { 
-            let baseEffect = x.add(1).pow(0.5); // Original effect
-            let boost = player.e.buyables[21].add(1).pow(0.3); // Boost from Flame Generator
-            return baseEffect.mul(boost); // Apply the boost
+    buyables: {
+        11: {
+            title: "Fire Generator",
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
+            effect(x) { 
+                let baseEffect = x.add(1).pow(0.5); // Original effect
+                let boost = player.e.buyables[21].add(1).pow(0.3); // Boost from Flame Generator
+                return baseEffect.mul(boost); // Apply the boost
+            },
+            display() {
+                return `Generate more Fire. Currently: ${format(player.e.buyables[11])} Fire Generators.\n
+                        Each generator produces ${format(this.effect())} Fire per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[11]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[11] = player.e.buyables[11].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
         },
-        display() {
-            return `Generate more Fire. Currently: ${format(player.e.buyables[11])} Fire Generators.\n
-                    Each generator produces ${format(this.effect())} Fire per second.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[11]))} points.`;
+        12: {
+            title: "Water Pump",
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
+            effect(x) { 
+                let baseEffect = x.add(1).pow(0.5); // Original effect
+                let boost = player.e.buyables[22].add(1).pow(0.3); // Boost from Geyser
+                return baseEffect.mul(boost); // Apply the boost
+            },
+            display() {
+                return `Pump more Water. Currently: ${format(player.e.buyables[12])} Water Pumps.\n
+                        Each pump produces ${format(this.effect())} Water per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[12]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[12] = player.e.buyables[12].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
         },
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[11] = player.e.buyables[11].add(1);
+        13: {
+            title: "Earth Digger",
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
+            effect(x) { 
+                let baseEffect = x.add(1).pow(0.5); // Original effect
+                let boost = player.e.buyables[23].add(1).pow(0.3); // Boost from Quake Generator
+                return baseEffect.mul(boost); // Apply the boost
+            },
+            display() {
+                return `Dig for more Earth. Currently: ${format(player.e.buyables[13])} Earth Diggers.\n
+                        Each digger produces ${format(this.effect())} Earth per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[13]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[13] = player.e.buyables[13].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
         },
-        effectDisplay() { return format(this.effect()) + "x"; },
+        14: {
+            title: "Air Collector",
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
+            effect(x) { 
+                let baseEffect = x.add(1).pow(0.5); // Original effect
+                let boost = player.e.buyables[24].add(1).pow(0.3); // Boost from Tornado Machine
+                return baseEffect.mul(boost); // Apply the boost
+            },
+            display() {
+                return `Collect more Air. Currently: ${format(player.e.buyables[14])} Air Collectors.\n
+                        Each collector produces ${format(this.effect())} Air per second.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[14]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[14] = player.e.buyables[14].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+        },
+        21: {
+            title: "Flame Generator",
+            cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
+            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Fire Generator base
+            display() {
+                return `Boost Fire Generator base. Currently: ${format(player.e.buyables[21])} Flame Generators.\n
+                        Each generator multiplies Fire Generator base by ${format(this.effect())}x.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[21]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[21] = player.e.buyables[21].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+        },
+        22: {
+            title: "Geyser",
+            cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
+            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Water Pump base
+            display() {
+                return `Boost Water Pump base. Currently: ${format(player.e.buyables[22])} Geysers.\n
+                        Each Geyser multiplies Water Pump base by ${format(this.effect())}x.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[22]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[22] = player.e.buyables[22].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+        },
+        23: {
+            title: "Quake Generator",
+            cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
+            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Earth Digger base
+            display() {
+                return `Boost Earth Digger base. Currently: ${format(player.e.buyables[23])} Quake Generators.\n
+                        Each Quake Generator multiplies Earth Digger base by ${format(this.effect())}x.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[23]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[23] = player.e.buyables[23].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+        },
+        24: {
+            title: "Tornado Machine",
+            cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
+            effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Air Collector base
+            display() {
+                return `Boost Air Collector base. Currently: ${format(player.e.buyables[24])} Tornado Machines.\n
+                        Each Tornado Machine multiplies Air Collector base by ${format(this.effect())}x.\n
+                        Cost for next: ${format(this.cost(player.e.buyables[24]))} points.`;
+            },
+            canAfford() { return player.points.gte(this.cost()); },
+            buy() {
+                player.points = player.points.sub(this.cost());
+                player.e.buyables[24] = player.e.buyables[24].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+        },
     },
-    12: {
-        title: "Water Pump",
-        cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
-        effect(x) { 
-            let baseEffect = x.add(1).pow(0.5); // Original effect
-            let boost = player.e.buyables[22].add(1).pow(0.3); // Boost from Geyser
-            return baseEffect.mul(boost); // Apply the boost
-        },
-        display() {
-            return `Pump more Water. Currently: ${format(player.e.buyables[12])} Water Pumps.\n
-                    Each pump produces ${format(this.effect())} Water per second.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[12]))} points.`;
-        },
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[12] = player.e.buyables[12].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-    13: {
-        title: "Earth Digger",
-        cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
-        effect(x) { 
-            let baseEffect = x.add(1).pow(0.5); // Original effect
-            let boost = player.e.buyables[23].add(1).pow(0.3); // Boost from Quake Generator
-            return baseEffect.mul(boost); // Apply the boost
-        },
-        display() {
-            return `Dig for more Earth. Currently: ${format(player.e.buyables[13])} Earth Diggers.\n
-                    Each digger produces ${format(this.effect())} Earth per second.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[13]))} points.`;
-        },
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[13] = player.e.buyables[13].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-    14: {
-        title: "Air Collector",
-        cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); }, // Starting cost of 10
-        effect(x) { 
-            let baseEffect = x.add(1).pow(0.5); // Original effect
-            let boost = player.e.buyables[24].add(1).pow(0.3); // Boost from Tornado Machine
-            return baseEffect.mul(boost); // Apply the boost
-        },
-        display() {
-            return `Collect more Air. Currently: ${format(player.e.buyables[14])} Air Collectors.\n
-                    Each collector produces ${format(this.effect())} Air per second.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[14]))} points.`;
-        },
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[14] = player.e.buyables[14].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-    21: {
-        title: "Flame Generator",
-        cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-        effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Fire Generator base
-        display() {
-            return `Boost Fire Generator base. Currently: ${format(player.e.buyables[21])} Flame Generators.\n
-                    Each generator multiplies Fire Generator base by ${format(this.effect())}x.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[21]))} points.`;
-        },
-        unlocked() { return player.e.buyables[11].gte(3); }, // Unlock when Fire Generators >= 3
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[21] = player.e.buyables[21].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-    22: {
-        title: "Geyser",
-        cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-        effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Water Pump base
-        display() {
-            return `Boost Water Pump base. Currently: ${format(player.e.buyables[22])} Geysers.\n
-                    Each geyser multiplies Water Pump base by ${format(this.effect())}x.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[22]))} points.`;
-        },
-        unlocked() { return player.e.buyables[12].gte(3); }, // Unlock when Water Pumps >= 3
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[22] = player.e.buyables[22].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-    23: {
-        title: "Quake Generator",
-        cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-        effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Earth Digger base
-        display() {
-            return `Boost Earth Digger base. Currently: ${format(player.e.buyables[23])} Quake Generators.\n
-                    Each generator multiplies Earth Digger base by ${format(this.effect())}x.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[23]))} points.`;
-        },
-        unlocked() { return player.e.buyables[13].gte(3); }, // Unlock when Earth Diggers >= 3
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[23] = player.e.buyables[23].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-    24: {
-        title: "Tornado Machine",
-        cost(x) { return new Decimal(100).mul(x.add(1).pow(2)); }, // Starting cost of 100
-        effect(x) { return x.add(1).pow(0.3); }, // Effect is a multiplier to Air Collector base
-        display() {
-            return `Boost Air Collector base. Currently: ${format(player.e.buyables[24])} Tornado Machines.\n
-                    Each machine multiplies Air Collector base by ${format(this.effect())}x.\n
-                    Cost for next: ${format(this.cost(player.e.buyables[24]))} points.`;
-        },
-        unlocked() { return player.e.buyables[14].gte(3); }, // Unlock when Air Collectors >= 3
-        canAfford() { return player.points.gte(this.cost()); },
-        buy() {
-            player.points = player.points.sub(this.cost());
-            player.e.buyables[24] = player.e.buyables[24].add(1);
-        },
-        effectDisplay() { return format(this.effect()) + "x"; },
-    },
-},
 
+    // Function to auto-buy the first four buyables
+    autoBuyBuyables() {
+        const buyableIds = [11, 12, 13, 14]; // IDs of the first four buyables
+        for (let id of buyableIds) {
+            while (player.points.gte(this.buyables[id].cost(player.e.buyables[id]))) {
+                this.buyables[id].buy();
+            }
+        }
+    },
+
+    milestones: {
+        0: {
+            requirementDescription: "Reach 100 Element Points",
+            effectDescription: "Unlock auto-buying for the first four buyables.",
+            done() { return player.e.points.gte(100); },
+            onComplete() { player.e.autoBuyables = true; }, // Unlock auto-buying
+        },
+    },
 });
