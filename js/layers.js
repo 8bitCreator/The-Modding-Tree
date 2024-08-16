@@ -21,7 +21,7 @@ addLayer("c", {
     baseResource: "points", // Base resource to calculate prestige
     baseAmount() { return player.points }, // Current amount of baseResource
     requires: new Decimal(10), // Requirement to unlock the layer
-    type: "normal", // No specific type
+    type: "normal", // Type of the layer
     exponent: 1, // Default exponent
 
     gainMult() { // Multiplier to prestige currency gain
@@ -143,7 +143,6 @@ addLayer("c", {
                 return new Decimal(1.10); // 10% boost to Food Producer effect
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e9); },
         },
         12: {
             title: "Lumber Efficiency",
@@ -153,7 +152,6 @@ addLayer("c", {
                 return new Decimal(1.10); // 10% boost to Woodcutter effect
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e9); },
         },
         13: {
             title: "Stone Efficiency",
@@ -163,7 +161,6 @@ addLayer("c", {
                 return new Decimal(1.10); // 10% boost to Stone Quarry effect
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e9); },
         },
         14: {
             title: "Cultural Agriculture",
@@ -173,7 +170,6 @@ addLayer("c", {
                 return player.c.points.add(1).pow(0.05); // Boost Food Producer based on Culture Points
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e10); },
         },
         15: {
             title: "Cultural Lumber",
@@ -183,7 +179,6 @@ addLayer("c", {
                 return player.c.points.add(1).pow(0.05); // Boost Woodcutter based on Culture Points
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e10); },
         },
         16: {
             title: "Cultural Stone",
@@ -193,7 +188,6 @@ addLayer("c", {
                 return player.c.points.add(1).pow(0.05); // Boost Stone Quarry based on Culture Points
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e10); },
         },
         17: {
             title: "Cultural Renaissance",
@@ -203,15 +197,15 @@ addLayer("c", {
                 return player.c.points.add(1).pow(0.1); // Boost all resource production significantly
             },
             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return player.c.points.gte(1e12); },
         },
     },
 
     autoBuyBuyables() {
         if (player.c.autoBuyables) {
             for (let i = 11; i <= 13; i++) {
-                if (player.points.gte(this.buyables[i].cost())) {
-                    this.buyables[i].buy();
+                let buyable = this.buyables[i];
+                while (player.points.gte(buyable.cost(player.c.buyables[i]))) {
+                    buyable.buy();
                 }
             }
         }
