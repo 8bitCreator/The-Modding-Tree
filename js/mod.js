@@ -44,21 +44,17 @@ function getPointGen() {
     if (!canGenPoints()) 
         return new Decimal(0);
         
-    let gain = new Decimal(1); // Starting with a base gain of 1
+    let gain = new Decimal(1); // Base gain
 
-    // Access element effects with further reduced power
-    let fireEffect = player.e.fire.add(1).pow(0.25); // Fire effect reduced power
-    let waterEffect = player.e.water.add(1).pow(0.25); // Water effect reduced power
-    let earthEffect = player.e.earth.add(1).pow(0.25); // Earth effect reduced power
-    let airEffect = player.e.air.add(1).pow(0.25); // Air effect reduced power
+    // Access the culture effect
+    let cultureEffect = player.c.culture.add(1).pow(0.50); // Culture effect
 
-    // Combine effects to determine total point generation
-    let totalEffect = fireEffect.mul(waterEffect).mul(earthEffect).mul(airEffect);
-    
-    gain = gain.mul(totalEffect); // Apply total effect to gain
+    // Apply culture effect to the base gain
+    gain = gain.mul(cultureEffect); 
 
     return gain; // Return the final point generation
 }
+
 
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
