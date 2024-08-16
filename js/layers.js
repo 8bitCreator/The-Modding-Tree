@@ -21,7 +21,7 @@ addLayer("c", {
     baseResource: "points", // Base resource to calculate prestige
     baseAmount() { return player.points }, // Current amount of baseResource
     requires: new Decimal(10), // Requirement to unlock the layer
-    type: "none", // No specific type
+    type: "normal", // No specific type
     exponent: 1, // Default exponent
 
     gainMult() { // Multiplier to prestige currency gain
