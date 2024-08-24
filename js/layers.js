@@ -1,213 +1,104 @@
-addLayer("c", {
-    name: "Civilization", // Layer name
-    symbol: "🌍", // Layer symbol
-    position: 1, // Position in the row
-    startData() { 
-        return {                  
-            unlocked: true, // Layer is unlocked by default
-            points: new Decimal(0), // Main currency: Culture
-            food: new Decimal(0), // Amount of Food
-            wood: new Decimal(0), // Amount of Wood
-            stone: new Decimal(0), // Amount of Stone
-            copperAge: false, // Milestone for unlocking the Copper Age
-            bronzeAge: false, // Milestone for unlocking the Bronze Age
-            autoBuyables: false, // Auto-buyer initially disabled
-        }
-    },
-    color: "#8B4513", // Color for the layer
-    resource: "culture", // Main prestige currency
-    row: 1, // Row in the tree, 1 is the second row
-
-    baseResource: "points", // Base resource to calculate prestige
-    baseAmount() { return player.points }, // Current amount of baseResource
-    requires: new Decimal(10), // Requirement to unlock the layer
-    type: "normal", // Type of the layer
-    exponent: 1, // Default exponent
-
-    gainMult() { // Multiplier to prestige currency gain
-        let mult = new Decimal(1);
-        return mult;
-    },
-    gainExp() { // Exponent to prestige currency gain
-        let exp = new Decimal(1);
-        return exp;
-    },
-
-    layerShown() { return true }, // Always show this layer
-
-    update(diff) {
-        // Calculate culture gains per second
-        let cultureBoost = player.c.points.add(1).pow(0.5); // Boost based on Culture Points
-        let foodGain = player.c.buyables[11].add(1).pow(0.5).mul(cultureBoost).mul(diff);
-        let woodGain = player.c.buyables[12].add(1).pow(0.5).mul(cultureBoost).mul(diff);
-        let stoneGain = player.c.buyables[13].add(1).pow(0.5).mul(cultureBoost).mul(diff);
-
-        // Add the calculated gains to the respective resource totals
-        player.c.food = player.c.food.add(foodGain);
-        player.c.wood = player.c.wood.add(woodGain);
-        player.c.stone = player.c.stone.add(stoneGain);
-
-        // Check for the milestones to unlock Copper and Bronze Ages
-        if (player.c.points.gte(1e9) && !player.c.copperAge) {
-            player.c.copperAge = true;
-        }
-        if (player.c.points.gte(1e10) && !player.c.bronzeAge) {
-            player.c.bronzeAge = true;
-        }
-
-        // Call the auto-buy function if autoBuyables is enabled
-        if (player.c.autoBuyables) {
-            this.autoBuyBuyables();
-        }
-    },
-
-    effect() {
-        return {
-            cultureEffect: player.c.points.add(1).pow(0.25), // Culture effect based on points
-        }
-    },
-
-    effectDescription() {
-        let cultureBoost = player.c.points.add(1).pow(0.5); // Calculate culture boost
-        return `Your culture is enhancing your civilization:
-        Culture (${format(player.c.points)}): ${format(this.effect().cultureEffect)}x boost.\n
-        Culture Boost: ${format(cultureBoost)}x boost to all resource gains (Food, Wood, Stone).`;
-    },
-
-    buyables: {
-        11: {
-            title: "Food Producer",
-            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); },
-            effect(x) { 
-                return x.add(1).pow(0.5); 
-            },
-            display() {
-                return `Produce more Food. Currently: ${format(player.c.buyables[11])} Food Producers.\n
-                        Each producer produces ${format(this.effect())} Food per second.\n
-                        Cost for next: ${format(this.cost(player.c.buyables[11]))} points.`;
-            },
-            canAfford() { return player.points.gte(this.cost()); },
-            buy() {
-                player.points = player.points.sub(this.cost());
-                player.c.buyables[11] = player.c.buyables[11].add(1);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-            color: "#FF6347", // Tomato color for Food
-        },
-        12: {
-            title: "Woodcutter",
-            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); },
-            effect(x) { 
-                return x.add(1).pow(0.5); 
-            },
-            display() {
-                return `Cut more Wood. Currently: ${format(player.c.buyables[12])} Woodcutters.\n
-                        Each cutter produces ${format(this.effect())} Wood per second.\n
-                        Cost for next: ${format(this.cost(player.c.buyables[12]))} points.`;
-            },
-            canAfford() { return player.points.gte(this.cost()); },
-            buy() {
-                player.points = player.points.sub(this.cost());
-                player.c.buyables[12] = player.c.buyables[12].add(1);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-            color: "#8B4513", // SaddleBrown color for Wood
-        },
-        13: {
-            title: "Stone Quarry",
-            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); },
-            effect(x) { 
-                return x.add(1).pow(0.5); 
-            },
-            display() {
-                return `Extract more Stone. Currently: ${format(player.c.buyables[13])} Stone Quarries.\n
-                        Each quarry produces ${format(this.effect())} Stone per second.\n
-                        Cost for next: ${format(this.cost(player.c.buyables[13]))} points.`;
-            },
-            canAfford() { return player.points.gte(this.cost()); },
-            buy() {
-                player.points = player.points.sub(this.cost());
-                player.c.buyables[13] = player.c.buyables[13].add(1);
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-            color: "#A9A9A9", // DarkGray color for Stone
-        },
-    },
+addLayer("b", {
+    name: "The Big Bang",
+    symbol: "💥", // A symbol representing the Big Bang
+    position: 0,
+    startData() { return { 
+        unlocked: true, 
+        points: new Decimal(0), 
+        quarks: new Decimal(0), // New resource: Quarks
+    }},
+    color: "#FF4500",
+    requires: new Decimal(10), // Amount of Energy required to progress to the next layer
+    resource: "Energy", // The resource generated by this layer
+    baseResource: "Matter", // Resource used to unlock this layer (starts as "Matter")
+    baseAmount() { return player.points }, // Base resource amount (points for now)
+    type: "normal",
+    exponent: 0.5, // Slower growth in the beginning
+    gainMult() { return new Decimal(1) },
+    gainExp() { return new Decimal(1) },
+    layerShown() { return true },
 
     upgrades: {
         11: {
-            title: "Food Efficiency",
-            description: "Boosts the effect of Food Producers by 10%.",
-            cost: new Decimal(10),
-            effect() {
-                return new Decimal(1.10); // 10% boost to Food Producer effect
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
+            title: "Quantum Fluctuations",
+            description: "Boost Energy production.",
+            cost: new Decimal(5),
+            effect() { return new Decimal(2) },
         },
         12: {
-            title: "Lumber Efficiency",
-            description: "Boosts the effect of Woodcutters by 10%.",
-            cost: new Decimal(100),
-            effect() {
-                return new Decimal(1.10); // 10% boost to Woodcutter effect
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
+            title: "Inflation",
+            description: "Greatly increase Energy gain.",
+            cost: new Decimal(20),
+            effect() { return new Decimal(5) },
+            unlocked() { return hasUpgrade("b", 11) },
         },
         13: {
-            title: "Stone Efficiency",
-            description: "Boosts the effect of Stone Quarries by 10%.",
-            cost: new Decimal(1000),
-            effect() {
-                return new Decimal(1.10); // 10% boost to Stone Quarry effect
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
+            title: "Particle Generation",
+            description: "Unlocks the ability to generate Quarks.",
+            cost: new Decimal(50),
+            unlocked() { return hasUpgrade("b", 12) },
         },
         14: {
-            title: "Cultural Agriculture",
-            description: "Boosts Food Producers based on Culture by 5%.",
-            cost: new Decimal(1e4),
-            effect() {
-                return player.c.points.add(1).pow(0.05); // Boost Food Producer based on Culture Points
+            title: "Quark Fusion",
+            description: "Quarks boost Energy production.",
+            cost: new Decimal(100),
+            effect() { 
+                return player.b.quarks.add(1).pow(0.5); // Quark effect on Energy gain
             },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        15: {
-            title: "Cultural Lumber",
-            description: "Boosts Woodcutters based on Culture by 5%.",
-            cost: new Decimal(1e5),
-            effect() {
-                return player.c.points.add(1).pow(0.05); // Boost Woodcutter based on Culture Points
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        16: {
-            title: "Cultural Stone",
-            description: "Boosts Stone Quarries based on Culture by 5%.",
-            cost: new Decimal(1e6),
-            effect() {
-                return player.c.points.add(1).pow(0.05); // Boost Stone Quarry based on Culture Points
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-        },
-        17: {
-            title: "Cultural Renaissance",
-            description: "Significantly boosts all resource production based on Culture.",
-            cost: new Decimal(1e12),
-            effect() {
-                return player.c.points.add(1).pow(0.1); // Boost all resource production significantly
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
+            unlocked() { return hasUpgrade("b", 13) },
         },
     },
 
-    autoBuyBuyables() {
-        if (player.c.autoBuyables) {
-            for (let i = 11; i <= 13; i++) {
-                let buyable = this.buyables[i];
-                while (player.points.gte(buyable.cost(player.c.buyables[i]))) {
-                    buyable.buy();
-                }
-            }
+    // New buyable: Quark Generator
+    buyables: {
+        11: {
+            title: "Quark Generator",
+            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); },
+            effect(x) { 
+                return x.add(1).pow(0.5); // Increase in Quark generation per level
+            },
+            display() {
+                return `Generate more Quarks. Currently: ${format(player.b.buyables[11])} Quark Generators.\n
+                        Each generator produces ${format(this.effect())} Quarks per second.\n
+                        Cost for next: ${format(this.cost(player.b.buyables[11]))} Energy.`;
+            },
+            canAfford() { return player.b.points.gte(this.cost()) },
+            buy() {
+                player.b.points = player.b.points.sub(this.cost());
+                player.b.buyables[11] = player.b.buyables[11].add(1);
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+            style: { 'background-color': '#FF6347', 'color': '#FFFFFF' }, // Quark color (tomato red)
+        },
+    },
+
+    // Update function to generate Quarks
+    update(diff) {
+        if (hasUpgrade("b", 13)) {
+            let quarkGain = player.b.buyables[11].mul(diff); // Gain Quarks based on Quark Generators
+            player.b.quarks = player.b.quarks.add(quarkGain);
         }
-    }
+    },
+
+    milestones: {
+        0: {
+            requirementDescription: "Create 100 Energy",
+            effectDescription: "Unlock Stellar Formation.",
+            done() { return player.b.points.gte(100) },
+            onComplete() { player.s.unlocked = true; }, // Unlocks the next layer
+        },
+        1: {
+            requirementDescription: "Create 1,000 Energy",
+            effectDescription: "Unlock an auto-clicker for Energy production.",
+            done() { return player.b.points.gte(1000) },
+            onComplete() { player.b.autoClicker = true; }, // Unlocks the auto-clicker
+        },
+    },
+
+    // Auto-clicker for Energy production
+    autoClick(diff) {
+        if (player.b.autoClicker) {
+            player.points = player.points.add(player.b.points.mul(diff)); // Auto-generate Energy
+        }
+    },
 });
