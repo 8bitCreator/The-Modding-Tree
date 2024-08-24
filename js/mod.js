@@ -2,12 +2,12 @@ let modInfo = {
 	name: "The ??? Tree",
 	id: "mymod",
 	author: "nobody",
-	pointsName: "points",
+	pointsName: "matter", // Updated to "matter"
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal(10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -38,26 +38,22 @@ function canGenPoints(){
 }
 
 // Calculate points/sec!
-// Calculate points/sec!
-// Calculate points/sec!
 function getPointGen() {
     if (!canGenPoints()) 
         return new Decimal(0);
         
     let gain = new Decimal(1); // Base gain
 
-    // Access the culture effect
-    let cultureEffect = player.c.culture.add(1).pow(0.50); // Culture effect
+    // Access the energy effect
+    let energyEffect = player.b.points.add(1).pow(0.50); // Energy effect
 
-    // Apply culture effect to the base gain
-    gain = gain.mul(cultureEffect); 
+    // Apply energy effect to the base gain
+    gain = gain.mul(energyEffect); 
 
     return gain; // Return the final point generation
 }
 
-
-
-// You can add non-layer related variables that should to into "player" and be saved here, along with default values
+// You can add non-layer related variables that should go into "player" and be saved here, along with default values
 function addedPlayerData() { return {
 }}
 
@@ -69,8 +65,6 @@ var displayThings = [
 function isEndgame() {
 	return player.points.gte(new Decimal("e280000000"))
 }
-
-
 
 // Less important things beyond this point!
 
