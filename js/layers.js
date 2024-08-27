@@ -1,151 +1,250 @@
 addLayer("b", {
-    name: "The Big Bang",
-    symbol: "💥",
+    name: "Big Bang",
+    symbol: "B",
     position: 0,
-    startData() { return { 
-        unlocked: true, 
-        points: new Decimal(0), 
-        quarks: new Decimal(0),
-        buyables: {
-            11: new Decimal(0), // Initialize Quark Generators
-        },
-    }},
-    color: "#FF4500",
-    requires: new Decimal(10),
-    resource: "Energy",
-    baseResource: "Matter",
-    baseAmount() { return player.points },
-    type: "normal",
-    exponent: 0.5,
+    startData() { 
+        return { 
+            unlocked: true, 
+            points: new Decimal(0),  // Singularity Energy
+            quarks: new Decimal(0),
+            protons: new Decimal(0),
+            neutrons: new Decimal(0),
+            atoms: new Decimal(0),
+            stars: new Decimal(0),
+            galaxies: new Decimal(0),
+        }
+    },
+    color: "#FF5733",
+    requires: new Decimal(10), // Initial requirement for generating Quarks
+    resource: "Singularity Energy", // Name of the main resource
+    baseResource: "Energy", // Base resource, replace with your base layer if needed
+    baseAmount() { return player.points }, // How much energy you have
+    type: "normal", 
+    exponent: 0.5, 
     gainMult() { 
-    let mult = new Decimal(1);
-    
-    // Apply all relevant upgrade boosts
-    if (hasUpgrade("b", 11)) mult = mult.mul(upgradeEffect("b", 11)); // Quark Production boost
-    if (hasUpgrade("b", 12)) mult = mult.mul(upgradeEffect("b", 12)); // Energy Synthesis boost
-    if (hasUpgrade("b", 14)) mult = mult.mul(upgradeEffect("b", 14)); // Quark Fusion boost
-    if (hasUpgrade("b", 21)) mult = mult.mul(upgradeEffect("b", 21)); // Cosmic Expansion boost
-    if (hasUpgrade("b", 22)) mult = mult.mul(upgradeEffect("b", 22)); // Dark Matter boost
-    if (hasUpgrade("b", 24)) mult = mult.mul(upgradeEffect("b", 24)); // Singularity boost
-    if (hasUpgrade("b", 31)) mult = mult.mul(upgradeEffect("b", 31)); // Final Expansion boost
-    
-    return mult;
-},
-
-    gainExp() { return new Decimal(1) },
-    layerShown() { return true },
-
+        let mult = new Decimal(1);
+        // Apply upgrade multipliers if any
+        if (hasUpgrade("b", 11)) mult = mult.mul(upgradeEffect("b", 11));
+        if (hasUpgrade("b", 12)) mult = mult.mul(upgradeEffect("b", 12));
+        if (hasUpgrade("b", 21)) mult = mult.mul(upgradeEffect("b", 21));
+        if (hasUpgrade("b", 31)) mult = mult.mul(upgradeEffect("b", 31));
+        return mult;
+    },
+    gainExp() { 
+        return new Decimal(1); 
+    },
+    row: 0, 
+    hotkeys: [
+        {key: "b", description: "B: Reset for Singularity Energy", onPress(){ if (canReset(this.layer)) doReset(this.layer) }},
+    ],
     upgrades: {
         11: {
-            title: "Quantum Fluctuations",
-            description: "Boost Energy production.",
-            cost: new Decimal(5),
-            effect() { return new Decimal(2) },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
+            title: "Quark Production",
+            description: "Boost Singularity Energy gain based on Quarks.",
+            cost: new Decimal(1),
+            effect() {
+                return player.b.quarks.add(1).pow(0.5); 
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
         12: {
-            title: "Inflation",
-            description: "Greatly increase Energy gain.",
-            cost: new Decimal(20),
-            effect() { return new Decimal(5) },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 11) },
-        },
-        13: {
-            title: "Particle Generation",
-            description: "Unlocks the ability to generate Quarks.",
-            cost: new Decimal(50),
-            unlocked() { return hasUpgrade("b", 12) },
-        },
-        14: {
-            title: "Quark Fusion",
-            description: "Quarks boost Energy production.",
-            cost: new Decimal(100),
-            effect() { return player.b.quarks.add(1).pow(0.5); },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 13) },
+            title: "Proton Formation",
+            description: "Boost Singularity Energy gain based on Protons.",
+            cost: new Decimal(10),
+            effect() {
+                return player.b.protons.add(1).pow(0.3); 
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
         21: {
-            title: "Cosmic Expansion",
-            description: "Further boost Energy production.",
-            cost: new Decimal(200),
-            effect() { return player.b.points.add(1).pow(0.25); },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 14) },
-        },
-        22: {
-            title: "Dark Matter",
-            description: "Energy gain is multiplied based on total Quarks.",
-            cost: new Decimal(500),
-            effect() { return player.b.quarks.add(1).pow(0.2); },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 21) },
-        },
-        23: {
-            title: "Antimatter",
-            description: "Double Quark generation.",
-            cost: new Decimal(1000),
-            effect() { return new Decimal(2); },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 22) },
-        },
-        24: {
-            title: "Singularity",
-            description: "Significantly boost Energy production.",
-            cost: new Decimal(2500),
-            effect() { return new Decimal(10); },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 23) },
+            title: "Neutron Fusion",
+            description: "Boost Singularity Energy gain based on Neutrons.",
+            cost: new Decimal(100),
+            effect() {
+                return player.b.neutrons.add(1).pow(0.2); 
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
         31: {
-            title: "Final Expansion",
-            description: "Unlock the ultimate boost to Energy production.",
-            cost: new Decimal(5000),
-            effect() { return player.b.points.add(1).pow(0.5); },
-            effectDisplay() { return format(this.effect()) + "x" }, // Show effect
-            unlocked() { return hasUpgrade("b", 24) },
+            title: "Atomic Synthesis",
+            description: "Boost Singularity Energy gain based on Atoms.",
+            cost: new Decimal(1000),
+            effect() {
+                return player.b.atoms.add(1).pow(0.1); 
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
+        },
+        32: {
+            title: "Stellar Formation",
+            description: "Boost Singularity Energy gain based on Stars.",
+            cost: new Decimal(10000),
+            effect() {
+                return player.b.stars.add(1).pow(0.05); 
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
+        },
+        41: {
+            title: "Galactic Expansion",
+            description: "Boost Singularity Energy gain based on Galaxies.",
+            cost: new Decimal(100000),
+            effect() {
+                return player.b.galaxies.add(1).pow(0.025); 
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"; },
         },
     },
-
     buyables: {
         11: {
-            title: "Quark Generator",
-            cost(x) { return new Decimal(10).mul(x.add(1).pow(1.5)); },
-            effect(x) { 
-                let baseEffect = x.add(1).pow(0.5);
-                if (hasUpgrade("b", 23)) baseEffect = baseEffect.mul(upgradeEffect("b", 23)); // Antimatter boost
-                return baseEffect; 
-            },
-            display() {
-                return `Generate more Quarks. Currently: ${format(player.b.buyables[11])} Quark Generators.<br>
-                        Each generator produces ${format(this.effect())} Quarks per second.<br>
-                        Cost for next: ${format(this.cost(player.b.buyables[11]))} Energy.`;
+            title: "Quark Generators",
+            cost(x) { return new Decimal(10).pow(x.add(1)); },
+            effect(x) { return x.add(1).pow(1.25); },
+            display() { 
+                return "Increase quark generation.\n" + 
+                "Currently: " + format(this.effect()) + "x\n" + 
+                "Cost for next level: " + format(this.cost()) + " Singularity Energy"; 
             },
             canAfford() { return player.b.points.gte(this.cost()) },
             buy() {
                 player.b.points = player.b.points.sub(this.cost());
-                player.b.buyables[11] = player.b.buyables[11].add(1);
+                player.b.buyables[this.id] = player.b.buyables[this.id].add(1);
             },
-            effectDisplay() { return format(this.effect()) + "x"; },
-            style: { 'background-color': '#FF6347', 'color': '#FFFFFF' },
-            unlocked() { return hasUpgrade("b", 13) }, // Unlocks the buyable when upgrade 13 is obtained
+            unlocked() { return hasMilestone("b", 0) },  // Unlock after 1st milestone
+        },
+        12: {
+            title: "Proton Generators",
+            cost(x) { return new Decimal(100).pow(x.add(1)); },
+            effect(x) { return x.add(1).pow(1.15); },
+            display() { 
+                return "Increase proton generation.\n" + 
+                "Currently: " + format(this.effect()) + "x\n" + 
+                "Cost for next level: " + format(this.cost()) + " Quarks"; 
+            },
+            canAfford() { return player.b.quarks.gte(this.cost()) },
+            buy() {
+                player.b.quarks = player.b.quarks.sub(this.cost());
+                player.b.buyables[this.id] = player.b.buyables[this.id].add(1);
+            },
+            unlocked() { return hasMilestone("b", 1) },  // Unlock after 2nd milestone
+        },
+        13: {
+            title: "Neutron Generators",
+            cost(x) { return new Decimal(100).pow(x.add(1)); },
+            effect(x) { return x.add(1).pow(1.15); },
+            display() { 
+                return "Increase neutron generation.\n" + 
+                "Currently: " + format(this.effect()) + "x\n" + 
+                "Cost for next level: " + format(this.cost()) + " Quarks"; 
+            },
+            canAfford() { return player.b.quarks.gte(this.cost()) },
+            buy() {
+                player.b.quarks = player.b.quarks.sub(this.cost());
+                player.b.buyables[this.id] = player.b.buyables[this.id].add(1);
+            },
+            unlocked() { return hasMilestone("b", 1) },  // Unlock after 2nd milestone
+        },
+        21: {
+            title: "Atom Generators",
+            cost(x) { return new Decimal(1000).pow(x.add(1)); },
+            effect(x) { return x.add(1).pow(1.1); },
+            display() { 
+                return "Increase atom generation.\n" + 
+                "Currently: " + format(this.effect()) + "x\n" + 
+                "Cost for next level: " + format(this.cost()) + " Protons"; 
+            },
+            canAfford() { return player.b.protons.gte(this.cost()) },
+            buy() {
+                player.b.protons = player.b.protons.sub(this.cost());
+                player.b.buyables[this.id] = player.b.buyables[this.id].add(1);
+            },
+            unlocked() { return hasMilestone("b", 2) },  // Unlock after 3rd milestone
+        },
+        22: {
+            title: "Star Generators",
+            cost(x) { return new Decimal(10000).pow(x.add(1)); },
+            effect(x) { return x.add(1).pow(1.05); },
+            display() { 
+                return "Increase star generation.\n" + 
+                "Currently: " + format(this.effect()) + "x\n" + 
+                "Cost for next level: " + format(this.cost()) + " Atoms"; 
+            },
+            canAfford() { return player.b.atoms.gte(this.cost()) },
+            buy() {
+                player.b.atoms = player.b.atoms.sub(this.cost());
+                player.b.buyables[this.id] = player.b.buyables[this.id].add(1);
+            },
+            unlocked() { return hasMilestone("b", 2) },  // Unlock after 3rd milestone
+        },
+        23: {
+            title: "Galaxy Generators",
+            cost(x) { return new Decimal(100000).pow(x.add(1)); },
+            effect(x) { return x.add(1).pow(1.025); },
+            display() { 
+                return "Increase galaxy generation.\n" + 
+                "Currently: " + format(this.effect()) + "x\n" + 
+                "Cost for next level: " + format(this.cost()) + " Stars"; 
+            },
+            canAfford() { return player.b.stars.gte(this.cost()) },
+            buy() {
+                player.b.stars = player.b.stars.sub(this.cost());
+                player.b.buyables[this.id] = player.b.buyables[this.id].add(1);
+            },
+            unlocked() { return hasMilestone("b", 3) },  // Unlock after 4th milestone
         },
     },
-
-    update(diff) {
-        if (hasUpgrade("b", 13)) {
-            let quarkGain = player.b.buyables[11].mul(diff);
-            player.b.quarks = player.b.quarks.add(quarkGain);
-        }
+    milestones: {
+        0: {
+            requirementDescription: "Reach 1,000 Singularity Energy",
+            effectDescription: "Unlock Quark Generators.",
+            done() { return player.b.points.gte(1000) },
+        },
+        1: {
+            requirementDescription: "Reach 10,000 Quarks",
+            effectDescription: "Unlock Proton and Neutron Generators.",
+            done() { return player.b.quarks.gte(10000) },
+        },
+        2: {
+            requirementDescription: "Reach 100,000 Protons and Neutrons",
+            effectDescription: "Unlock Atom and Star Generators.",
+            done() { return player.b.protons.gte(100000) && player.b.neutrons.gte(100000) },
+        },
+        3: {
+            requirementDescription: "Reach 1,000,000 Atoms",
+            effectDescription: "Unlock Galaxy Generators.",
+            done() { return player.b.atoms.gte(1000000) },
+        },
     },
+    update(diff) {
+        // Quark Generation
+        let quarkGain = new Decimal(0);
+        if (hasBuyable("b", 11)) quarkGain = quarkGain.add(buyableEffect("b", 11));
+        player.b.quarks = player.b.quarks.add(quarkGain.mul(diff));
 
-    passiveGeneration() { return 1 }, // 100% of energy per second if upgrade 11 is obtained
+        // Proton Generation
+        let protonGain = new Decimal(0);
+        if (hasBuyable("b", 12)) protonGain = protonGain.add(buyableEffect("b", 12));
+        player.b.protons = player.b.protons.add(protonGain.mul(diff));
 
-    display() {
-        let displayText = `You have ${format(player.b.quarks)} Quarks.`;
-        if (hasUpgrade("b", 13)) {
-            displayText += `<br>Quarks are generated by Quark Generators.`;
-        }
-        return displayText;
+        // Neutron Generation
+        let neutronGain = new Decimal(0);
+        if (hasBuyable("b", 13)) neutronGain = neutronGain.add(buyableEffect("b", 13));
+        player.b.neutrons = player.b.neutrons.add(neutronGain.mul(diff));
+
+        // Atom Generation
+        let atomGain = new Decimal(0);
+        if (hasBuyable("b", 21)) atomGain = atomGain.add(buyableEffect("b", 21));
+        player.b.atoms = player.b.atoms.add(atomGain.mul(diff));
+
+        // Star Generation
+        let starGain = new Decimal(0);
+        if (hasBuyable("b", 22)) starGain = starGain.add(buyableEffect("b", 22));
+        player.b.stars = player.b.stars.add(starGain.mul(diff));
+
+        // Galaxy Generation
+        let galaxyGain = new Decimal(0);
+        if (hasBuyable("b", 23)) galaxyGain = galaxyGain.add(buyableEffect("b", 23));
+        player.b.galaxies = player.b.galaxies.add(galaxyGain.mul(diff));
+    },
+    passiveGeneration() { 
+        return hasUpgrade("b", 41) ? 1 : 0; 
     },
 });
