@@ -1,3 +1,5 @@
+// Assuming this is in the context of an incremental game framework
+
 addLayer("b", {
     name: "Big Bang",
     symbol: "B",
@@ -12,12 +14,12 @@ addLayer("b", {
             atoms: new Decimal(0),
             stars: new Decimal(0),
             galaxies: new Decimal(0),
-        }
+        };
     },
     color: "#FF5733",
     requires: new Decimal(10), // Initial requirement for generating Quarks
     resource: "Singularity Energy", // Name of the main resource
-    baseResource: "Energy", // Base resource, replace with your base layer if needed
+    baseResource: "Energy", // Base resource
     baseAmount() { return player.points }, // How much energy you have
     type: "normal", 
     exponent: 0.5, 
@@ -28,13 +30,11 @@ addLayer("b", {
         if (hasUpgrade("b", 12)) mult = mult.mul(upgradeEffect("b", 12));
         if (hasUpgrade("b", 21)) mult = mult.mul(upgradeEffect("b", 21));
         if (hasUpgrade("b", 31)) mult = mult.mul(upgradeEffect("b", 31));
-        if (hasUpgrade("b", 31)) mult = mult.mul(upgradeEffect("b", 32));
+        if (hasUpgrade("b", 32)) mult = mult.mul(upgradeEffect("b", 32));
         if (hasUpgrade("b", 41)) mult = mult.mul(upgradeEffect("b", 41));
         return mult;
     },
-    gainExp() { 
-        return new Decimal(1); 
-    },
+    gainExp() { return new Decimal(1); },
     row: 0, 
     hotkeys: [
         {key: "b", description: "B: Reset for Singularity Energy", onPress(){ if (canReset(this.layer)) doReset(this.layer) }},
@@ -195,56 +195,61 @@ addLayer("b", {
     },
     milestones: {
         0: {
-            requirementDescription: "Reach 1 Singularity Energy",
+            requirementDescription: "1 Singularity Energy",
             effectDescription: "Unlock Quark Generators.",
             done() { return player.b.points.gte(1) },
         },
         1: {
-            requirementDescription: "Reach 10,000 Quarks",
+            requirementDescription: "100 Singularity Energy",
             effectDescription: "Unlock Proton and Neutron Generators.",
-            done() { return player.b.quarks.gte(1000) },
+            done() { return player.b.points.gte(100) },
         },
         2: {
-            requirementDescription: "Reach 100,000 Protons and Neutrons",
+            requirementDescription: "10000 Singularity Energy",
             effectDescription: "Unlock Atom and Star Generators.",
-            done() { return player.b.protons.gte(100000) && player.b.neutrons.gte(100000) },
+            done() { return player.b.points.gte(10000) },
         },
         3: {
-            requirementDescription: "Reach 1,000,000 Atoms",
+            requirementDescription: "10000000 Singularity Energy",
             effectDescription: "Unlock Galaxy Generators.",
-            done() { return player.b.atoms.gte(1000000) },
+            done() { return player.b.points.gte(10000000) },
         },
     },
     update(diff) {
         // Quark Generation
-        let quarkGain = new Decimal(0);
-        if (hasBuyable("b", 11)) quarkGain = quarkGain.add(buyableEffect("b", 11));
-        player.b.quarks = player.b.quarks.add(quarkGain.mul(diff));
+        if (hasBuyable("b", 11)) {
+            let quarkGain = buyableEffect("b", 11);
+            player.b.quarks = player.b.quarks.add(quarkGain.mul(diff));
+        }
 
         // Proton Generation
-        let protonGain = new Decimal(0);
-        if (hasBuyable("b", 12)) protonGain = protonGain.add(buyableEffect("b", 12));
-        player.b.protons = player.b.protons.add(protonGain.mul(diff));
+        if (hasBuyable("b", 12)) {
+            let protonGain = buyableEffect("b", 12);
+            player.b.protons = player.b.protons.add(protonGain.mul(diff));
+        }
 
         // Neutron Generation
-        let neutronGain = new Decimal(0);
-        if (hasBuyable("b", 13)) neutronGain = neutronGain.add(buyableEffect("b", 13));
-        player.b.neutrons = player.b.neutrons.add(neutronGain.mul(diff));
+        if (hasBuyable("b", 13)) {
+            let neutronGain = buyableEffect("b", 13);
+            player.b.neutrons = player.b.neutrons.add(neutronGain.mul(diff));
+        }
 
         // Atom Generation
-        let atomGain = new Decimal(0);
-        if (hasBuyable("b", 21)) atomGain = atomGain.add(buyableEffect("b", 21));
-        player.b.atoms = player.b.atoms.add(atomGain.mul(diff));
+        if (hasBuyable("b", 21)) {
+            let atomGain = buyableEffect("b", 21);
+            player.b.atoms = player.b.atoms.add(atomGain.mul(diff));
+        }
 
         // Star Generation
-        let starGain = new Decimal(0);
-        if (hasBuyable("b", 22)) starGain = starGain.add(buyableEffect("b", 22));
-        player.b.stars = player.b.stars.add(starGain.mul(diff));
+        if (hasBuyable("b", 22)) {
+            let starGain = buyableEffect("b", 22);
+            player.b.stars = player.b.stars.add(starGain.mul(diff));
+        }
 
         // Galaxy Generation
-        let galaxyGain = new Decimal(0);
-        if (hasBuyable("b", 23)) galaxyGain = galaxyGain.add(buyableEffect("b", 23));
-        player.b.galaxies = player.b.galaxies.add(galaxyGain.mul(diff));
+        if (hasBuyable("b", 23)) {
+            let galaxyGain = buyableEffect("b", 23);
+            player.b.galaxies = player.b.galaxies.add(galaxyGain.mul(diff));
+        }
     },
-   
 });
