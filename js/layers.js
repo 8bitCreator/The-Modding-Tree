@@ -195,9 +195,9 @@ addLayer("b", {
     },
     milestones: {
         0: {
-            requirementDescription: "Reach 10 Singularity Energy",
+            requirementDescription: "Reach 1 Singularity Energy",
             effectDescription: "Unlock Quark Generators.",
-            done() { return player.b.points.gte(10) },
+            done() { return player.b.points.gte(1) },
         },
         1: {
             requirementDescription: "Reach 10,000 Quarks",
