@@ -246,7 +246,5 @@ addLayer("b", {
         if (hasBuyable("b", 23)) galaxyGain = galaxyGain.add(buyableEffect("b", 23));
         player.b.galaxies = player.b.galaxies.add(galaxyGain.mul(diff));
     },
-    passiveGeneration() { 
-        return hasUpgrade("b", 41) ? 1 : 0; 
-    },
+   
 });
