@@ -28,6 +28,8 @@ addLayer("b", {
         if (hasUpgrade("b", 12)) mult = mult.mul(upgradeEffect("b", 12));
         if (hasUpgrade("b", 21)) mult = mult.mul(upgradeEffect("b", 21));
         if (hasUpgrade("b", 31)) mult = mult.mul(upgradeEffect("b", 31));
+        if (hasUpgrade("b", 31)) mult = mult.mul(upgradeEffect("b", 32));
+        if (hasUpgrade("b", 41)) mult = mult.mul(upgradeEffect("b", 41));
         return mult;
     },
     gainExp() { 
