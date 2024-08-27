@@ -45,10 +45,9 @@ function getPointGen() {
     let gain = new Decimal(1); // Base gain
 
     // Access the energy effect
-    let energyEffect = player.b.points.add(1).pow(0.50); // Energy effect
+    // Energy effect
 
     // Apply energy effect to the base gain
-    gain = gain.mul(energyEffect); 
 
     return gain; // Return the final point generation
 }
