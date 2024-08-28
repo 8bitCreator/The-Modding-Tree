@@ -47,7 +47,7 @@ addLayer("e", { // 'e' for Early Universe
         11: {
             title: "Singularity Particles Formation",
             description: "The Effect Affects Singularity Points",
-            cost: new Decimal(1),
+            cost: new Decimal(5),
             unlocked() { return true; }, // Always unlocked
         },
         12: {
