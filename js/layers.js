@@ -52,7 +52,7 @@ addLayer("b", {
      13: {
             title: "Singularity Expansion",
             description: "Boosts Singularity Points generation based on current Singularity Points by",
-            cost: new Decimal(10), // Set the cost of this upgrade
+            cost: new Decimal(5), // Set the cost of this upgrade
             effect() {
                 let eff = player.b.points.add(1).pow(0.1); // This will provide a boost based on the current Singularity Points
                 return eff;
@@ -63,7 +63,7 @@ addLayer("b", {
 	       21: {
         title: "Matter Amplification",
         description: "Boosts Matter generation based on current Matter by",
-        cost: new Decimal(50),
+        cost: new Decimal(10),
         effect() {
             let eff = player.points.add(1).pow(0.1);
             return eff;
