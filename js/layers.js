@@ -116,7 +116,7 @@ addLayer("b", {
             description: "Shows amount of Upgrade bought in this layer and boost first upgrade by",
             cost: new Decimal(100),
             effect() {
-                let eff = player.v.upgrades.length; // Counts the number of upgrades purchased
+                let eff = player.b.upgrades.length; // Counts the number of upgrades purchased
                 return eff; // Returns the effect value
             },
             effectDisplay() { 
