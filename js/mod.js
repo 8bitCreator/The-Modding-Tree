@@ -49,6 +49,11 @@ function getPointGen() {
         gain = gain.mul(upgradeEffect("b", 12)); }
 	if (hasUpgrade("b", 21)) { 
 	gain = gain.mul(upgradeEffect("b", 21)); }
+	 if (player.e.unlocked) { // Check if the Early Universe layer is unlocked
+        gain = gain.mul(tmp.e.effect); // Multiply by the effect from Early Universe
+    }
+
+   
 	return gain
 }
 
