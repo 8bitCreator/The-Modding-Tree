@@ -16,7 +16,9 @@ addLayer("b", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
 	if (hasUpgrade("b", 13)) {
-        mult = mult.mul(upgradeEffect("b", 13)); }    
+        mult = mult.mul(upgradeEffect("b", 13)); } 
+	if (hasUpgrade("b", 22)) {
+        mult = mult.mul(upgradeEffect("b", 22)); }     
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -71,5 +73,17 @@ addLayer("b", {
         effectDisplay() { return format(this.effect()) + "x"; },
         unlocked() { return hasUpgrade("b", 13); },
     },
+	    22: {
+    title: "Matter to Singularity",
+    description: "Matter boosts Singularity Points generation by",
+    cost: new Decimal(25), // Define the cost for this upgrade
+    effect() {
+        let eff = player.points.add(1).log10().pow(0.6); // Using 0.6 as the power
+        return eff;
+    },
+    effectDisplay() { return format(this.effect()) + "x"; },
+    unlocked() { return hasUpgrade("b", 21); }, // This upgrade is unlocked after purchasing Upgrade 21
+},
+
 }
 })
