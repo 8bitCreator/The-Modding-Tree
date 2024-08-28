@@ -54,7 +54,7 @@ addLayer("b", {
             description: "Boosts Singularity Points generation based on current Singularity Points by",
             cost: new Decimal(10), // Set the cost of this upgrade
             effect() {
-                let eff = player.b.points.add(1).pow(0.05); // This will provide a boost based on the current Singularity Points
+                let eff = player.b.points.add(1).pow(0.1); // This will provide a boost based on the current Singularity Points
                 return eff;
             },
             effectDisplay() { return format(this.effect()) + "x"; },
