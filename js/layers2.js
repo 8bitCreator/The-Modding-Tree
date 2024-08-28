@@ -9,7 +9,7 @@ addLayer("e", { // 'e' for Early Universe
         };
     },
     color: "#FF8C00", // Color for the layer
-    requires: new Decimal(1000000), // Requirement to reset for this layer
+    requires: new Decimal(100), // Requirement to reset for this layer
     resource: "Subatomic Particles", // Name of prestige currency
     baseResource: "Singularity Points", // Name of base resource
     baseAmount() { return player.b.points }, // Current amount of base resource from Big Bang
@@ -34,15 +34,18 @@ addLayer("e", { // 'e' for Early Universe
     onPrestige() {
         player.e.unlocked = true; // Set the layer to be permanently unlocked upon prestige
     },
+    effect() {
+        // Calculate effect based on current Subatomic Particles
+        return player.e.points.add(1).pow(2); // (x + 1)^2
+    },
+    effectDisplay() {
+        return format(this.effect()) + "x"; // Display the effect in a readable format
+    },
     upgrades: {
         11: {
-            title: "Particle Formation",
-            description: "Boosts Subatomic Particles generation by raising Singularity Points to the power of 0.1",
-            cost: new Decimal(10),
-            effect() {
-                return player.b.points.pow(0.1); // Effect based on Singularity Points
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
+            title: "Singularity Particles Formation",
+            description: "The Effect Affects Singularity Points",
+            cost: new Decimal(1),
             unlocked() { return true; }, // Always unlocked
         },
         12: {
