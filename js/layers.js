@@ -30,7 +30,7 @@ addLayer("b", {
     upgrades: {
     11: {
         title: "Universal Beginning",
-        description: "Boosts Matter generation by: ",
+        description: "Boosts Matter generation by ",
         cost: new Decimal(1),
         effect() { 
             let eff = new Decimal(2); 
@@ -40,7 +40,7 @@ addLayer("b", {
     },
     12: {
         title: "Quantum Fluctuation",
-        description: "Boosts Matter generation based on current Singularity points By:",
+        description: "Boosts Matter generation based on current Singularity points By",
         cost: new Decimal(3),
         effect() {
 		let eff = player.b.points.add(1).pow(0.1);
@@ -51,7 +51,7 @@ addLayer("b", {
     },
      13: {
             title: "Singularity Expansion",
-            description: "Boosts Singularity Points generation based on current Singularity Points by:",
+            description: "Boosts Singularity Points generation based on current Singularity Points by",
             cost: new Decimal(10), // Set the cost of this upgrade
             effect() {
                 let eff = player.b.points.add(1).pow(0.05); // This will provide a boost based on the current Singularity Points
@@ -60,5 +60,17 @@ addLayer("b", {
             effectDisplay() { return format(this.effect()) + "x"; },
             unlocked() { return hasUpgrade("b", 12); }, // Only unlock if Upgrade 12 has been purchased
         },
+	       21: {
+        title: "Matter Amplification",
+        description: "Boosts Matter generation based on current Matter by",
+        cost: new Decimal(50),
+        effect() {
+            let eff = player.points.add(1).pow(0.1);
+            return eff;
+        },
+        effectDisplay() { return format(this.effect()) + "x"; },
+        unlocked() { return hasUpgrade("b", 13); },
+    },
+}
 }
 })
