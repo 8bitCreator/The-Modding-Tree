@@ -138,7 +138,7 @@ addLayer("b", {
             description: "Make Upgrade Mastery boost Quantum Fluctuation with a reduced effect.",
             cost: new Decimal(75),
             effect() {
-                let eff = upgradeEffect("b", 31).pow(0.5);
+                let eff = upgradeEffect("b", 31).pow(0.25);
                 return eff;
             },
             effectDisplay() { 
@@ -151,7 +151,7 @@ addLayer("b", {
             description: "Make Upgrade Mastery boost Quantum Fluctuation with a stronger reduced effect",
             cost: new Decimal(100),
             effect() {
-                let eff = upgradeEffect("b", 31).pow(0.25);
+                let eff = upgradeEffect("b", 31).pow(0.15);
                 return eff;
             },
             effectDisplay() { 
