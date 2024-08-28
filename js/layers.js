@@ -72,5 +72,4 @@ addLayer("b", {
         unlocked() { return hasUpgrade("b", 13); },
     },
 }
-}
 })
