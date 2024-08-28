@@ -39,7 +39,7 @@ addLayer("b", {
     12: {
         title: "Quantum Fluctuation",
         description: "Boosts Matter generation based on current Singularity points By:",
-        cost: new Decimal(10),
+        cost: new Decimal(3),
         effect() {
 		let eff = player.b.points.add(1).pow(0.1);
 		return eff;
@@ -47,5 +47,16 @@ addLayer("b", {
         effectDisplay() { return format(this.effect()) + "x"; },
 	 unlocked() { return hasUpgrade("b", 11); },
     },
+     13: {
+            title: "Singularity Expansion",
+            description: "Boosts Singularity Points generation based on current Singularity Points by:",
+            cost: new Decimal(10), // Set the cost of this upgrade
+            effect() {
+                let eff = player.b.points.add(1).pow(0.05); // This will provide a boost based on the current Singularity Points
+                return eff;
+            },
+            effectDisplay() { return format(this.effect()) + "x"; },
+            unlocked() { return hasUpgrade("b", 12); }, // Only unlock if Upgrade 12 has been purchased
+        },
 }
 })
