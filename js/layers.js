@@ -43,7 +43,7 @@ addLayer("b", {
         description: "Boosts Matter generation based on current Singularity points By",
         cost: new Decimal(3),
         effect() {
-		let eff = player.b.points.add(1).pow(0.1);
+		let eff = player.b.points.add(1).pow(0.3);
 		return eff;
         },
         effectDisplay() { return format(this.effect()) + "x"; },
