@@ -36,6 +36,14 @@ addLayer("b", {
         {key: "p", description: "P: Reset for prestige points", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
     ],
     layerShown() { return true },
+     milestones: {
+        0: {
+            requirementDescription: "Reach 1e6 Singularity Points", // Requirement to unlock
+            effectDescription: "Unlock the Early Universe layer", // Effect when unlocked
+            done() { return player.b.points.gte(1e6) }, // Check if requirement is met
+            unlocked() { return true }, // Always unlocked once conditions are met
+        },
+    },
     upgrades: {
         11: {
             title: "Universal Beginning",
