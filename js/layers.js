@@ -112,7 +112,7 @@ addLayer("b", {
         23: {
             title: "Cosmic Expansion", 
             description: "Boosts Singularity Points generation by",
-            cost: new Decimal(50),
+            cost: new Decimal(30),
             effect() {
                 let eff = new Decimal(2); 
                 return eff;
@@ -123,7 +123,7 @@ addLayer("b", {
         31: {
             title: "Upgrade Mastery",
             description: "Shows amount of Upgrade bought in this layer and boost first upgrade by",
-            cost: new Decimal(100),
+            cost: new Decimal(50),
             effect() {
                 let eff = new Decimal(player.b.upgrades.length);
                 return eff;
@@ -136,7 +136,7 @@ addLayer("b", {
         32: {
             title: "Upgrade Mastery Pt2",
             description: "Make Upgrade Mastery boost Quantum Fluctuation with a reduced effect.",
-            cost: new Decimal(150),
+            cost: new Decimal(75),
             effect() {
                 let eff = upgradeEffect("b", 31).pow(0.5);
                 return eff;
@@ -149,7 +149,7 @@ addLayer("b", {
         33: {
             title: "Upgrade Mastery Pt3",
             description: "Make Upgrade Mastery boost Quantum Fluctuation with a stronger reduced effect",
-            cost: new Decimal(150),
+            cost: new Decimal(100),
             effect() {
                 let eff = upgradeEffect("b", 31).pow(0.25);
                 return eff;
