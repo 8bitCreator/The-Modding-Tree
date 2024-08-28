@@ -45,6 +45,7 @@ addLayer("b", {
 		return eff;
         },
         effectDisplay() { return format(this.effect()) + "x"; },
+	 unlocked() { return hasUpgrade("b", 11); },
     },
 }
 })
