@@ -14,7 +14,7 @@ addLayer("b", {
     baseResource: "matter",
     baseAmount() { return player.points },
     type: "normal",
-    exponent: 2,
+    exponent: 0.5,
     gainMult() {
         let mult = new Decimal(1);
         if (hasUpgrade("b", 13)) {
