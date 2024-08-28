@@ -9,7 +9,7 @@ addLayer("e", { // 'e' for Early Universe
         };
     },
     color: "#FF8C00", // Color for the layer
-    requires: new Decimal(1e8), // Requirement to reset for this layer
+    requires: new Decimal(5e7), // Requirement to reset for this layer
     resource: "Subatomic Particles", // Name of prestige currency
     baseResource: "Points", // Name of base resource
     baseAmount() { return player.points }, // Current amount of base resource from Big Bang
