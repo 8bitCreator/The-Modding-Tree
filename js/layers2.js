@@ -35,11 +35,13 @@ addLayer("e", { // 'e' for Early Universe
         player.e.unlocked = true; // Set the layer to be permanently unlocked upon prestige
     },
     effect() {
-        // Calculate effect based on current Subatomic Particles
-        return player.e.points.add(1).pow(2); // (x + 1)^2
+        let eff = player.e.points.add(1).max(1); // Calculate base effect
+        eff = eff.pow(2); // Apply square power
+
+        return eff; // Return the calculated effect
     },
-    effectDisplay() {
-        return format(this.effect()) + "x"; // Display the effect in a readable format
+    effectDescription() {
+        return "which boosts Matter generation by " + format(tmp.e.effect) + "x"; // Display the effect
     },
     upgrades: {
         11: {
