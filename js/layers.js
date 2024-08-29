@@ -143,6 +143,12 @@ addLayer("b", {
             cost: new Decimal(30),
             effect() {
                 let eff = new Decimal(2); 
+        if (hasUpgrade("b", 34)) { // Optional further enhancement from another upgrade
+            let upgrade34Effect = upgradeEffect("b", 34);
+            if (upgrade34Effect.gt(0)) {
+                eff = eff.pow(upgrade33Effect);
+            }
+        }
                 return eff;
             },
             effectDisplay() { return format(this.effect()) + "x"; },
