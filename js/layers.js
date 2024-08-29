@@ -39,7 +39,7 @@ addLayer("b", {
     },
     row: 0,
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
+        {key: "b", description: "B: Reset for prestige points", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
     ],
     layerShown() { return true },
      milestones: {
