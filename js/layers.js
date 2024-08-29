@@ -32,6 +32,9 @@ addLayer("b", {
          if (hasUpgrade("e", 12)) {
             mult = mult.mul(upgradeEffect("e", 12));
         }      
+        if (hasUpgrade("b", 14)) {
+            mult = mult.pow(upgradeEffect("b", 14));
+        }      
         return mult;
     },
     gainExp() {
@@ -184,6 +187,20 @@ addLayer("b", {
             },
             unlocked() { return hasUpgrade("b", 32); },
         },
+      14: {
+    title: "Singularity Breaking Point",
+    description: "Raise Singularity Points by a logarithmic function of current Singularity Points with a much reduced effect.",
+    cost: new Decimal(1e25),
+    effect() {
+        // Logarithmic effect calculation with a much lower exponent
+        let eff = player.b.points.add(1).log10().add(1).pow(0.01); 
+        return eff;
+    },
+    effectDisplay() { 
+        return "^" + format(this.effect());
+    },
+    unlocked() { return hasUpgrade("b", 32); },
+}
     },
   doReset(resettingLayer) {
     if(tmp[resettingLayer].row > this.row) {
