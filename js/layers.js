@@ -205,7 +205,7 @@ addLayer("b", {
     effectDisplay() { 
         return "^" + format(this.effect());
     },
-    unlocked() { return hasUpgrade("b", 32); },
+    unlocked() { return hasMilestone("e", 1); },
 },
         24: {
     title: "Singularity Particle Synergy",
@@ -231,7 +231,7 @@ addLayer("b", {
             effectDisplay() { 
                 return "^" + format(this.effect());
             },
-            unlocked() { return hasUpgrade("b", 32); },
+            unlocked() { return hasUpgrade("b", 24); },
         },
     },
   doReset(resettingLayer) {
