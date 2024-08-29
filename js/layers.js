@@ -29,6 +29,9 @@ addLayer("b", {
          if (hasUpgrade("e", 11)) { // Check if the Early Universe layer is unlocked
         mult = mult.mul(tmp.e.effect); // Multiply by the effect from Early Universe
     }
+         if (hasUpgrade("e", 12)) {
+            mult = mult.mul(upgradeEffect("e", 12));
+        }      
         return mult;
     },
     gainExp() {
