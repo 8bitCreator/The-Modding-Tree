@@ -193,7 +193,7 @@ addLayer("b", {
     cost: new Decimal(1e25),
     effect() {
         // Logarithmic effect calculation with a much lower exponent
-        let eff = player.b.points.add(1).log10().add(1).pow(0.01); 
+        let eff = player.b.points.add(1).log10().add(1).pow(0.05); 
         return eff;
     },
     effectDisplay() { 
