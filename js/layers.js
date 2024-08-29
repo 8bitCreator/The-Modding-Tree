@@ -160,6 +160,12 @@ addLayer("b", {
             cost: new Decimal(50),
             effect() {
                 let eff = new Decimal(player.b.upgrades.length);
+                if (hasUpgrade("e", 21)) {  
+                    let upgrade21eEffect = upgradeEffect("e", 21);
+                    if (upgrade21eEffect.gt(0)){
+                        eff = eff.pow(upgrade21eEffect);
+                        }
+                    }
                 return eff;
             },
             effectDisplay() { 
