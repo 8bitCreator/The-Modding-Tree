@@ -100,3 +100,72 @@ addLayer("e", { // 'e' for Early Universe
     },
     }
 });
+addLayer("d", {
+    name: "Dark Ages", // Full name of the layer
+    symbol: "D", // Symbol to represent the layer
+    position: 2, // Position in the layer tree
+    startData() { 
+        return {
+            unlocked: false, // Initially locked
+            points: new Decimal(0), // Initial points (though not used)
+        };
+    },
+    color: "#2B2D42", // Dark, cosmic color
+    requires: new Decimal(1e10), // Requirement to unlock this layer
+    resource: "Dark Matter", // Name of the resource (purely thematic)
+    baseResource: "Subatomic Particles", // Resource required to unlock
+    baseAmount() { return player.e.points; }, // Amount of Subatomic Particles
+    type: "none", // No automatic resource generation
+    row: 2, // Row in the layer tree
+    hotkeys: [
+        {key: "d", description: "D: Enter the Dark Ages", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
+    ],
+    layerShown() { 
+        return player.e.unlocked && player.e.points.gte(1e10); // Only show when the previous layer is progressed enough
+    },
+
+    // Main Challenge
+    challenges: {
+    11: {
+        name: "Primordial Darkness",
+        challengeDescription: "Upgrades 32 and 33 in the Big Bang layer are disabled.",
+        goalDescription: "Reach 5e5 Singularity Points.",
+        rewardDescription: "Upgrades 32 and 33 are stronger after completing this challenge.",
+        canComplete() { return player.b.points.gte(5e5); }, // Completion condition
+        unlocked() { return true; }, // Always unlocked for this layer
+        
+        // Disables specific upgrades when the challenge is active
+        onEnter() {
+            player.challenging = true; // Flag indicating a challenge is active
+            
+            // Disable upgrades 32 and 33 in the Big Bang layer
+            player.b.upgradesDisabled = { 32: true, 33: true };
+        },
+        onExit() {
+            player.challenging = false; // Remove the challenge flag
+            
+            // Re-enable upgrades 32 and 33 in the Big Bang layer
+            delete player.b.upgradesDisabled;
+        },
+        onComplete() {
+            player.b.challengeCompleted = true; // Mark the challenge as completed
+        },
+    },
+},
+
+    // Upgrades specific to this layer
+    upgrades: {
+        11: {
+            title: "Dark Matter Synergy",
+            description: "Boost Dark Matter generation based on current Subatomic Particles.",
+            cost: new Decimal(50),
+            effect() {
+                let eff = player.e.points.add(1).log10().pow(0.3); // Dark Matter boost based on Subatomic Particles
+                return eff;
+            },
+            effectDisplay() { return format(this.effect()) + "x"; }, 
+            unlocked() { return true; }, // Available upon layer unlock
+        },
+    },
+});
+
