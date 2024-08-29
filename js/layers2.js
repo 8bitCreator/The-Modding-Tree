@@ -61,18 +61,17 @@ addLayer("e", { // 'e' for Early Universe
     effectDisplay() { return format(this.effect()) + "x"; }, // Display as "2x"
     unlocked() { return hasUpgrade("b", 11); }, // Unlocked after the first upgrade
 },
-  13: {
+13: {
     title: "Cosmic Synergy",
-    description: "Boosts the base of Universal Beginning by adding Subatomic Particles from the Early Universe layer.",
+    description: "Boosts the base of Universal Beginning by adding a logarithmic function of Subatomic Particles from the Early Universe layer.",
     cost: new Decimal(50),
     effect() {
-        let eff = player.e.points.add(1); // Add the amount of Subatomic Particles (from layer 'e') to the base of Universal Beginning
+        let eff = player.e.points.log10().add(1); // Logarithmic effect without internal +1
         return eff;
     },
     effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
     unlocked() { return hasUpgrade("b", 12); }, // Unlocked after the previous upgrade
 },
-      
 
     }
 });
