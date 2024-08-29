@@ -43,7 +43,7 @@ addLayer("b", {
         0: {
             requirementDescription: "Reach 5e5 Singularity Points", // Requirement to unlock
             effectDescription: "Unlock the Early Universe layer", // Effect when unlocked
-            done() { return player.b.points.gte(5e5) }, // Check if requirement is met
+            done() { return player.b.points.gte(5e5) || player.e.unlocked }, // Check if requirement is met
             unlocked() { return true }, // Always unlocked once conditions are met
         },
     },
