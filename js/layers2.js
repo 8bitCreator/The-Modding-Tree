@@ -44,9 +44,15 @@ addLayer("e", { // 'e' for Early Universe
     },
     milestones: {
         0: {
-            requirementDescription: "Stronger Singularity", // Requirement to unlock
-            effectDescription: "Keep the Big Bang layer and its upgrades after resetting in the Early Universe layer.", // Effect when unlocked
+            requirementDescription: "10 Subatomic Particles", // Requirement to unlock
+            effectDescription: "Keep the singularities upgrades after resetting in the Early Universe layer.", // Effect when unlocked
             done() { return player.e.points.gte(10); }, // Check if the Big Bang layer is unlocked
+            unlocked() { return true; }, // Always unlocked once conditions are met
+        },
+         1: {
+            requirementDescription: "1000 Subatomic Particles", // Requirement to unlock
+            effectDescription: "Unlocks New Upgrades in Singularities", // Effect when unlocked
+            done() { return player.e.points.gte(1000); }, // Check if the Big Bang layer is unlocked
             unlocked() { return true; }, // Always unlocked once conditions are met
         },
     },
