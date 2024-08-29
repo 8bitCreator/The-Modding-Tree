@@ -73,7 +73,7 @@ addLayer("e", { // 'e' for Early Universe
             description: "Boosts the base of Universal Beginning by adding a logarithmic function of Subatomic Particles from the Early Universe layer.",
             cost: new Decimal(50),
             effect() {
-                let eff = player.e.points.log10().add(1); // Logarithmic effect without internal +1
+                let eff = player.e.points.add(1).log10().add(1); // Logarithmic effect without internal +1
                 return eff;
             },
             effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
