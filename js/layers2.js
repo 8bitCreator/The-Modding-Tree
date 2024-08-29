@@ -37,20 +37,19 @@ addLayer("e", { // 'e' for Early Universe
     effect() {
         let eff = player.e.points.add(1).max(1); // Calculate base effect
         eff = eff.pow(2); // Apply square power
-
         return eff; // Return the calculated effect
     },
     effectDescription() {
-        return "which boosts Matter generation by " + format(tmp.e.effect) + "x"; // Display the effect
+        return "which boosts Matter generation by " + format(this.effect()) + "x"; // Display the effect
     },
     milestones: {
-        0:{
-        requirementDescription: "Stronger Singularity", // Requirement to unlock
-        effectDescription: "Keep the Big Bang layer and its upgrades after resetting in the Early Universe layer.", // Effect when unlocked
-        done() { return player.e.points.gte(10)) }, // Check if the Big Bang layer is unlocked
-        unlocked() { return true }, // Always unlocked once conditions are met
+        0: {
+            requirementDescription: "Stronger Singularity", // Requirement to unlock
+            effectDescription: "Keep the Big Bang layer and its upgrades after resetting in the Early Universe layer.", // Effect when unlocked
+            done() { return player.e.points.gte(10); }, // Check if the Big Bang layer is unlocked
+            unlocked() { return true; }, // Always unlocked once conditions are met
+        },
     },
-},
     upgrades: {
         11: {
             title: "Singularity Particles Formation",
@@ -58,28 +57,27 @@ addLayer("e", { // 'e' for Early Universe
             cost: new Decimal(5),
             unlocked() { return true; }, // Always unlocked
         },
-       12: {
-    title: "Accelerated Expansion",
-    description: "10x the Singularity Points gain.",
-    cost: new Decimal(10),
-    effect() {
-        let eff = new Decimal(10); // Effect is a straightforward doubling of Singularity Points
-        return eff;
-    },
-    effectDisplay() { return format(this.effect()) + "x"; }, // Display as "2x"
-    unlocked() { return hasUpgrade("e", 11); }, // Unlocked after the first upgrade
-},
-13: {
-    title: "Cosmic Synergy",
-    description: "Boosts the base of Universal Beginning by adding a logarithmic function of Subatomic Particles from the Early Universe layer.",
-    cost: new Decimal(50),
-    effect() {
-        let eff = player.e.points.log10().add(1); // Logarithmic effect without internal +1
-        return eff;
-    },
-    effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
-    unlocked() { return hasUpgrade("e", 12); }, // Unlocked after the previous upgrade
-},
-
+        12: {
+            title: "Accelerated Expansion",
+            description: "10x the Singularity Points gain.",
+            cost: new Decimal(10),
+            effect() {
+                let eff = new Decimal(10); // Effect is a straightforward multiplication of Singularity Points
+                return eff;
+            },
+            effectDisplay() { return format(this.effect()) + "x"; }, // Display as "10x"
+            unlocked() { return hasUpgrade("e", 11); }, // Unlocked after the first upgrade
+        },
+        13: {
+            title: "Cosmic Synergy",
+            description: "Boosts the base of Universal Beginning by adding a logarithmic function of Subatomic Particles from the Early Universe layer.",
+            cost: new Decimal(50),
+            effect() {
+                let eff = player.e.points.log10().add(1); // Logarithmic effect without internal +1
+                return eff;
+            },
+            effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
+            unlocked() { return hasUpgrade("e", 12); }, // Unlocked after the previous upgrade
+        },
     }
 });
