@@ -92,7 +92,7 @@ addLayer("e", { // 'e' for Early Universe
         description: "Boosts the base of All the Upgrades Masteries",
         cost: new Decimal(1e7),
         effect() {
-            let eff = player.e.points.add(1).log10().add(1).pow(0.5); // Logarithmic effect with reduced exponent
+            let eff = player.e.points.add(1).log10().add(1).pow(0.05); // Logarithmic effect with reduced exponent
             return eff;
         },
         effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
