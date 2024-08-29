@@ -234,6 +234,16 @@ addLayer("b", {
             unlocked() { return hasUpgrade("b", 24); },
         },
     },
+    passiveGeneration() {
+        // Base generation rate
+        let passive = new Decimal(0); // Adjust base value as needed
+
+        // Adjust generation based on current upgrades or player status
+        if (hasMilestone("e", 1)) { // Check if the upgrade is unlocked
+            passive = passive.add(1) // Apply effect of upgrade 24
+        }
+        },
+
   doReset(resettingLayer) {
     if(tmp[resettingLayer].row > this.row) {
         let keepUpgrades = player["b"].upgrades;
