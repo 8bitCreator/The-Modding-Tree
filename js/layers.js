@@ -184,5 +184,12 @@ addLayer("b", {
             },
             unlocked() { return hasUpgrade("b", 32); },
         },
-    }
+    },
+    doReset(resettingLayer) {
+  if(tmp[resettingLayer].row > this.row) { //very important btw
+    let keep = player["b"].upgrades
+    layerDataReset("b")
+    if(hasMilestone("e", 0)) player["b"].upgrades = keep
+  }
+}
 });
