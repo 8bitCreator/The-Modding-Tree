@@ -176,7 +176,7 @@ addLayer("b", {
         },
         33: {
             title: "Upgrade Mastery Pt3",
-            description: "Make Upgrade Mastery boost Quantum Fluctuation with a stronger reduced effect",
+            description: "Make Upgrade Mastery boost Singularity Expansion with a stronger reduced effect",
             cost: new Decimal(1000),
             effect() {
                 let eff = upgradeEffect("b", 31).pow(0.15);
@@ -200,7 +200,33 @@ addLayer("b", {
         return "^" + format(this.effect());
     },
     unlocked() { return hasUpgrade("b", 32); },
-}
+},
+        24: {
+    title: "Singularity Particle Synergy",
+    description: "Boosts Subatomic Particles generation based on your current Singularity Points.",
+    cost: new Decimal(1e35), // Example cost
+    effect() {
+        let eff = player.b.points.add(1).log10().pow(0.3); // Logarithmic scaling with reduced power
+        return eff;
+    },
+    effectDisplay() { 
+        return format(this.effect()) + "x"; // Display as a multiplier
+    },
+    unlocked() { return hasUpgrade("b", 14); }, // Unlocked after previous upgrade
+},
+  34: {
+            title: "Upgrade Mastery Pt4",
+            description: "Make Upgrade Mastery boost Quantum Fluctuation with a way stronger reduced effect",
+            cost: new Decimal(1e50),
+            effect() {
+                let eff = upgradeEffect("b", 31).pow(0.10);
+                return eff;
+            },
+            effectDisplay() { 
+                return "^" + format(this.effect());
+            },
+            unlocked() { return hasUpgrade("b", 32); },
+        },
     },
   doReset(resettingLayer) {
     if(tmp[resettingLayer].row > this.row) {
