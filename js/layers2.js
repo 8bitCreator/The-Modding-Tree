@@ -43,6 +43,14 @@ addLayer("e", { // 'e' for Early Universe
     effectDescription() {
         return "which boosts Matter generation by " + format(tmp.e.effect) + "x"; // Display the effect
     },
+    milestone: {
+        1:{
+        requirementDescription: "Stronger Singularity", // Requirement to unlock
+        effectDescription: "Keep the Big Bang layer and its upgrades after resetting in the Early Universe layer.", // Effect when unlocked
+        done() { return hasLayer("b") }, // Check if the Big Bang layer is unlocked
+        unlocked() { return true }, // Always unlocked once conditions are met
+    },
+},
     upgrades: {
         11: {
             title: "Singularity Particles Formation",
