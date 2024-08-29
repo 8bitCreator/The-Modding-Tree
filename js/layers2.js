@@ -50,15 +50,29 @@ addLayer("e", { // 'e' for Early Universe
             cost: new Decimal(5),
             unlocked() { return true; }, // Always unlocked
         },
-        12: {
-            title: "Matter-Antimatter Asymmetry",
-            description: "Boosts Matter generation based on current Subatomic Particles",
-            cost: new Decimal(25),
-            effect() {
-                return player.e.points.add(1).log10().pow(0.5); // Scale with Subatomic Particles
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return hasUpgrade("e", 11); }, // Unlocked after first upgrade
-        },
+       12: {
+    title: "Accelerated Expansion",
+    description: "10x the Singularity Points gain.",
+    cost: new Decimal(10),
+    effect() {
+        let eff = new Decimal(10); // Effect is a straightforward doubling of Singularity Points
+        return eff;
+    },
+    effectDisplay() { return format(this.effect()) + "x"; }, // Display as "2x"
+    unlocked() { return hasUpgrade("b", 11); }, // Unlocked after the first upgrade
+},
+  13: {
+    title: "Cosmic Synergy",
+    description: "Boosts the base of Universal Beginning by adding Subatomic Particles from the Early Universe layer.",
+    cost: new Decimal(50),
+    effect() {
+        let eff = player.e.points.add(1); // Add the amount of Subatomic Particles (from layer 'e') to the base of Universal Beginning
+        return eff;
+    },
+    effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
+    unlocked() { return hasUpgrade("b", 12); }, // Unlocked after the previous upgrade
+},
+      
+
     }
 });
