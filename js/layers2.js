@@ -17,7 +17,9 @@ addLayer("e", { // 'e' for Early Universe
     exponent: 0.09, // Exponent for point generation
     gainMult() { // Calculate the multiplier for points
         let mult = new Decimal(1);
-        // Add more multipliers as needed
+        if (hasUpgrade("b", 24)) {
+            mult = mult.mul(upgradeEffect("b", 24));
+        }
         return mult;
     },
     gainExp() { // Calculate the exponent for main currency from bonuses
