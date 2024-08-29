@@ -11,7 +11,7 @@ addLayer("e", { // 'e' for Early Universe
     color: "#FF8C00", // Color for the layer
     requires: new Decimal(5e7), // Requirement to reset for this layer
     resource: "Subatomic Particles", // Name of prestige currency
-    baseResource: "Points", // Name of base resource
+    baseResource: "Matter", // Name of base resource
     baseAmount() { return player.points }, // Current amount of base resource from Big Bang
     type: "normal", // Type of prestige layer
     exponent: 0.09, // Exponent for point generation
