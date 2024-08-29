@@ -42,19 +42,7 @@ addLayer("b", {
         {key: "b", description: "B: Reset for prestige points", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
     ],
     layerShown() { return true },
-    doReset(resettingLayer) {
-    let keep = []; // Array to hold what should be retained on reset
-
-    // Check if the player has the milestone in layer 'e' that allows keeping Big Bang upgrades
-    if (hasMilestone("e", 0) && resettingLayer == "b") {
-        keep.push("upgrades"); // Keep upgrades from the Big Bang layer
-    }
-
-    // Add any other conditions to retain specific data
-    if (layers[resettingLayer].row > this.row) {
-        layerDataReset(this.layer, keep); // Reset the layer while keeping specified data
-    }
-},
+  
 
      milestones: {
         0: {
