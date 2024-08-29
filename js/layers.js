@@ -160,7 +160,7 @@ addLayer("b", {
         33: {
             title: "Upgrade Mastery Pt3",
             description: "Make Upgrade Mastery boost Quantum Fluctuation with a stronger reduced effect",
-            cost: new Decimal(100),
+            cost: new Decimal(1000),
             effect() {
                 let eff = upgradeEffect("b", 31).pow(0.15);
                 return eff;
