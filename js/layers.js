@@ -173,32 +173,54 @@ addLayer("b", {
             },
             unlocked() { return hasUpgrade("b", 23); },
         },
-        32: {
-            title: "Upgrade Mastery Pt2",
-            description: "Make Upgrade Mastery boost Quantum Fluctuation with a reduced effect.",
-            cost: new Decimal(75),
-            effect() {
-                let eff = upgradeEffect("b", 31).pow(0.25);
-                return eff;
-            },
-            effectDisplay() { 
-                return "^" + format(this.effect());
-            },
-            unlocked() { return hasUpgrade("b", 31); },
+          32: {
+        title: "Upgrade Mastery Pt2",
+        description: "Make Upgrade Mastery boost Quantum Fluctuation with a reduced effect.",
+        cost: new Decimal(75),
+        effect() {
+            let eff = upgradeEffect("b", 31).pow(0.25);
+            
+            // Disable this upgrade during the challenge
+            if (player.challenging && player.b.upgradesDisabled[32]) {
+                eff = new Decimal(1); // Return 1 instead of the normal effect
+            }
+
+            // Buff the effect if the challenge is completed
+            if (player.b.challengeCompleted) {
+                eff = eff.mul(1.5); // Increase effect by 50% as a reward
+            }
+
+            return eff;
         },
-        33: {
-            title: "Upgrade Mastery Pt3",
-            description: "Make Upgrade Mastery boost Singularity Expansion with a stronger reduced effect",
-            cost: new Decimal(1000),
-            effect() {
-                let eff = upgradeEffect("b", 31).pow(0.15);
-                return eff;
-            },
-            effectDisplay() { 
-                return "^" + format(this.effect());
-            },
-            unlocked() { return hasUpgrade("b", 32); },
+        effectDisplay() { 
+            return "^" + format(this.effect());
         },
+        unlocked() { return hasUpgrade("b", 31); },
+    },
+    33: {
+        title: "Upgrade Mastery Pt3",
+        description: "Make Upgrade Mastery boost Quantum Fluctuation with a stronger reduced effect.",
+        cost: new Decimal(1000),
+        effect() {
+            let eff = upgradeEffect("b", 31).pow(0.15);
+            
+            // Disable this upgrade during the challenge
+            if (player.challenging && player.b.upgradesDisabled[33]) {
+                eff = new Decimal(1); // Return 1 instead of the normal effect
+            }
+
+            // Buff the effect if the challenge is completed
+            if (player.b.challengeCompleted) {
+                eff = eff.mul(1.5); // Increase effect by 50% as a reward
+            }
+
+            return eff;
+        },
+        effectDisplay() { 
+            return "^" + format(this.effect());
+        },
+        unlocked() { return hasUpgrade("b", 32); },
+    },
       14: {
     title: "Singularity Breaking Point",
     description: "Raise Singularity Points by a logarithmic function of current Singularity Points with a much reduced effect.",
