@@ -188,7 +188,9 @@ addLayer("b", {
     doReset(resettingLayer) {
   if(tmp[resettingLayer].row > this.row) { //very important btw
     let keep = player["b"].upgrades
+     let keep = player["b"].milestones  
     layerDataReset("b")
+       if(hasUpgrade("e", 11)) player["b"].milestones = keep
     if(hasMilestone("e", 0)) player["b"].upgrades = keep
   }
 }
