@@ -106,7 +106,7 @@ addLayer("d", {
     position: 2, // Position in the layer tree
     startData() { 
         return {
-            unlocked: false, // Initially locked
+            unlocked: true, // Initially locked
             points: new Decimal(0), // Initial points (though not used)
         };
     },
@@ -121,7 +121,7 @@ addLayer("d", {
         {key: "d", description: "D: Enter the Dark Ages", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
     ],
     layerShown() { 
-        return player.e.unlocked && player.e.points.gte(1e10); // Only show when the previous layer is progressed enough
+        return player.e.unlocked // Only show when the previous layer is progressed enough
     },
 
     // Main Challenge
