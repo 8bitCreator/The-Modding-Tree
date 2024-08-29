@@ -59,7 +59,7 @@ addLayer("e", { // 'e' for Early Universe
         return eff;
     },
     effectDisplay() { return format(this.effect()) + "x"; }, // Display as "2x"
-    unlocked() { return hasUpgrade("b", 11); }, // Unlocked after the first upgrade
+    unlocked() { return hasUpgrade("e", 11); }, // Unlocked after the first upgrade
 },
 13: {
     title: "Cosmic Synergy",
@@ -70,7 +70,7 @@ addLayer("e", { // 'e' for Early Universe
         return eff;
     },
     effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
-    unlocked() { return hasUpgrade("b", 12); }, // Unlocked after the previous upgrade
+    unlocked() { return hasUpgrade("e", 12); }, // Unlocked after the previous upgrade
 },
 
     }
