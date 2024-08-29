@@ -14,7 +14,7 @@ addLayer("e", { // 'e' for Early Universe
     baseResource: "Points", // Name of base resource
     baseAmount() { return player.points }, // Current amount of base resource from Big Bang
     type: "normal", // Type of prestige layer
-    exponent: 1.2, // Exponent for point generation
+    exponent: 0.09, // Exponent for point generation
     gainMult() { // Calculate the multiplier for points
         let mult = new Decimal(1);
         // Add more multipliers as needed
