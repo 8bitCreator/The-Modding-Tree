@@ -241,7 +241,8 @@ addLayer("b", {
         // Adjust generation based on current upgrades or player status
         if (hasMilestone("e", 1)) { // Check if the upgrade is unlocked
             passive = passive.add(1) // Apply effect of upgrade 24
-        }
+        } 
+        return passive 
         },
 
   doReset(resettingLayer) {
