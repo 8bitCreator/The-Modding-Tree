@@ -55,7 +55,7 @@ addLayer("b", {
     upgrades: {
        11: {
     title: "Universal Beginning",
-    description: "Boosts Matter generation by a factor based on Upgrade 13.",
+    description: "Boosts Matter generation by",
     cost: new Decimal(1),
     effect() { 
         let baseEff = new Decimal(2); // Base effect is 2
