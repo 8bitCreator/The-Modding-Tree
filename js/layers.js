@@ -147,30 +147,39 @@ addLayer("b", {
             effectDisplay() { return format(this.effect()) + "x"; },
             unlocked() { return hasUpgrade("b", 21); },
         },
-        23: {
-            title: "Cosmic Expansion", 
-            description: "Boosts Singularity Points generation by",
-            cost: new Decimal(30),
-            effect() {
-                let eff = new Decimal(2); 
-                if (hasUpgrade("e", 22)) {
-                    eff.add(upgradeEffect("e", 22));
-                    }
-                  if (player.d.unlocked) {
-        let darkMatterEffect = tmp.d.effect; // Assuming tmp.d.effect is the Dark Matter effect
-        eff = eff.add(darkMatterEffect);
-    }
-        if (hasUpgrade("b", 34)) { // Optional further enhancement from another upgrade
+       23: {
+    title: "Cosmic Expansion", 
+    description: "Boosts Singularity Points generation by",
+    cost: new Decimal(30),
+    effect() {
+        let eff = new Decimal(2); 
+
+        // Check and apply effect from upgrade e22
+        if (hasUpgrade("e", 22)) {
+            let e22Effect = upgradeEffect("e", 22);
+            eff = eff.add(e22Effect);
+        }
+
+        // Apply the effect from Dark Matter if the Dark Ages layer is unlocked
+        if (player.d.unlocked) {
+            let darkMatterEffect = tmp.d.effect; // Assuming tmp.d.effect is the Dark Matter effect
+            eff = eff.add(darkMatterEffect);
+        }
+
+        // Optional further enhancement from another upgrade (b34)
+        if (hasUpgrade("b", 34)) {
             let upgrade34Effect = upgradeEffect("b", 34);
             if (upgrade34Effect.gt(0)) {
                 eff = eff.pow(upgrade34Effect);
             }
         }
-                return eff;
-            },
-            effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { return hasUpgrade("b", 22); },
-        },
+
+        return eff;
+    },
+    effectDisplay() { return format(this.effect()) + "x"; },
+    unlocked() { return hasUpgrade("b", 22); },
+},
+
         31: {
             title: "Upgrade Mastery",
             description: "Shows amount of Upgrade bought in this layer and boost first upgrade by",
