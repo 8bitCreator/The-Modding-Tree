@@ -164,6 +164,6 @@ addLayer("d", {
         return eff;
     },
   effectDescription() {
-    return "which adds Universal Beginning and Cosmic Expansion base by " + "+" + format(this.effect()); // Display the effect
+    return "which adds Universal Beginning and Cosmic Expansion base " + "+" + format(this.effect()); // Display the effect
 },
 });
