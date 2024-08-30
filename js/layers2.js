@@ -117,7 +117,7 @@ addLayer("d", {
     baseResource: "Points", // Resource required to unlock (using player points, which is Matter)
     baseAmount() { return player.points; }, // Amount of Matter (player points)
     type: "normal", // Standard layer behavior
-    exponent: 0.5, // The exponent for point generation
+    exponent: 0.08, // The exponent for point generation
     row: 2, // Row in the layer tree
     hotkeys: [
         {key: "d", description: "D: Enter the Dark Ages", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
