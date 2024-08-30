@@ -132,7 +132,7 @@ addLayer("d", {
             name: "Primordial Darkness",
             challengeDescription: "Upgrades 32 and 33 in the Big Bang layer are disabled.",
             goalDescription: "Reach 1e5 Singularity Points.",
-            rewardDescription: "Upgrades 32 and 33 are stronger after completing this challenge.",
+            rewardDescription: "Upgrades 32 and 33 are stronger after completing this challenge and also 10x singularity points.",
             canComplete() { return player.b.points.gte(1e5); }, // Completion condition
             unlocked() { return true; }, // Always unlocked for this layer
             
