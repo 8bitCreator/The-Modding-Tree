@@ -133,7 +133,7 @@ addLayer("d", {
             challengeDescription: "Upgrades 32 and 33 in the Big Bang layer are disabled.",
             goalDescription: "Reach 5e5 Singularity Points.",
             rewardDescription: "Upgrades 32 and 33 are stronger after completing this challenge.",
-            canComplete() { return player.b.points.gte(5e5); }, // Completion condition
+            canComplete() { return player.b.points.gte(1e5); }, // Completion condition
             unlocked() { return true; }, // Always unlocked for this layer
             
             // Disables specific upgrades when the challenge is active
