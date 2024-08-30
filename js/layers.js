@@ -234,7 +234,7 @@ addLayer("b", {
       14: {
     title: "Singularity Breaking Point",
     description: "Raise Singularity Points by current Singularity Points with a much reduced effect.",
-    cost: new Decimal(1e25),
+    cost: new Decimal(1e15),
     effect() {
         // Logarithmic effect calculation with a much lower exponent
         let eff = player.b.points.add(1).log10().add(1).pow(0.05); 
@@ -248,7 +248,7 @@ addLayer("b", {
         24: {
     title: "Singularity Particle Synergy",
     description: "Boosts Subatomic Particles generation based on your current Singularity Points.",
-    cost: new Decimal(1e35), // Example cost
+    cost: new Decimal(1e25), // Example cost
     effect() {
         let eff = player.b.points.add(1).log10().pow(0.3); // Logarithmic scaling with reduced power
         return eff;
@@ -261,7 +261,7 @@ addLayer("b", {
   34: {
             title: "Upgrade Mastery Pt4",
             description: "Make Upgrade Mastery boost Cosmic Expansion with a way stronger reduced effect",
-            cost: new Decimal(1e50),
+            cost: new Decimal(1e30),
             effect() {
                 let eff = upgradeEffect("b", 31).pow(0.10);
                 return eff;
