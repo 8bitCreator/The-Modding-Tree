@@ -197,7 +197,7 @@ addLayer("b", {
 
             // Buff the effect if the challenge is completed
             if (player.b.challengeCompleted) {
-                eff = eff.mul(1.5); // Increase effect by 50% as a reward
+                eff = eff.mul(1.25); // Increase effect by 50% as a reward
             }
 
             return eff;
@@ -221,7 +221,7 @@ addLayer("b", {
 
             // Buff the effect if the challenge is completed
             if (player.b.challengeCompleted) {
-                eff = eff.mul(1.5); // Increase effect by 50% as a reward
+                eff = eff.mul(1.25); // Increase effect by 50% as a reward
             }
 
             return eff;
