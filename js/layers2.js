@@ -126,7 +126,7 @@ addLayer("d", {
         {key: "d", description: "D: Enter the Dark Ages", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
     ],
     layerShown() { 
-        return player.points.gte(1e100) || player.d.unlocked; // Show when 1e200 Matter is reached or if the layer is unlocked
+        return player.points.gte(1e35) || player.d.unlocked; // Show when 1e200 Matter is reached or if the layer is unlocked
     },
 
     // Main Challenge
