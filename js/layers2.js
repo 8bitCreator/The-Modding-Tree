@@ -14,7 +14,7 @@ addLayer("e", { // 'e' for Early Universe
     baseResource: "Matter", // Name of base resource
     baseAmount() { return player.points }, // Current amount of base resource from Big Bang
     type: "normal", // Type of prestige layer
-    exponent: 0.09, // Exponent for point generation
+    exponent: 0.009, // Exponent for point generation
     gainMult() { // Calculate the multiplier for points
         let mult = new Decimal(1);
         if (hasUpgrade("b", 24)) {
@@ -81,7 +81,7 @@ addLayer("e", { // 'e' for Early Universe
             description: "Boosts the base of Universal Beginning by adding a logarithmic function of Subatomic Particles",
             cost: new Decimal(50),
             effect() {
-                let eff = player.e.points.add(1).log10().add(1); // Logarithmic effect without internal +1
+                let eff = player.e.points.add(1).log10().add(1).pow(0.25); // Logarithmic effect without internal +1
                 return eff;
             },
             effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
