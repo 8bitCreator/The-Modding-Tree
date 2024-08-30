@@ -112,7 +112,7 @@ addLayer("d", {
         };
     },
     color: "#2B2D42", // Dark, cosmic color
-    requires: new Decimal(1e55), // Requirement to unlock this layer (1e200 Matter)
+    requires: new Decimal(1e200), // Requirement to unlock this layer (1e200 Matter)
     resource: "Dark Matter", // Name of the resource (purely thematic)
     baseResource: "Points", // Resource required to unlock (using player points, which is Matter)
     baseAmount() { return player.points; }, // Amount of Matter (player points)
@@ -123,7 +123,7 @@ addLayer("d", {
         {key: "d", description: "D: Enter the Dark Ages", onPress() { if (canReset(this.layer)) doReset(this.layer) }},
     ],
     layerShown() { 
-        return player.points.gte(1e55) || player.d.unlocked; // Show when 1e200 Matter is reached or if the layer is unlocked
+        return player.points.gte(1e200) || player.d.unlocked; // Show when 1e200 Matter is reached or if the layer is unlocked
     },
 
     // Main Challenge
