@@ -115,7 +115,7 @@ addLayer("d", {
         };
     },
     color: "#2B2D42", // Dark, cosmic color
-    requires: new Decimal(1e100), // Requirement to unlock this layer (1e100 Matter)
+    requires: new Decimal(1e35), // Requirement to unlock this layer (1e100 Matter)
     resource: "Dark Matter", // Name of the resource (purely thematic)
     baseResource: "Points", // Resource required to unlock (using player points, which is Matter)
     baseAmount() { return player.points; }, // Amount of Matter (player points)
@@ -160,10 +160,10 @@ addLayer("d", {
 
     // Layer Effect
     effect() {
-        let eff = player.d.points.add(1).log10().pow(0.5); // Calculate the effect based on Dark Matter
+        let eff = player.d.points.add(1).log10(); // Calculate the effect based on Dark Matter
         return eff;
     },
   effectDescription() {
-    return "which adds to the first upgrade base by " + "+" + format(this.effect()); // Display the effect
+    return "which adds Universal Beginning and Cosmic Expansion base by " + "+" + format(this.effect()); // Display the effect
 },
 });
