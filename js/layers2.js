@@ -111,7 +111,7 @@ addLayer("e", { // 'e' for Early Universe
                 },
              effectDisplay() { return "+" + format(this.effect()); },
             unlocked() { 
-    return player.e.challengeCompleted === true; 
+    return player.d.challengeCompleted = true; 
 },
 
     },
@@ -158,16 +158,16 @@ addLayer("d", {
                 player.challenging = true; // Flag indicating a challenge is active
                 
                 // Disable upgrades 32 and 33 in the Big Bang layer
-                player.e.upgradesDisabled = { 32: true, 33: true };
+                player.d.upgradesDisabled = { 32: true, 33: true };
             },
             onExit() {
                 player.challenging = false; // Remove the challenge flag
                 
                 // Re-enable upgrades 32 and 33 in the Big Bang layer
-                delete player.e.upgradesDisabled;
+                delete player.d.upgradesDisabled;
             },
             onComplete() {
-                player.e.challengeCompleted = true; // Mark the challenge as completed
+                player.d.challengeCompleted = true; // Mark the challenge as completed
             },
         },
     },
