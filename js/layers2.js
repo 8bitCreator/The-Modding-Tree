@@ -46,14 +46,14 @@ addLayer("e", { // 'e' for Early Universe
     },
     milestones: {
         0: {
-            requirementDescription: "10 Subatomic Particles", // Requirement to unlock
+            requirementDescription: "5 Subatomic Particles", // Requirement to unlock
             effectDescription: "Keep the singularities upgrades after resetting in the Early Universe layer.", // Effect when unlocked
-            done() { return player.e.points.gte(10); }, // Check if the Big Bang layer is unlocked
+            done() { return player.e.points.gte(5); }, // Check if the Big Bang layer is unlocked
             unlocked() { return true; }, // Always unlocked once conditions are met
         },
          1: {
             requirementDescription: "1000 Subatomic Particles", // Requirement to unlock
-            effectDescription: "Unlocks New Upgrades in Singularities", // Effect when unlocked
+            effectDescription: "Unlocks New Upgrades in Singularities and Passive Generation", // Effect when unlocked
             done() { return player.e.points.gte(1000); }, // Check if the Big Bang layer is unlocked
             unlocked() { return true; }, // Always unlocked once conditions are met
         },
@@ -79,7 +79,7 @@ addLayer("e", { // 'e' for Early Universe
         13: {
             title: "Cosmic Synergy",
             description: "Boosts the base of Universal Beginning by adding a logarithmic function of Subatomic Particles",
-            cost: new Decimal(50),
+            cost: new Decimal(25),
             effect() {
                 let eff = player.e.points.add(1).log10().add(1).pow(0.25); // Logarithmic effect without internal +1
                 return eff;
