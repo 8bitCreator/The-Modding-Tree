@@ -153,6 +153,10 @@ addLayer("b", {
             cost: new Decimal(30),
             effect() {
                 let eff = new Decimal(2); 
+                  if (player.d.unlocked) {
+        let darkMatterEffect = tmp.d.effect; // Assuming tmp.d.effect is the Dark Matter effect
+        eff = eff.add(darkMatterEffect);
+    }
         if (hasUpgrade("b", 34)) { // Optional further enhancement from another upgrade
             let upgrade34Effect = upgradeEffect("b", 34);
             if (upgrade34Effect.gt(0)) {
