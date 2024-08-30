@@ -35,6 +35,9 @@ addLayer("b", {
         if (hasUpgrade("b", 14)) {
             mult = mult.pow(upgradeEffect("b", 14));
         }      
+        if (player.b.challengeCompleted) {
+                mult = mult.mul(10); // Increase effect by 50% as a reward
+            }
         return mult;
     },
     gainExp() {
