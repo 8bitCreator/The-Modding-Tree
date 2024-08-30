@@ -205,7 +205,7 @@ addLayer("b", {
     },
     33: {
         title: "Upgrade Mastery Pt3",
-        description: "Make Upgrade Mastery boost Quantum Fluctuation with a stronger reduced effect.",
+        description: "Make Upgrade Mastery Singularity Expansion with a stronger reduced effect.",
         cost: new Decimal(1000),
         effect() {
             let eff = upgradeEffect("b", 31).pow(0.15);
@@ -229,7 +229,7 @@ addLayer("b", {
     },
       14: {
     title: "Singularity Breaking Point",
-    description: "Raise Singularity Points by a logarithmic function of current Singularity Points with a much reduced effect.",
+    description: "Raise Singularity Points by current Singularity Points with a much reduced effect.",
     cost: new Decimal(1e25),
     effect() {
         // Logarithmic effect calculation with a much lower exponent
@@ -256,7 +256,7 @@ addLayer("b", {
 },
   34: {
             title: "Upgrade Mastery Pt4",
-            description: "Make Upgrade Mastery boost Quantum Fluctuation with a way stronger reduced effect",
+            description: "Make Upgrade Mastery boost Cosmic Expansion with a way stronger reduced effect",
             cost: new Decimal(1e50),
             effect() {
                 let eff = upgradeEffect("b", 31).pow(0.10);
