@@ -93,7 +93,7 @@ addLayer("e", { // 'e' for Early Universe
           21: {
         title: "Subatomic Mastery",
         description: "Boosts the base of All the Upgrades Masteries",
-        cost: new Decimal(1e7),
+        cost: new Decimal(1000),
         effect() {
             let eff = player.e.points.add(1).log10().add(1).pow(0.05); // Logarithmic effect with reduced exponent
             return eff;
