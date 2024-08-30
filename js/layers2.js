@@ -92,7 +92,7 @@ addLayer("e", { // 'e' for Early Universe
         },
           21: {
         title: "Subatomic Mastery",
-        description: "Boosts the base of All the Upgrades Masteries",
+        description: "adds to the base of All the Upgrades Masteries",
         cost: new Decimal(1000),
         effect() {
             let eff = player.e.points.add(1).log10().add(1).pow(0.05); // Logarithmic effect with reduced exponent
@@ -101,7 +101,21 @@ addLayer("e", { // 'e' for Early Universe
         effectDisplay() { return "+" + format(this.effect()); }, // Display the effect as a "+x" modifier
         unlocked() { return hasUpgrade("b", 34); }, // Unlocked after the previous upgrade
     },
-    }
+        22:{
+            title: "Cosmic Mastery",
+            description:"Adds to the base of Cosmic Expansion",
+            cost: new Decimal(1500),
+            effect() { 
+                let eff = player.e.points.add(1).log10().add(1).pow(0.5)
+                return eff 
+                },
+             effectDisplay() { return "+" + format(this.effect()); },
+            unlocked() { 
+    return player.e.challengeCompleted === true; 
+},
+
+    },
+        },
 });
 
 addLayer("d", {
@@ -144,16 +158,16 @@ addLayer("d", {
                 player.challenging = true; // Flag indicating a challenge is active
                 
                 // Disable upgrades 32 and 33 in the Big Bang layer
-                player.b.upgradesDisabled = { 32: true, 33: true };
+                player.e.upgradesDisabled = { 32: true, 33: true };
             },
             onExit() {
                 player.challenging = false; // Remove the challenge flag
                 
                 // Re-enable upgrades 32 and 33 in the Big Bang layer
-                delete player.b.upgradesDisabled;
+                delete player.e.upgradesDisabled;
             },
             onComplete() {
-                player.b.challengeCompleted = true; // Mark the challenge as completed
+                player.e.challengeCompleted = true; // Mark the challenge as completed
             },
         },
     },
