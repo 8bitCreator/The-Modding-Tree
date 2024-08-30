@@ -17,7 +17,7 @@ addLayer("e", { // 'e' for Early Universe
     exponent: 0.009, // Exponent for point generation
     gainMult() { // Calculate the multiplier for points
         let mult = new Decimal(1);
-        if (hasMilestone("b", 0)) {
+        if (hasMilestone("e", 0)) {
             mult = mult.mul(2);
         }
         if (hasUpgrade("b", 24)) {
