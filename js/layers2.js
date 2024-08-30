@@ -160,7 +160,7 @@ addLayer("d", {
         let eff = player.d.points.add(1).log10().pow(0.5); // Calculate the effect based on Dark Matter
         return eff;
     },
-    effectDescription() {
-        return "which boosts Subatomic Particles generation by " + format(this.effect()) + "x"; // Display the effect
-    },
+  effectDescription() {
+    return "which adds to the first upgrade base by " + "+" + format(this.effect()); // Display the effect
+},
 });
