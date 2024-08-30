@@ -56,31 +56,37 @@ addLayer("b", {
         },
     },
     upgrades: {
-       11: {
-    title: "Universal Beginning",
-    description: "Boosts Matter generation by",
-    cost: new Decimal(1),
-    effect() { 
-        let baseEff = new Decimal(2); // Base effect is 2
+     11: {
+        title: "Universal Beginning",
+        description: "Boosts Matter generation by",
+        cost: new Decimal(1),
+        effect() { 
+            let baseEff = new Decimal(2); // Base effect is 2
 
-        // Add the effect of Upgrade 13 from the other layer (layer e)
-        if (hasUpgrade("e", 13)) {
-            let upgrade13Effect = upgradeEffect("e", 13);
-            baseEff = baseEff.add(upgrade13Effect);
-        }
-
-        // Apply Upgrade 31's effect if it exists
-        if (hasUpgrade("b", 31)) {
-            let upgrade31Effect = upgradeEffect("b", 31);
-            if (upgrade31Effect.gt(0)) {
-                baseEff = baseEff.pow(upgrade31Effect);
+            // Add the effect of Upgrade 13 from the other layer (layer e)
+            if (hasUpgrade("e", 13)) {
+                let upgrade13Effect = upgradeEffect("e", 13);
+                baseEff = baseEff.add(upgrade13Effect);
             }
-        }
 
-        return baseEff; 
+            // Apply Upgrade 31's effect if it exists
+            if (hasUpgrade("b", 31)) {
+                let upgrade31Effect = upgradeEffect("b", 31);
+                if (upgrade31Effect.gt(0)) {
+                    baseEff = baseEff.pow(upgrade31Effect);
+                }
+            }
+
+            // Add the effect of Dark Matter from the Dark Ages layer
+            if (player.d.unlocked) {
+                let darkMatterEffect = player.d.points.add(1).log10().pow(0.5);
+                baseEff = baseEff.add(darkMatterEffect);
+            }
+
+            return baseEff; 
+        },
+        effectDisplay() { return format(this.effect()) + "x"; }, // Displays the current effect
     },
-    effectDisplay() { return format(this.effect()) + "x"; }, // Displays the current effect
-},
         12: {
             title: "Quantum Fluctuation",
             description: "Boosts Matter generation based on current Singularity Points by",
