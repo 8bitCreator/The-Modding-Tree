@@ -144,7 +144,7 @@ addLayer("b", {
                 let eff = player.points.add(1).log10().pow(0.6);
                 if (hasUpgrade("e", 23)) {
                  let e23Effect = upgradeEffect("e", 23);
-                    eff = eff.add(e23Effect), 
+                    eff = eff.mul(e23Effect), 
                          }
 
                 return eff;
