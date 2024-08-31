@@ -23,6 +23,9 @@ addLayer("e", { // 'e' for Early Universe
         if (hasUpgrade("b", 24)) {
             mult = mult.mul(upgradeEffect("b", 24));
         }
+        if (hasUpgrade("e", 23)) {
+            mult = mult.mul(upgradeEffect("e", 23));
+        }
         return mult;
     },
     gainExp() { // Calculate the exponent for main currency from bonuses
