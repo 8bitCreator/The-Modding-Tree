@@ -70,7 +70,7 @@ addLayer("e", { // 'e' for Early Universe
         },
         12: {
             title: "Accelerated Expansion",
-            description: "10x the Singularity Points gain.",
+            description: "Boost Singularity Points gain.",
             cost: new Decimal(10),
             effect() {
                 let eff = new Decimal(10); // Effect is a straightforward multiplication of Singularity Points
