@@ -312,3 +312,132 @@ addLayer("b", {
 }
 
 });
+addLayer("c", {
+    name: "Celestial",
+    symbol: "C",
+    position: 0,
+    startData() { 
+        return {
+            unlocked: false,
+            points: new Decimal(0),
+            stars: new Decimal(0), // "Stars" resource
+            starGenRate: new Decimal(1), // Stars generated per second
+        }
+    },
+    color: "#ffcc00",
+    requires: new Decimal(1e100), // Requirement to unlock the Celestial layer
+    resource: "Celestial Energy", 
+    baseResource: "Matter", 
+    baseAmount() { return player.points },
+    type: "static", 
+    exponent: 1.5, 
+    gainMult() { 
+        let mult = new Decimal(1);
+        return mult;
+    },
+    gainExp() { return new Decimal(1) },
+    row: 4, 
+    hotkeys: [
+        {key: "c", description: "C: Reset for Celestial Energy", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown() { return player.d.unlocked },
+
+    // Layer Effect
+    effect() {
+        let eff = player.c.points.add(1).pow(2); // New formula: (x + 1)^2
+        return eff;
+    },
+    effectDescription() {
+        return "which boosts your production by " + "^" + format(this.effect());
+    },
+
+    // Tab Structure
+    tabFormat: {
+        "Proto-Star": {
+            content: [
+                ["display-text", function() { return "You are forming the first celestial structure: a Proto-Star!" }],
+                "main-display",
+                ["prestige-button", "", function() { return "Form Proto-Star using Matter" }],
+                "blank",
+                "upgrades", // Adding upgrades section
+            ],
+        },
+        "Galaxy Cluster": {
+            unlocked() { return player.c.points.gte(10) }, // Unlock after gaining 10 Celestial Energy
+            content: [
+                ["display-text", function() { return "You are forming the next celestial structure: a Galaxy Cluster!" }],
+                "main-display",
+                ["prestige-button", "", function() { return "Form Galaxy Cluster using Celestial Energy" }],
+                "blank",
+            ],
+        },
+        "Stars": {
+            unlocked() { return player.c.unlocked }, // Stars tab is unlocked as soon as the Celestial layer is unlocked
+            content: [
+                ["display-text", function() { return "You can now create Stars, which are essential for the formation of larger celestial structures." }],
+                ["display-text", function() { 
+                    return "You have " + format(player.c.stars) + " Stars."; 
+                }],
+                ["display-text", function() { 
+                    return "Stars are generating at " + format(player.c.starGenRate) + " per second."; 
+                }],
+                ["resource-display", "stars"], // Display the current amount of Stars
+            ],
+        },
+    },
+
+    // Upgrades
+    upgrades: {
+        11: {
+            title: "Star-Powered Matter",
+            description: "Matter production is boosted based on the number of Stars you have.",
+            cost: new Decimal(1),
+            effect() {
+                let eff = player.c.stars.add(1).pow(0.5); // Boost based on Stars
+                return eff;
+            },
+            effectDisplay() { return "^" + format(this.effect()); },
+            unlocked() { return true; }, // Always unlocked once layer is unlocked
+        },
+        12: {
+            title: "Stellar Growth",
+            description: "Increase the production of Stars.",
+            cost: new Decimal(3),
+            effect() {
+                let eff = new Decimal(2); // Doubles Star production
+                return eff;
+            },
+            effectDisplay() { return "x" + format(this.effect()); },
+            unlocked() { return hasUpgrade("c", 11); }, // Unlock after the first upgrade
+        },
+        13: {
+            title: "Celestial Mastery",
+            description: "Boosts Celestial Energy gain based on Stars.",
+            cost: new Decimal(5),
+            effect() {
+                let eff = player.c.stars.add(1).pow(0.3); // Boost Celestial Energy based on Stars
+                return eff;
+            },
+            effectDisplay() { return "^" + format(this.effect()); },
+            unlocked() { return hasUpgrade("c", 12); }, // Unlock after the second upgrade
+        },
+    },
+
+    // Star Generation
+    update(diff) {
+       
+            let starGenRate = player.c.starGenRate.mul(tmp.c.effect);
+            
+
+            if (hasUpgrade('c', 12)) {
+                starGenRate = starGenRate.mul(upgradeEffect('c', 12));
+            }
+
+            // Multiply star generation rate by the Celestial layer effect
+            
+
+            player.c.stars = player.c.stars.add(starGenRate.mul(diff)); // Generates Stars per second
+        },
+    
+});
+
