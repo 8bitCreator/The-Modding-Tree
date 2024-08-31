@@ -52,6 +52,9 @@ function getPointGen() {
 	 if (player.e.unlocked) { // Check if the Early Universe layer is unlocked
         gain = gain.mul(tmp.e.effect); // Multiply by the effect from Early Universe
     }
+if (hasUpgrade("c", 11)) { // Check if Celestial upgrade 11 is unlocked
+    gain = gain.mul(upgradeEffect("c", 11)); // Multiply by the effect of Celestial upgrade 11
+}
 
    
 	return gain
