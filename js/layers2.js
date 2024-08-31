@@ -63,6 +63,12 @@ addLayer("e", { // 'e' for Early Universe
             done() { return player.e.points.gte(50); }, // Check if the Big Bang layer is unlocked
             unlocked() { return true; }, // Always unlocked once conditions are met
         },
+        2: {
+            requirementDescription: "5000 Subatomic Particles", // Requirement to unlock
+            effectDescription: "Unlocks a new layer and passive subatomic generation", // Effect when unlocked
+            done() { return player.e.points.gte(5000); }, // Check if the Big Bang layer is unlocked
+            unlocked() { return true; }, // Always unlocked once conditions are met
+        },
     },
     upgrades: {
         11: {
