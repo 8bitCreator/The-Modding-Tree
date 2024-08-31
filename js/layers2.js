@@ -203,6 +203,31 @@ addLayer("d", {
                 player.d.challengeCompleted = true; // Mark the challenge as completed
             },
         },
+         12: {
+            name: "Eternal Darkness",
+            challengeDescription: "Upgrade 21 22 23 24 31 32 33 34 are disabled (I recommend you unlock celestial layer to ACTUALLY complete this challenge).",
+            goalDescription: "Reach 1e5 Singularity Points.",
+            rewardDescription: "Stars generation are cubed (x^3) ",
+            canComplete() { return player.b.points.gte(1e5); }, // Completion condition
+            unlocked() { return true; }, // Always unlocked for this layer
+            
+            // Disables specific upgrades when the challenge is active
+            onEnter() {
+                player.challenging = true; // Flag indicating a challenge is active
+                
+                // Disable upgrades 32 and 33 in the Big Bang layer
+                player.d.upgradesDisabled = { 31: true,  32: true, 33: true };
+            },
+            onExit() {
+                player.challenging = false; // Remove the challenge flag
+                
+                // Re-enable upgrades 32 and 33 in the Big Bang layer
+                delete player.d.upgradesDisabled;
+            },
+            onComplete() {
+                player.d.challengeCompleted = true; // Mark the challenge as completed
+            },
+        },
     },
 
     // Layer Effect
