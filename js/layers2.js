@@ -115,20 +115,20 @@ addLayer("e", { // 'e' for Early Universe
 },
 
     },
-        23:{
-            title: "Matter to Subatomic Particles?",
-            description:"Multiply Matter to Singularity",
-            cost: new Decimal(2000),
-            effect() { 
-                let eff = player.e.points.pow(0.3)
-                return eff 
-                },
-             effectDisplay() { return format(this.effect()) + "x"; },
-            unlocked() { 
-    return player.d.challengeCompleted === true; 
+        23: {
+    title: "Singularity to Subatomic Boost",
+    description: "Boost Subatomic Particles based on Singularity Points.",
+    cost: new Decimal(2000),
+    effect() { 
+        let eff = player.b.points.add(1).log10().pow(0.3); // Assuming 's' represents Singularity Points
+        return eff;
+    },
+    effectDisplay() { return format(this.effect()) + "x"; },
+    unlocked() { 
+        return player.d.challengeCompleted === true; 
+    },
 },
 
-    },
         },
 });
 
