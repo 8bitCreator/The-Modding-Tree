@@ -330,7 +330,7 @@ addLayer("c", {
     baseResource: "Matter", 
     baseAmount() { return player.points },
     type: "normal", 
-    exponent: 0.25, 
+    exponent: 0.009, 
     gainMult() { 
         let mult = new Decimal(1);
         return mult;
