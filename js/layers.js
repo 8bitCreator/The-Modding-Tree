@@ -325,12 +325,12 @@ addLayer("c", {
         }
     },
     color: "#ffcc00",
-    requires: new Decimal(1e100), // Requirement to unlock the Celestial layer
+    requires: new Decimal(1e60), // Requirement to unlock the Celestial layer
     resource: "Celestial Energy", 
     baseResource: "Matter", 
     baseAmount() { return player.points },
-    type: "static", 
-    exponent: 1.5, 
+    type: "normal", 
+    exponent: 0.25, 
     gainMult() { 
         let mult = new Decimal(1);
         return mult;
@@ -340,7 +340,7 @@ addLayer("c", {
     hotkeys: [
         {key: "c", description: "C: Reset for Celestial Energy", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown() { return player.d.unlocked },
+    layerShown() { return hasMilestone("e", 2) },
 
     // Layer Effect
     effect() {
