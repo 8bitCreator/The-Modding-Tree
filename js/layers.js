@@ -340,7 +340,7 @@ addLayer("c", {
     hotkeys: [
         {key: "c", description: "C: Reset for Celestial Energy", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown() { player.e.unlocked },
+    layerShown() { return player.e.unlocked },
 
     // Layer Effect
     effect() {
