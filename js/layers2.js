@@ -125,7 +125,7 @@ addLayer("e", { // 'e' for Early Universe
     },
     effectDisplay() { return format(this.effect()) + "x"; },
     unlocked() { 
-        return player.d.challengeCompleted === true; 
+        return hasUpgrade("b", 34);  
     },
 },
 
