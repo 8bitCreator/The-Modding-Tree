@@ -336,11 +336,11 @@ addLayer("c", {
         return mult;
     },
     gainExp() { return new Decimal(1) },
-    row: 2, 
+    row: 1, 
     hotkeys: [
         {key: "c", description: "C: Reset for Celestial Energy", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown() { return hasMilestone("e", 2) || player.e.unlocked },
+    layerShown() { player.e.unlocked },
 
     // Layer Effect
     effect() {
