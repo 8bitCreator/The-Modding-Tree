@@ -315,7 +315,7 @@ addLayer("b", {
 addLayer("c", {
     name: "Celestial",
     symbol: "C",
-    position: 0,
+    position: 2,
     startData() { 
         return {
             unlocked: false,
@@ -336,7 +336,7 @@ addLayer("c", {
         return mult;
     },
     gainExp() { return new Decimal(1) },
-    row: 4, 
+    row: 2, 
     hotkeys: [
         {key: "c", description: "C: Reset for Celestial Energy", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
