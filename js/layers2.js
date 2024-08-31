@@ -102,7 +102,7 @@ addLayer("e", { // 'e' for Early Universe
           21: {
         title: "Subatomic Mastery",
         description: "adds to the base of All the Upgrades Masteries",
-        cost: new Decimal(1000),
+        cost: new Decimal(100),
         effect() {
             let eff = player.e.points.add(1).log10().add(1).pow(0.05); // Logarithmic effect with reduced exponent
             return eff;
@@ -113,7 +113,7 @@ addLayer("e", { // 'e' for Early Universe
         22:{
             title: "Cosmic Mastery",
             description:"Adds to the base of Cosmic Expansion",
-            cost: new Decimal(1500),
+            cost: new Decimal(250),
             effect() { 
                 let eff = player.e.points.add(1).log10().add(1).pow(0.5)
                 return eff 
@@ -127,7 +127,7 @@ addLayer("e", { // 'e' for Early Universe
         23: {
     title: "Singularity to Subatomic Boost",
     description: "Boost Subatomic Particles based on Singularity Points.",
-    cost: new Decimal(2000),
+    cost: new Decimal(300),
     effect() { 
         let eff = player.b.points.add(1).log10().pow(0.3); // Assuming 's' represents Singularity Points
         return eff;
