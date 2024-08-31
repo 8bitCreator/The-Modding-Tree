@@ -116,14 +116,14 @@ addLayer("e", { // 'e' for Early Universe
 
     },
         23:{
-            title: "Another Base Upgrade",
-            description:"Adds to the base of Cosmic Expansion",
+            title: "Matter to Subatomic Particles?",
+            description:"Multiply Matter to Singularity",
             cost: new Decimal(2000),
             effect() { 
-                let eff = player.e.points.add(1).log10().add(1).pow(0.3)
+                let eff = player.e.points.pow(0.3)
                 return eff 
                 },
-             effectDisplay() { return "+" + format(this.effect()); },
+             effectDisplay() { return format(this.effect()) + "x"; },
             unlocked() { 
     return player.d.challengeCompleted === true; 
 },
