@@ -164,7 +164,7 @@ addLayer("d", {
     color: "#2B2D42", // Dark, cosmic color
     requires: new Decimal(1e35), // Requirement to unlock this layer (1e100 Matter)
     resource: "Dark Matter", // Name of the resource (purely thematic)
-    baseResource: "Points", // Resource required to unlock (using player points, which is Matter)
+    baseResource: "Matter", // Resource required to unlock (using player points, which is Matter)
     baseAmount() { return player.points; }, // Amount of Matter (player points)
     type: "normal", // Standard layer behavior
     exponent: 0.009, // The exponent for point generation
