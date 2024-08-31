@@ -139,6 +139,16 @@ addLayer("e", { // 'e' for Early Universe
 },
 
         },
+     passiveGeneration() {
+        // Base generation rate
+        let passive = new Decimal(0); // Adjust base value as needed
+
+        // Adjust generation based on current upgrades or player status
+        if (hasMilestone("e", 2)) { // Check if the upgrade is unlocked
+            passive = passive.add(1) // Apply effect of upgrade 24
+        } 
+        return passive 
+        },
 });
 
 addLayer("d", {
