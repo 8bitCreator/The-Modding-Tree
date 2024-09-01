@@ -1,9 +1,9 @@
 let modInfo = {
-	name: "The Universal Tree",
+	name: "The ??? Tree",
 	id: "mymod",
 	author: "nobody",
-	pointsName: "Matter",
-	modFiles: ["layers.js", "tree.js", "layers2.js"],
+	pointsName: "points",
+	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -43,20 +43,6 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-	if (hasUpgrade("b", 11)) {
-        gain = gain.mul(upgradeEffect("b", 11)); }
-	if (hasUpgrade("b", 12)) {
-        gain = gain.mul(upgradeEffect("b", 12)); }
-	if (hasUpgrade("b", 21)) { 
-	gain = gain.mul(upgradeEffect("b", 21)); }
-	 if (player.e.unlocked) { // Check if the Early Universe layer is unlocked
-        gain = gain.mul(tmp.e.effect); // Multiply by the effect from Early Universe
-    }
-if (hasUpgrade("c", 11)) { // Check if Celestial upgrade 11 is unlocked
-    gain = gain.mul(upgradeEffect("c", 11)); // Multiply by the effect of Celestial upgrade 11
-}
-
-   
 	return gain
 }
 
