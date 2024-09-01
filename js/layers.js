@@ -426,14 +426,21 @@ addLayer("c", {
     },
 
     // Star Generation
-    update(diff) {
-        let starGenRate = player.c.starGenRate.mul(tmp.c.effect);
+   update(diff) {
+    // Start with the base star generation rate
+    let baseStarGenRate = new Decimal(1);
 
-        if (hasUpgrade('c', 12)) {
-            starGenRate = starGenRate.mul(upgradeEffect('c', 12));
-        }
+    // Apply the Celestial layer effect
+    let starGenRate = baseStarGenRate.mul(tmp.c.effect);
 
-        player.c.stars = player.c.stars.add(starGenRate.mul(diff)); // Generates Stars per second
-        player.c.starGenRate = starGenRate; // Update starGenRate to reflect the current rate including all multipliers
-    },
-});
+    // Apply the upgrade that boosts Star production
+    if (hasUpgrade('c', 12)) {
+        starGenRate = starGenRate.mul(upgradeEffect('c', 12));
+    }
+
+    // Increase the number of stars based on the calculated generation rate
+    player.c.stars = player.c.stars.add(starGenRate.mul(diff));
+
+    // No longer update player.c.starGenRate, just calculate and use it directly
+},
+}),
