@@ -208,15 +208,8 @@ addLayer("b", {
         effect() {
             let eff = upgradeEffect("b", 31).pow(0.25);
             
-            // Disable this upgrade during the challenge
-            if (player.challenging && player.d.upgradesDisabled[32]) {
-                eff = new Decimal(1); // Return 1 instead of the normal effect
-            }
+            
 
-            // Buff the effect if the challenge is completed
-            if (player.d.challengeCompleted) {
-                eff = eff.mul(1.25); // Increase effect by 50% as a reward
-            }
 
             return eff;
         },
@@ -233,15 +226,7 @@ addLayer("b", {
             let eff = upgradeEffect("b", 31).pow(0.15);
             
             // Disable this upgrade during the challenge
-            if (player.challenging && player.d.upgradesDisabled[33]) {
-                eff = new Decimal(1); // Return 1 instead of the normal effect
-            }
-
-            // Buff the effect if the challenge is completed
-            if (player.d.challengeCompleted) {
-                eff = eff.mul(1.25); // Increase effect by 50% as a reward
-            }
-
+           
             return eff;
         },
         effectDisplay() { 
