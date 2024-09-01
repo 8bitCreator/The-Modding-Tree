@@ -35,7 +35,7 @@ addLayer("b", {
         if (hasUpgrade("b", 14)) {
             mult = mult.pow(upgradeEffect("b", 14));
         }      
-        if (player.d.challengeCompleted) {
+        if (hasMilestone("e", 3)) {
                 mult = mult.mul(10); 
             }
         return mult;
