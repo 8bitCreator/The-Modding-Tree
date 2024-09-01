@@ -1,28 +1,56 @@
-addLayer("p", {
-    name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+addLayer("i", { // 'i' for "Initial Expansion"
+    name: "Initial Expansion",
+    symbol: "I",
+    position: 0,
     startData() { return {
         unlocked: true,
-		points: new Decimal(0),
+        points: new Decimal(0), // Your resource, e.g., "Energy Particles"
     }},
-    color: "#4BDC13",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
-    resource: "prestige points", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
+    color: "#FFD700", // Gold color for energy
+    requires: new Decimal(10), // Amount of "points" needed to prestige
+    resource: "Inflation Points", // Prestige currency
+    baseResource: "energy particles", // Resource needed to gain prestige currency
+    baseAmount() {return player.points}, // Function to get the current amount of energy particles
+    type: "normal",
+    exponent: 0.5, // Adjust based on how you want prestige scaling
+    gainMult() {
+        let mult = new Decimal(1);
+        // Add logic to modify the multiplier if needed (e.g., based on upgrades)
+        return mult;
     },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+    gainExp() {
+        return new Decimal(1); // Exponent for gaining resources
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 0, // First row on the tree
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "i", description: "I: Reset for Inflation Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true}
+    layerShown(){return true},
+
+    // Adding tabs for Phases 2 and 3
+    tabFormat: {
+        "Phase 1": {
+            content: [
+                "main-display",
+                "prestige-button",
+                "resource-display",
+                "upgrades",
+                // Add more content specific to Phase 1
+            ],
+        },
+        "Phase 2: Matter Formation": {
+            content: [
+                ["display-text", "Matter Formation begins as energy cools and particles combine..."],
+                // Add content specific to Phase 2
+            ],
+            unlocked() { return player.i.points.gte(1) } // Example: Unlock Phase 2 after 100 Inflation Points
+        },
+        "Phase 3: Structure Formation": {
+            content: [
+                ["display-text", "As matter forms, stars and galaxies begin to emerge..."],
+                // Add content specific to Phase 3
+            ],
+            unlocked() { return player.i.points.gte(1) } // Example: Unlock Phase 3 after 1000 Inflation Points
+        },
+    },
 })
