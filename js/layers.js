@@ -379,9 +379,11 @@ addLayer("c", {
                     return "You have " + format(player.c.stars) + " Stars."; 
                 }],
                 ["display-text", function() { 
-                    return "Stars are generating at " + format(player.c.starGenRate) + " per second."; 
+                    return "Stars are generating at " + format(player.c.starGenRate.mul(tmp.c.effect)) + " per second."; 
                 }],
                 ["resource-display", "stars"], // Display the current amount of Stars
+                "blank",
+                "upgrades", // Adding upgrades section for Stars tab
             ],
         },
     },
@@ -390,13 +392,13 @@ addLayer("c", {
     upgrades: {
         11: {
             title: "Star-Powered Matter",
-            description: "Matter production is boosted based on the number of Stars you have.",
+            description: "Matter production is multiplicatively boosted based on the number of Stars you have.",
             cost: new Decimal(1),
             effect() {
-                let eff = player.c.stars.add(1).pow(0.5); // Boost based on Stars
+                let eff = player.c.stars.add(1).pow(0.6); // Boost based on Stars with a power of 0.6
                 return eff;
             },
-            effectDisplay() { return "^" + format(this.effect()); },
+            effectDisplay() { return "x" + format(this.effect()); },
             unlocked() { return true; }, // Always unlocked once layer is unlocked
         },
         12: {
@@ -412,32 +414,26 @@ addLayer("c", {
         },
         13: {
             title: "Celestial Mastery",
-            description: "Boosts Celestial Energy gain based on Stars.",
+            description: "Boosts Celestial Energy gain multiplicatively based on the logarithm of Stars.",
             cost: new Decimal(5),
             effect() {
-                let eff = player.c.stars.add(1).pow(0.3); // Boost Celestial Energy based on Stars
+                let eff = player.c.stars.add(1).log(10).add(1); // Logarithmic boost based on Stars
                 return eff;
             },
-            effectDisplay() { return "^" + format(this.effect()); },
+            effectDisplay() { return "x" + format(this.effect()); },
             unlocked() { return hasUpgrade("c", 12); }, // Unlock after the second upgrade
         },
     },
 
     // Star Generation
     update(diff) {
-       
-            let starGenRate = player.c.starGenRate.mul(tmp.c.effect);
-            
+        let starGenRate = player.c.starGenRate.mul(tmp.c.effect);
 
-            if (hasUpgrade('c', 12)) {
-                starGenRate = starGenRate.mul(upgradeEffect('c', 12));
-            }
+        if (hasUpgrade('c', 12)) {
+            starGenRate = starGenRate.mul(upgradeEffect('c', 12));
+        }
 
-            // Multiply star generation rate by the Celestial layer effect
-            
-
-            player.c.stars = player.c.stars.add(starGenRate.mul(diff)); // Generates Stars per second
-        },
-    
+        player.c.stars = player.c.stars.add(starGenRate.mul(diff)); // Generates Stars per second
+        player.c.starGenRate = starGenRate; // Update starGenRate to reflect the current rate including all multipliers
+    },
 });
-
