@@ -39,7 +39,7 @@ addLayer("i", { // 'i' for "Initial Expansion"
         description: "Boost Inflation Points gain based on current energy particles.",
         cost: new Decimal(10), // Increased cost to 10 Inflation Points
         effect() {
-            return player.points.add(1).pow(0.4); // Reduced exponent from 0.5 to 0.4
+            return player.points.add(1).pow(0.3); // Reduced exponent from 0.5 to 0.4
         },
         effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
     },
@@ -74,7 +74,7 @@ addLayer("i", { // 'i' for "Initial Expansion"
         description: "Boost Inflation Points gain based on current Inflation Points.",
         cost: new Decimal(40), // Increased cost to 40 Inflation Points
         effect() {
-            let baseEffect = player.i.points.add(1).pow(0.4); // Reduced exponent from 0.5 to 0.4
+            let baseEffect = player.i.points.add(1).pow(0.2); // Reduced exponent from 0.5 to 0.4
 
             // Check if Upgrade 22 is bought, and apply its effect
             if (hasUpgrade('i', 22)) {
