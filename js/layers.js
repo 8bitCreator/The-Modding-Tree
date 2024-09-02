@@ -34,21 +34,21 @@ addLayer("i", { // 'i' for "Initial Expansion"
     layerShown(){return true},
 
     upgrades: {
-        11: {
-            title: "Energy Amplification",
-            description: "Boost Inflation Points gain based on current energy particles.",
-            cost: new Decimal(5), // Cost in Inflation Points
-            effect() {
-                return player.points.add(1).pow(0.5); // Boost to Inflation Points based on energy particles
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+       11: {
+        title: "Energy Amplification",
+        description: "Boost Inflation Points gain based on current energy particles.",
+        cost: new Decimal(10), // Increased cost to 10 Inflation Points
+        effect() {
+            return player.points.add(1).pow(0.4); // Reduced exponent from 0.5 to 0.4
         },
-       12: {
+        effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+    },
+    12: {
         title: "Self-Sustaining Energy",
         description: "Boost energy particles gain based on current energy particles.",
-        cost: new Decimal(10), // Cost in Inflation Points
+        cost: new Decimal(20), // Increased cost to 20 Inflation Points
         effect() {
-            let eff = player.points.add(1).pow(0.3); // Base effect for Upgrade 12
+            let eff = player.points.add(1).pow(0.2); // Reduced exponent from 0.3 to 0.2
 
             // Check if Upgrade 21 is bought, and apply its effect
             if (hasUpgrade('i', 21)) {
@@ -60,52 +60,51 @@ addLayer("i", { // 'i' for "Initial Expansion"
         },
         effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
     },
-        13: {
-            title: "Inflation Empowerment",
-            description: "Boost energy particles gain based on current Inflation Points.",
-            cost: new Decimal(15), // Cost in Inflation Points
-            effect() {
-                return player.i.points.add(1).pow(0.4); // Example: boost energy particles based on Inflation Points
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+    13: {
+        title: "Inflation Empowerment",
+        description: "Boost energy particles gain based on current Inflation Points.",
+        cost: new Decimal(30), // Increased cost to 30 Inflation Points
+        effect() {
+            return player.i.points.add(1).pow(0.3); // Reduced exponent from 0.4 to 0.3
         },
-       14: {
-    title: "Self-Inflation",
-    description: "Boost Inflation Points gain based on current Inflation Points.",
-    cost: new Decimal(20), // Cost in Inflation Points
-    effect() {
-        let baseEffect = player.i.points.add(1).pow(0.5); // Base effect for Upgrade 14
-
-        // Check if Upgrade 22 is bought, and apply its effect
-        if (hasUpgrade('i', 22)) {
-            let upgrade22Effect = upgradeEffect('i', 22); // Get the effect of Upgrade 22
-            baseEffect = baseEffect.pow(upgrade22Effect); // Raise the base effect by the expBoost from Upgrade 22
-        }
-
-        return baseEffect;
+        effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
     },
-    effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-},
+    14: {
+        title: "Self-Inflation",
+        description: "Boost Inflation Points gain based on current Inflation Points.",
+        cost: new Decimal(40), // Increased cost to 40 Inflation Points
+        effect() {
+            let baseEffect = player.i.points.add(1).pow(0.4); // Reduced exponent from 0.5 to 0.4
 
-        21: {
-            title: "Empowered Energy",
-            description: "Raise the effect of Self-Sustaining Energy based on current Inflation Points.",
-            cost: new Decimal(30), // Cost in Inflation Points
-            effect() {
-                // Increase the exponent of the second upgrade slightly
-                let expBoost = player.i.points.add(1).log10().div(10).add(1); // Example: log10(In Points + 1) / 10 + 1
-                return expBoost;
-            },
-            effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
-            unlocked() { return hasUpgrade('i', 14); }, // Only unlock if the player has bought upgrade 12
+            // Check if Upgrade 22 is bought, and apply its effect
+            if (hasUpgrade('i', 22)) {
+                let upgrade22Effect = upgradeEffect('i', 22); // Get the effect of Upgrade 22
+                baseEffect = baseEffect.pow(upgrade22Effect); // Raise the base effect by the expBoost from Upgrade 22
+            }
+
+            return baseEffect;
         },
-        22: {
+        effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+    },
+    21: {
+        title: "Empowered Energy",
+        description: "Raise the effect of Self-Sustaining Energy based on current Inflation Points.",
+        cost: new Decimal(50), // Increased cost to 50 Inflation Points
+        effect() {
+            // Reduce the exponent boost to balance the impact
+            let expBoost = player.i.points.add(1).log10().div(15).add(1); // log10(In Points + 1) / 15 + 1
+            return expBoost;
+        },
+        effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
+        unlocked() { return hasUpgrade('i', 12); }, // Only unlock if the player has bought Upgrade 12
+    },
+    22: {
         title: "Energy Inflation",
         description: "Raise the effect of Self-Inflation based on current energy particles.",
-        cost: new Decimal(35), // Cost in Inflation Points
+        cost: new Decimal(70), // Increased cost to 70 Inflation Points
         effect() {
-            // Increase the exponent of Upgrade 14 slightly based on player points (energy particles)
-            let expBoost = player.points.add(1).log10().div(10).add(1); // Example: log10(player.points + 1) / 10 + 1
+            // Reduce the exponent boost to balance the impact
+            let expBoost = player.points.add(1).log10().div(15).add(1); // log10(player.points + 1) / 15 + 1
             return expBoost;
         },
         effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
