@@ -19,6 +19,9 @@ addLayer("i", { // 'i' for "Initial Expansion"
         // Apply upgrade effect for upgrade 11 if bought
         if (hasUpgrade('i', 11)) mult = mult.times(upgradeEffect('i', 11));
         
+        // Apply upgrade effect for upgrade 14 if bought
+        if (hasUpgrade('i', 14)) mult = mult.times(upgradeEffect('i', 14));
+
         return mult;
     },
     gainExp() {
@@ -40,15 +43,23 @@ addLayer("i", { // 'i' for "Initial Expansion"
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
         },
-        12: {
-            title: "Self-Sustaining Energy",
-            description: "Boost energy particles gain based on current energy particles.",
-            cost: new Decimal(10), // Cost in Inflation Points
-            effect() {
-                return player.points.add(1).pow(0.3); // Example: smaller boost to energy particles themselves
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+       12: {
+        title: "Self-Sustaining Energy",
+        description: "Boost energy particles gain based on current energy particles.",
+        cost: new Decimal(10), // Cost in Inflation Points
+        effect() {
+            let eff = player.points.add(1).pow(0.3); // Base effect for Upgrade 12
+
+            // Check if Upgrade 21 is bought, and apply its effect
+            if (hasUpgrade('i', 21)) {
+                let upgrade21Effect = upgradeEffect('i', 21); // Get the effect of Upgrade 21
+                eff = eff.pow(upgrade21Effect); // Apply the exponent boost from Upgrade 21
+            }
+
+            return eff;
         },
+        effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+    },
         13: {
             title: "Inflation Empowerment",
             description: "Boost energy particles gain based on current Inflation Points.",
@@ -57,6 +68,27 @@ addLayer("i", { // 'i' for "Initial Expansion"
                 return player.i.points.add(1).pow(0.4); // Example: boost energy particles based on Inflation Points
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+        },
+        14: {
+            title: "Self-Inflation",
+            description: "Boost Inflation Points gain based on current Inflation Points.",
+            cost: new Decimal(20), // Cost in Inflation Points
+            effect() {
+                return player.i.points.add(1).pow(0.5); // Example: boost Inflation Points based on Inflation Points
+            },
+            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+        },
+        21: {
+            title: "Empowered Energy",
+            description: "Raise the effect of Self-Sustaining Energy based on current Inflation Points.",
+            cost: new Decimal(30), // Cost in Inflation Points
+            effect() {
+                // Increase the exponent of the second upgrade slightly
+                let expBoost = player.i.points.add(1).log10().div(10).add(1); // Example: log10(In Points + 1) / 10 + 1
+                return expBoost;
+            },
+            effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
+            unlocked() { return hasUpgrade('i', 12); }, // Only unlock if the player has bought upgrade 12
         },
         // Additional upgrades can be added here
     },
