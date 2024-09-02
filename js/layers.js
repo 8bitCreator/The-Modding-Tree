@@ -88,7 +88,7 @@ addLayer("i", { // 'i' for "Initial Expansion"
                 return expBoost;
             },
             effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
-            unlocked() { return hasUpgrade('i', 12); }, // Only unlock if the player has bought upgrade 12
+            unlocked() { return hasUpgrade('i', 14); }, // Only unlock if the player has bought upgrade 12
         },
         // Additional upgrades can be added here
     },
