@@ -23,9 +23,6 @@ addLayer("i", { // 'i' for "Initial Expansion"
         // Apply upgrade effect for upgrade 14 if bought
         if (hasUpgrade('i', 14)) mult = mult.times(upgradeEffect('i', 14));
 
-        // Apply Matter effect if in Phase 2
-        if (player.i.matter.gt(0)) mult = mult.times(tmp.i.effect); // Use the calculated Matter effect
-
         return mult;
     },
     gainExp() {
@@ -85,27 +82,27 @@ addLayer("i", { // 'i' for "Initial Expansion"
             player.i.matter = player.i.matter.add(matterGain); // Add generated matter
         }
     },
-        upgrades: {
+
+    upgrades: {
         11: {
             title: "Energy Amplification",
             description: "Boost Inflation Points gain based on current energy particles.",
-            cost: new Decimal(1), // Increased cost to 10 Inflation Points
+            cost: new Decimal(10), // Cost in Inflation Points
             effect() {
-                return player.points.add(1).pow(0.3); // Reduced exponent from 0.5 to 0.3
+                return player.points.add(1).pow(0.3); // Boost Inflation Points gain based on energy particles
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
         },
         12: {
             title: "Self-Sustaining Energy",
             description: "Boost energy particles gain based on current energy particles.",
-            cost: new Decimal(5), // Increased cost to 20 Inflation Points
+            cost: new Decimal(20), // Cost in Inflation Points
             effect() {
-                let eff = player.points.add(1).pow(0.2); // Reduced exponent from 0.3 to 0.2
+                let eff = player.points.add(1).pow(0.2);
 
-                // Check if Upgrade 21 is bought, and apply its effect
                 if (hasUpgrade('i', 21)) {
-                    let upgrade21Effect = upgradeEffect('i', 21); // Get the effect of Upgrade 21
-                    eff = eff.pow(upgrade21Effect); // Apply the exponent boost from Upgrade 21
+                    let upgrade21Effect = upgradeEffect('i', 21);
+                    eff = eff.pow(upgrade21Effect); // Apply Upgrade 21 effect
                 }
 
                 return eff;
@@ -115,23 +112,22 @@ addLayer("i", { // 'i' for "Initial Expansion"
         13: {
             title: "Inflation Empowerment",
             description: "Boost energy particles gain based on current Inflation Points.",
-            cost: new Decimal(10), // Increased cost to 30 Inflation Points
+            cost: new Decimal(30), // Cost in Inflation Points
             effect() {
-                return player.i.points.add(1).pow(0.3); // Reduced exponent from 0.4 to 0.3
+                return player.i.points.add(1).pow(0.3); // Boost energy particles gain based on Inflation Points
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
         },
         14: {
             title: "Self-Inflation",
             description: "Boost Inflation Points gain based on current Inflation Points.",
-            cost: new Decimal(15), // Increased cost to 40 Inflation Points
+            cost: new Decimal(40), // Cost in Inflation Points
             effect() {
-                let baseEffect = player.i.points.add(1).pow(0.2); // Reduced exponent from 0.5 to 0.2
+                let baseEffect = player.i.points.add(1).log10().add(1); // Use log10 for controlled growth
 
-                // Check if Upgrade 22 is bought, and apply its effect
                 if (hasUpgrade('i', 22)) {
-                    let upgrade22Effect = upgradeEffect('i', 22); // Get the effect of Upgrade 22
-                    baseEffect = baseEffect.pow(upgrade22Effect); // Raise the base effect by the expBoost from Upgrade 22
+                    let upgrade22Effect = upgradeEffect('i', 22);
+                    baseEffect = baseEffect.pow(upgrade22Effect); // Apply Upgrade 22 effect
                 }
 
                 return baseEffect;
@@ -141,38 +137,38 @@ addLayer("i", { // 'i' for "Initial Expansion"
         21: {
             title: "Empowered Energy",
             description: "Raise the effect of Self-Sustaining Energy based on current Inflation Points.",
-            cost: new Decimal(50), // Increased cost to 50 Inflation Points
+            cost: new Decimal(50), // Cost in Inflation Points
             effect() {
-                // Reduce the exponent boost to balance the impact
-                let expBoost = player.i.points.add(1).log10().div(15).add(1); // log10(In Points + 1) / 15 + 1
+                let expBoost = player.i.points.add(1).log10().div(15).add(1); // Boost based on Inflation Points with log10
                 return expBoost;
             },
             effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
-            unlocked() { return hasUpgrade('i', 12); }, // Only unlock if the player has bought Upgrade 12
+            unlocked() { return hasUpgrade('i', 12); }, // Unlock condition
         },
         22: {
             title: "Energy Inflation",
             description: "Raise the effect of Self-Inflation based on current energy particles.",
-            cost: new Decimal(70), // Increased cost to 70 Inflation Points
+            cost: new Decimal(70), // Cost in Inflation Points
             effect() {
-                // Reduce the exponent boost to balance the impact
-                let expBoost = player.points.add(1).log10().div(15).add(1); // log10(player.points + 1) / 15 + 1
+                let expBoost = player.points.add(1).log10().div(15).add(1); // Boost based on energy particles with log10
                 return expBoost;
             },
             effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
-            unlocked() { return hasUpgrade('i', 14); }, // Only unlock if the player has bought Upgrade 14
+            unlocked() { return hasUpgrade('i', 14); }, // Unlock condition
         },
-            31: {
+
+        // Matter-based upgrades in Phase 2
+        31: {
             title: "Matter Compression",
             description: "Increase Matter gain based on current Inflation Points.",
             cost: new Decimal(100), // Cost in Matter
             currencyDisplayName: "Matter", // Indicate that the cost is in Matter
             currencyInternalName: "matter", // Access the Matter currency
             effect() {
-                return player.i.points.add(1).pow(0.2); // Example: Boost to Matter gain based on Inflation Points
+                return player.i.points.add(1).pow(0.2); // Boost to Matter gain based on Inflation Points
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return player.i.matter.gte(100) }, // Unlock after gaining 100 Matter
+            unlocked() { return player.i.matter.gte(100); }, // Unlock after gaining 100 Matter
         },
         32: {
             title: "Stellar Nucleosynthesis",
@@ -181,10 +177,10 @@ addLayer("i", { // 'i' for "Initial Expansion"
             currencyDisplayName: "Matter", // Indicate that the cost is in Matter
             currencyInternalName: "matter", // Access the Matter currency
             effect() {
-                return player.i.matter.add(1).pow(0.15); // Example: Boost Inflation Points gain based on Matter
+                return player.i.matter.add(1).pow(0.15); // Boost Inflation Points gain based on Matter
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return player.i.matter.gte(250) }, // Unlock after gaining 250 Matter
+            unlocked() { return player.i.matter.gte(250); }, // Unlock after gaining 250 Matter
         },
         33: {
             title: "Galaxy Formation",
@@ -197,7 +193,7 @@ addLayer("i", { // 'i' for "Initial Expansion"
                 return matterBoost;
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return player.i.matter.gte(500) }, // Unlock after gaining 500 Matter
+            unlocked() { return player.i.matter.gte(500); }, // Unlock after gaining 500 Matter
         },
     },
-     },)
+});
