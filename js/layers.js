@@ -26,13 +26,13 @@ addLayer("r", { // 'r' for "Replicanti"
         player.r.points = player.r.points.add(player.r.points.mul(growthRate).times(diff)); 
     },
 
-    // Replicanti Effect: Boosting Player Points
+    // Replicanti Effect: Boosting Time gain
     effect() {
-        return player.r.points.add(1).pow(0.15); // Balanced effect to boost Player Points
+        return player.r.points.add(1).pow(0.15); // Balanced effect to boost Time gain
     },
 
     effectDescription() {
-        return "which boosts Player Points gain by ×" + format(tmp.r.effect); // Shows the effect multiplier in the layer tab
+        return "which boosts Time gain by ×" + format(tmp.r.effect); // Shows the effect multiplier in the layer tab
     },
 
     // Upgrades to enhance Replicanti growth
