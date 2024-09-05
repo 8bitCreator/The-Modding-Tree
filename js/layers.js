@@ -12,6 +12,7 @@ addLayer("r", { // 'r' for "Replicanti"
     hotkeys: [
         {key: "r", description: "R: Reset for Replicanti", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    resource: "Replicanti",
     layerShown(){return true}, // Show the Replicanti layer at all times
 
     // Replicanti Growth Formula (Update with Upgrade Effects)
