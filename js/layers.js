@@ -6,7 +6,7 @@ addLayer("r", { // 'r' for "Replicanti"
         unlocked: true, // This layer is unlocked at the start
         points: new Decimal(0), // The main currency, Replicanti
     }},
-    color: "#7FFF00", // Lime green color for Replicanti
+    color: "#800020", // Lime green color for Replicanti
     type: "none", // No standard prestige; full custom control
     row: 0, // First row on the tree
     hotkeys: [
