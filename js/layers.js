@@ -18,8 +18,12 @@ addLayer("r", { // 'r' for "Replicanti"
 
     // Replicanti Growth Formula (Update with Upgrade Effects)
     update(diff) {
-        let growthRate = new Decimal(1); // Base 1% growth rate per second
-
+        let growthRate = new Decimal(1);
+          playerPointsBoost() {
+        return player.points.add(1).pow(0.2); // Example: Boost based on Player Points raised to 0.2 power
+    },
+// Base 1% growth rate per second
+        growthRate = growthRate.times(this.playerPointsBoost());
         // Apply upgrade effects to modify growth rate
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
         if (hasUpgrade('r', 12)) growthRate = growthRate.times(upgradeEffect('r', 12));
