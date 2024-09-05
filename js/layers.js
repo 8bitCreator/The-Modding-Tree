@@ -55,7 +55,7 @@ addLayer("r", { // 'r' for "Replicanti"
             description: "Increase growth rate by 100%.",
             cost: new Decimal(100), // Cost in Replicanti
             effect() {
-                let eff new Decimal(2); 
+                let eff = new Decimal(2); 
                 return eff; // Double the growth rate
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
