@@ -21,7 +21,7 @@ let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1</h3><br>
 		- Added Replicanti growth mechanics.<br>
 		- Removed old tree mechanics.<br>
-		
+		- Balanced Replicanti boost effect.<br>`
 
 let winText = `Congratulations! You've reached the end of this version! More content coming soon.`
 
@@ -32,21 +32,21 @@ function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
 }
 
-// Determines if it should show points/sec (Energy Particles gain)
+// Determines if it should show points/sec (Time gain)
 function canGenPoints(){
 	return true
 }
 
-// Calculate Energy Particles gain per second (Replicanti boost applied here)
+// Calculate Time gain per second (Replicanti boost applied here)
 function getPointGen() {
 	if (!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
+	let gain = new Decimal(1) // Base Time generation
 
-	// Apply Replicanti effect to boost Energy Particle generation
+	// Apply Replicanti effect to boost Time generation
 	if (player.r.points.gt(0)) {
-		gain = gain.times(tmp.r.effect); // tmp.r.effect is the Replicanti effect multiplier
+		gain = gain.times(tmp.r.effect || 1); // Ensure tmp.r.effect is defined or use 1 as default
 	}
 
 	return gain
@@ -59,7 +59,7 @@ function addedPlayerData() {
 
 // Extra things to display at the top of the page
 var displayThings = [
-	"Replicanti boosts Time."
+	"Replicanti boosts Time gain."
 ]
 
 // Determines when the game "ends"
