@@ -23,7 +23,7 @@ addLayer("r", { // 'r' for "Replicanti"
         // Apply upgrade effects to modify growth rate
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
         if (hasUpgrade('r', 12)) growthRate = growthRate.times(upgradeEffect('r', 12));
-        if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 12));
+        if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13));
 
         // Increase Replicanti by the calculated growth rate
         player.r.points = player.r.points.add((growthRate).times(diff)); 
