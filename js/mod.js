@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The Replicanti Tree",
+	name: "The Time Tree",
 	id: "mymod",
 	author: "nobody",
 	pointsName: "Time",
@@ -59,8 +59,11 @@ function addedPlayerData() {
 
 // Extra things to display at the top of the page
 var displayThings = [
-	"Replicanti boosts Time gain."
-]
+    function() {
+        let boost = layers.r.playerPointsBoost(); // Call the boost calculation function
+        return `Time boosts time Shards growth by ×${format(boost)}`; // Display the boost effect
+    }
+];
 
 // Determines when the game "ends"
 function isEndgame() {
