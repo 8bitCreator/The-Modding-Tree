@@ -59,7 +59,7 @@ function addedPlayerData() {
 
 // Extra things to display at the top of the page
 var displayThings = [
-	"Replicanti boosts Energy Particles gain."
+	"Replicanti boosts Time."
 ]
 
 // Determines when the game "ends"
