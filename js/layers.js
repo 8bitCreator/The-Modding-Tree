@@ -16,7 +16,7 @@ addLayer("r", { // 'r' for "Replicanti"
 
     // Replicanti Growth Formula (Update with Upgrade Effects)
     update(diff) {
-        let growthRate = new Decimal(0.01); // Base 1% growth rate per second
+        let growthRate = new Decimal(1); // Base 1% growth rate per second
 
         // Apply upgrade effects to modify growth rate
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
