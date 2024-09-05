@@ -1,199 +1,60 @@
-addLayer("i", { // 'i' for "Initial Expansion"
-    name: "Initial Expansion",
-    symbol: "I",
-    position: 0,
+addLayer("r", { // 'r' for "Replicanti"
+    name: "Replicanti",
+    symbol: "R",
+    position: 0, // Position within the tree
     startData() { return {
-        unlocked: true,
-        points: new Decimal(0), // Your resource, e.g., "Energy Particles"
-        matter: new Decimal(0), // New resource for Phase 2
+        unlocked: true, // This layer is unlocked at the start
+        points: new Decimal(0), // The main currency, Replicanti
     }},
-    color: "#FFD700", // Gold color for energy
-    requires: new Decimal(10), // Amount of "points" needed to prestige
-    resource: "Inflation Points", // Prestige currency
-    baseResource: "energy particles", // Resource needed to gain prestige currency
-    baseAmount() { return player.points }, // Function to get the current amount of energy particles
-    type: "normal",
-    exponent: 0.5, // Adjust based on how you want prestige scaling
-    gainMult() {
-        let mult = new Decimal(1);
-        
-        // Apply upgrade effect for upgrade 11 if bought
-        if (hasUpgrade('i', 11)) mult = mult.times(upgradeEffect('i', 11));
-        
-        // Apply upgrade effect for upgrade 14 if bought
-        if (hasUpgrade('i', 14)) mult = mult.times(upgradeEffect('i', 14));
-
-        return mult;
-    },
-    gainExp() {
-        return new Decimal(1); // Exponent for gaining resources
-    },
+    color: "#7FFF00", // Lime green color for Replicanti
+    type: "none", // No standard prestige; full custom control
     row: 0, // First row on the tree
     hotkeys: [
-        { key: "i", description: "I: Reset for Inflation Points", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
+        {key: "r", description: "R: Reset for Replicanti", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown() { return true },
+    layerShown(){return true}, // Show the Replicanti layer at all times
 
-    // Adding tabs for Phases 1, 2, and 3
-    tabFormat: {
-        "Phase 1: Initial Expansion": {
-            content: [
-                "main-display",
-                "prestige-button",
-                "resource-display",
-                "upgrades", // This includes the upgrades you've defined
-            ],
-        },
-        "Phase 2: Matter Formation": {
-            content: [
-                ["raw-html",
-                function () {
-                    if (player.tab == "i" && player.subtabs.i.mainTabs == "Phase 2: Matter Formation") {
-                        let a = "You have " + colorText("h2", "#FFD700", formatWhole(player.i.matter)) + " Matter<br>"
-                        a += "Matter is generated based on your Inflation Points every second.<br>"
-                        a += "Matter boosts energy particle gain by ×" + format(tmp.i.effect) + ".<br>"
-                        return a;
-                    }
-                }],
-                ["row", [["upgrade", 31]]], // Matter Compression
-                ["row", [["upgrade", 32]]], // Stellar Nucleosynthesis
-                ["row", [["upgrade", 33]]], // Galaxy Formation
-            ],
-            unlocked() { return player.i.points.gte(100) || hasUpgrade('i', 22); } // Unlock Phase 2 after 100 Inflation Points or with Upgrade 22
-        },
-        "Phase 3: Structure Formation": {
-            content: [
-                ["display-text", "As matter forms, stars and galaxies begin to emerge..."],
-                // Add content specific to Phase 3
-            ],
-            unlocked() { return player.i.points.gte(1000); } // Example: Unlock Phase 3 after 1000 Inflation Points
-        },
-    },
-
-    // Effect from Matter
-    effect() {
-        return player.i.matter.add(1).pow(0.1); // Example: Base Matter effect that boosts energy gain
-    },
-
-    // Updating Matter generation each second
+    // Replicanti Growth Formula (Update with Upgrade Effects)
     update(diff) {
-        if (player.i.points.gte(100)) { // Check if Phase 2 is unlocked
-            let matterGain = player.i.points.add(1).pow(0.05).times(diff); // Matter gain rate
-            player.i.matter = player.i.matter.add(matterGain); // Add generated matter
-        }
+        let growthRate = new Decimal(0.01); // Base 1% growth rate per second
+
+        // Apply upgrade effects to modify growth rate
+        if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
+        if (hasUpgrade('r', 12)) growthRate = growthRate.times(upgradeEffect('r', 12));
+
+        // Increase Replicanti by the calculated growth rate
+        player.r.points = player.r.points.add(player.r.points.mul(growthRate).times(diff)); 
     },
 
+    // Replicanti Effect: Boosting Player Points
+    effect() {
+        return player.r.points.add(1).pow(0.15); // Balanced effect to boost Player Points
+    },
+
+    effectDescription() {
+        return "which boosts Player Points gain by ×" + format(tmp.r.effect); // Shows the effect multiplier in the layer tab
+    },
+
+    // Upgrades to enhance Replicanti growth
     upgrades: {
         11: {
-            title: "Energy Amplification",
-            description: "Boost Inflation Points gain based on current energy particles.",
-            cost: new Decimal(10), // Cost in Inflation Points
+            title: "Increase Growth Rate",
+            description: "Replicanti grows 50% faster.",
+            cost: new Decimal(10), // Cost in Replicanti
             effect() {
-                return player.points.add(1).pow(0.3); // Boost Inflation Points gain based on energy particles
+                return new Decimal(1.5); // 50% growth boost
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
         },
         12: {
-            title: "Self-Sustaining Energy",
-            description: "Boost energy particles gain based on current energy particles.",
-            cost: new Decimal(20), // Cost in Inflation Points
+            title: "Exponential Growth",
+            description: "Increase the base Replicanti growth rate by 100%.",
+            cost: new Decimal(100), // Cost in Replicanti
             effect() {
-                let eff = player.points.add(1).pow(0.2);
-
-                if (hasUpgrade('i', 21)) {
-                    let upgrade21Effect = upgradeEffect('i', 21);
-                    eff = eff.pow(upgrade21Effect); // Apply Upgrade 21 effect
-                }
-
-                return eff;
+                return new Decimal(2); // Double the growth rate
             },
             effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-        },
-        13: {
-            title: "Inflation Empowerment",
-            description: "Boost energy particles gain based on current Inflation Points.",
-            cost: new Decimal(30), // Cost in Inflation Points
-            effect() {
-                return player.i.points.add(1).pow(0.3); // Boost energy particles gain based on Inflation Points
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-        },
-        14: {
-            title: "Self-Inflation",
-            description: "Boost Inflation Points gain based on current Inflation Points.",
-            cost: new Decimal(40), // Cost in Inflation Points
-            effect() {
-                let baseEffect = player.i.points.add(1).log10().add(1); // Use log10 for controlled growth
-
-                if (hasUpgrade('i', 22)) {
-                    let upgrade22Effect = upgradeEffect('i', 22);
-                    baseEffect = baseEffect.pow(upgrade22Effect); // Apply Upgrade 22 effect
-                }
-
-                return baseEffect;
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-        },
-        21: {
-            title: "Empowered Energy",
-            description: "Raise the effect of Self-Sustaining Energy based on current Inflation Points.",
-            cost: new Decimal(50), // Cost in Inflation Points
-            effect() {
-                let expBoost = player.i.points.add(1).log10().div(15).add(1); // Boost based on Inflation Points with log10
-                return expBoost;
-            },
-            effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
-            unlocked() { return hasUpgrade('i', 12); }, // Unlock condition
-        },
-        22: {
-            title: "Energy Inflation",
-            description: "Raise the effect of Self-Inflation based on current energy particles.",
-            cost: new Decimal(70), // Cost in Inflation Points
-            effect() {
-                let expBoost = player.points.add(1).log10().div(15).add(1); // Boost based on energy particles with log10
-                return expBoost;
-            },
-            effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)) }, // Display the exponent multiplier
-            unlocked() { return hasUpgrade('i', 14); }, // Unlock condition
-        },
-
-        // Matter-based upgrades in Phase 2
-        31: {
-            title: "Matter Compression",
-            description: "Increase Matter gain based on current Inflation Points.",
-            cost: new Decimal(100), // Cost in Matter
-            currencyDisplayName: "Matter", // Indicate that the cost is in Matter
-            currencyInternalName: "matter", // Access the Matter currency
-            effect() {
-                return player.i.points.add(1).pow(0.2); // Boost to Matter gain based on Inflation Points
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return player.i.matter.gte(100); }, // Unlock after gaining 100 Matter
-        },
-        32: {
-            title: "Stellar Nucleosynthesis",
-            description: "Boost Inflation Points gain based on current Matter.",
-            cost: new Decimal(250), // Cost in Matter
-            currencyDisplayName: "Matter", // Indicate that the cost is in Matter
-            currencyInternalName: "matter", // Access the Matter currency
-            effect() {
-                return player.i.matter.add(1).pow(0.15); // Boost Inflation Points gain based on Matter
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return player.i.matter.gte(250); }, // Unlock after gaining 250 Matter
-        },
-        33: {
-            title: "Galaxy Formation",
-            description: "Increase both Matter and Inflation Points gain based on current Matter.",
-            cost: new Decimal(500), // Cost in Matter
-            currencyDisplayName: "Matter", // Indicate that the cost is in Matter
-            currencyInternalName: "matter", // Access the Matter currency
-            effect() {
-                let matterBoost = player.i.matter.add(1).pow(0.1);
-                return matterBoost;
-            },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return player.i.matter.gte(500); }, // Unlock after gaining 500 Matter
+            unlocked() { return hasUpgrade('r', 11); } // Unlock condition: must have Upgrade 11
         },
     },
 });
