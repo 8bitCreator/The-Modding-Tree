@@ -7,12 +7,13 @@ addLayer("r", { // 'r' for "Replicanti"
         points: new Decimal(0), // The main currency, Replicanti
     }},
     color: "#800020", // Lime green color for Replicanti
+    resource: "Time Shards",
+    baseResource: "time",
     type: "none", // No standard prestige; full custom control
     row: 0, // First row on the tree
     hotkeys: [
         {key: "r", description: "R: Reset for Replicanti", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    resource: "Time Shards",
     layerShown(){return true}, // Show the Replicanti layer at all times
 
     // Replicanti Growth Formula (Update with Upgrade Effects)
