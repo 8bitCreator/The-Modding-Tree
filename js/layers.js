@@ -1,84 +1,121 @@
-addLayer("r", { // 'r' for "Replicanti"
-    name: "TimeShards",
+addLayer("r", { // 'r' for "TimeShards"
+    name: "Time Shards",
     symbol: "R",
-    position: 0, // Position within the tree
-    startData() { return {
-        unlocked: true, // This layer is unlocked at the start
-        points: new Decimal(0), // The main currency, Replicanti
-    }},
-    color: "#800020", // Lime green color for Replicanti
+    position: 0, 
+    startData() { 
+        return {
+            unlocked: true, 
+            points: new Decimal(0), // Time Shards
+            boosts: new Decimal(0),  // Number of Time Shard Boosts
+        } 
+    },
+    color: "#800020", 
     resource: "Time Shards",
     baseResource: "time",
-    type: "none", // No standard prestige; full custom control
-    row: 0, // First row on the tree
+    type: "none", 
+    row: 0, 
     hotkeys: [
-        {key: "r", description: "R: Reset for Replicanti", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "r", description: "R: Reset for Time Shard Boost", onPress(){if (canReset(this.layer)) doBoost()}},
     ],
-    layerShown(){return true}, // Show the Replicanti layer at all times
+    layerShown(){return true},
 
-    // Replicanti Growth Formula (Update with Upgrade Effects)
-    update(diff) {
-        let growthRate = new Decimal(1);
-          playerPointsBoost() {
+    // Time Shard Boost Mechanic
+    boostMultiplier() {
+        return new Decimal(3).pow(player.r.boosts); // Each boost multiplies Time Shard production by 3x
+    },
+
+    // Effect: Player Points (Time) boosting Replicanti
+    playerPointsBoost() {
         return player.points.add(1).pow(0.2); // Example: Boost based on Player Points raised to 0.2 power
     },
-// Base 1% growth rate per second
-        growthRate = growthRate.times(this.playerPointsBoost());
+
+    // Calculate the cost for the next Time Shard Boost
+    boostCost() {
+        let baseCost = new Decimal(1e10); // Starting cost for the first boost
+        let scaleFactor = new Decimal(10); // Scaling factor per boost
+        return baseCost.times(scaleFactor.pow(player.r.boosts)); // Exponential cost scaling
+    },
+
+    // Update function to handle Time Shard generation
+    update(diff) {
+        let growthRate = new Decimal(1)
+            .times(this.boostMultiplier())  // Apply Time Shard Boost multiplier
+            .times(this.playerPointsBoost()); // Apply Player Points (Time) boost to growth rate
+
         // Apply upgrade effects to modify growth rate
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
         if (hasUpgrade('r', 12)) growthRate = growthRate.times(upgradeEffect('r', 12));
-        if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13));
+        if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13)); // Use Upgrade 13 effect
 
-        // Increase Replicanti by the calculated growth rate
-        player.r.points = player.r.points.add((growthRate).times(diff)); 
+        // Increase Time Shards by the calculated growth rate
+        player.r.points = player.r.points.add(growthRate.times(diff)); 
     },
 
-    // Replicanti Effect: Boosting Time gain
-    effect() {
-        return player.r.points.add(1).pow(0.15); // Balanced effect to boost Time gain
-    },
-
+    // Display Time Shard Boost and Player Points boost in the layer tab
     effectDescription() {
-        return "which boosts Time gain by ×" + format(tmp.r.effect); // Shows the effect multiplier in the layer tab
+        return `Time Shard Boosts: ×${format(this.boostMultiplier())} and Player Points boost: ×${format(this.playerPointsBoost())}`;
     },
 
-    // Upgrades to enhance Replicanti growth
+    // Time Shard Boost Button
+    clickables: {
+        11: {
+            title: "Perform Time Shard Boost",
+            display() { 
+                return `Perform a Time Shard Boost for a 3x multiplier (currently ×${format(this.boostMultiplier())})\nCost: ${format(this.boostCost())} Time Shards\nThis will reset your Time Shards and upgrades!`; 
+            },
+            canClick() {
+                return player.r.points.gte(this.layer.boostCost()); // Check if the player has enough Time Shards for the next boost
+            },
+            onClick() { 
+                doBoost(); // Call the boost function
+            },
+            style() {
+                return {'height':'100px', 'width':'300px'}; // Customize button size and style
+            }
+        }
+    },
+
+    // Time Shard Boost Reset Function
+    doBoost() {
+        if (!this.clickables[11].canClick()) return; // Check if the player meets the requirements
+
+        player.r.boosts = player.r.boosts.add(1); // Increment the boost counter
+        player.r.points = new Decimal(0); // Reset Time Shards
+        layerDataReset("r", ["boosts"]); // Reset upgrades and other layer-specific data, except boosts
+    },
+    
+    // Upgrades to enhance Time Shard growth
     upgrades: {
         11: {
             title: "Increase Growth Rate",
             description: "Time Shards grow 50% faster.",
-            cost: new Decimal(10), // Cost in Replicanti
+            cost: new Decimal(10),
             effect() {
-                let eff = new Decimal(1.5); 
-                return eff;// 50% growth boost
+                return new Decimal(1.5); 
             },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
+            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) },
         },
         12: {
             title: "Time Shard Growth",
-            description: "Increase growth rate by 100%.",
-            cost: new Decimal(100), // Cost in Replicanti
+            description: "Double the Time Shard growth rate.",
+            cost: new Decimal(100),
             effect() {
-                let eff = new Decimal(2); 
-                return eff; // Double the growth rate
+                return new Decimal(2); 
             },
-            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) }, // Display the effect multiplier
-            unlocked() { return hasUpgrade('r', 11); } // Unlock condition: must have Upgrade 11
+            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) },
+            unlocked() { return hasUpgrade('r', 11); }
         },
         13: {
-    title: "Exponential Growth",
-    description: "Raise Time Shards growth rate to the power of 2.",
-    cost: new Decimal(100), // Cost in Replicanti
-    effect() {
-        let eff = new Decimal(2); // The effect is to raise growth rate to the power of 2
-        return eff;
-    },
-    effectDisplay() { 
-        return "^" + format(upgradeEffect(this.layer, this.id)); // Display the effect as a power (e.g., ^2)
-    },
-    unlocked() { 
-        return hasUpgrade('r', 12); // Unlock condition: must have Upgrade 11
-    }
-},
+            title: "Exponential Growth",
+            description: "Raise Time Shard growth rate to the power of 2.",
+            cost: new Decimal(100),
+            effect() {
+                return new Decimal(2);
+            },
+            effectDisplay() { 
+                return "^" + format(upgradeEffect(this.layer, this.id)); 
+            },
+            unlocked() { return hasUpgrade('r', 12); }
+        },
     }, 
 });
