@@ -12,14 +12,14 @@ addLayer("r", { // 'r' for "TimeShards"
     color: "#800020", 
     resource: "Time Shards",
     baseResource: "time",
-    type: "none", 
+    type: "none", // No prestige reset
     row: 0, 
     hotkeys: [
-        {key: "r", description: "R: Reset for Time Shard Boost", onPress(){if (canReset(this.layer)) doBoost()}},
+        {key: "r", description: "R: Reset for Time Shard Boost", onPress(){if (layers.r.canBoost()) layers.r.doBoost()}}, // Fixed reference
     ],
-    layerShown(){return true},
+    layerShown(){return true}, // Show this layer
 
-    // Time Shard Boost Mechanic
+    // Multiplier based on Time Shard Boosts
     boostMultiplier() {
         return new Decimal(3).pow(player.r.boosts); // Each boost multiplies Time Shard production by 3x
     },
@@ -39,13 +39,13 @@ addLayer("r", { // 'r' for "TimeShards"
     // Update function to handle Time Shard generation
     update(diff) {
         let growthRate = new Decimal(1)
-       growthRate = growthRate.times(this.boostMultiplier())  // Apply Time Shard Boost multiplier
-            growthRate = growthRate.times(this.playerPointsBoost()); // Apply Player Points (Time) boost to growth rate
+            .times(layers.r.boostMultiplier())  // Apply Time Shard Boost multiplier
+            .times(layers.r.playerPointsBoost()); // Apply Player Points (Time) boost to growth rate
 
         // Apply upgrade effects to modify growth rate
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
         if (hasUpgrade('r', 12)) growthRate = growthRate.times(upgradeEffect('r', 12));
-        if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13)); // Use Upgrade 13 effect
+        if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13)); // Apply Upgrade 13 effect
 
         // Increase Time Shards by the calculated growth rate
         player.r.points = player.r.points.add(growthRate.times(diff)); 
@@ -53,21 +53,21 @@ addLayer("r", { // 'r' for "TimeShards"
 
     // Display Time Shard Boost and Player Points boost in the layer tab
     effectDescription() {
-        return `Time Shard Boosts: ×${format(this.boostMultiplier())} and Player Points boost: ×${format(this.playerPointsBoost())}`;
+        return `Time Shard Boosts: ×${format(layers.r.boostMultiplier())} and Player Points boost: ×${format(layers.r.playerPointsBoost())}`;
     },
 
-    // Time Shard Boost Button
+    // Clickable to perform Time Shard Boost
     clickables: {
         11: {
             title: "Perform Time Shard Boost",
             display() { 
-                return `Perform a Time Shard Boost for a 3x multiplier (currently ×${format(this.boostMultiplier())})\nCost: ${format(this.boostCost())} Time Shards\nThis will reset your Time Shards and upgrades!`; 
+                return `Perform a Time Shard Boost for a 3x multiplier (currently ×${format(layers.r.boostMultiplier())})\nCost: ${format(layers.r.boostCost())} Time Shards\nThis will reset your Time Shards and upgrades!`; 
             },
             canClick() {
-                return player.r.points.gte(this.layer.boostCost()); // Check if the player has enough Time Shards for the next boost
+                return player.r.points.gte(layers.r.boostCost()); // Check if the player has enough Time Shards for the next boost
             },
             onClick() { 
-                doBoost(); // Call the boost function
+                layers.r.doBoost(); // Call the boost function
             },
             style() {
                 return {'height':'100px', 'width':'300px'}; // Customize button size and style
@@ -75,9 +75,9 @@ addLayer("r", { // 'r' for "TimeShards"
         }
     },
 
-    // Time Shard Boost Reset Function
+    // Boost reset function
     doBoost() {
-        if (!this.clickables[11].canClick()) return; // Check if the player meets the requirements
+        if (!layers.r.clickables[11].canClick()) return; // Ensure player can click the boost button
 
         player.r.boosts = player.r.boosts.add(1); // Increment the boost counter
         player.r.points = new Decimal(0); // Reset Time Shards
