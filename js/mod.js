@@ -45,8 +45,8 @@ function getPointGen() {
 	let gain = new Decimal(1) // Base Time generation
 
 	// Apply Replicanti effect to boost Time generation
-	if (player.r.points.gt(0)) {
-		gain = gain.times(tmp.r.effect || 1); // Ensure tmp.r.effect is defined or use 1 as default
+	if (player.r.points.gt(10)) {
+		gain = gain.times(tmp.r.effect); // Ensure tmp.r.effect is defined or use 1 as default
 	}
 
 	return gain
