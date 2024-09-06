@@ -39,8 +39,8 @@ addLayer("r", { // 'r' for "TimeShards"
     // Update function to handle Time Shard generation
     update(diff) {
         let growthRate = new Decimal(1)
-            .times(this.boostMultiplier())  // Apply Time Shard Boost multiplier
-            .times(this.playerPointsBoost()); // Apply Player Points (Time) boost to growth rate
+       growthRate = growthRate.times(this.boostMultiplier())  // Apply Time Shard Boost multiplier
+            growthRate = growthRate.times(this.playerPointsBoost()); // Apply Player Points (Time) boost to growth rate
 
         // Apply upgrade effects to modify growth rate
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
