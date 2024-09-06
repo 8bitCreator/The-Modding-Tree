@@ -32,7 +32,7 @@ addLayer("r", { // 'r' for "TimeShards"
     // Calculate the cost for the next Time Shard Boost
     boostCost() {
         let baseCost = new Decimal(1000); // Starting cost for the first boost
-        let scaleFactor = new Decimal(10); // Scaling factor per boost
+        let scaleFactor = new Decimal(12); // Scaling factor per boost
         return baseCost.times(scaleFactor.pow(player.r.boosts)); // Exponential cost scaling
     },
 
