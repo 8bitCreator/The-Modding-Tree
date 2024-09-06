@@ -59,10 +59,7 @@ function addedPlayerData() {
 
 // Extra things to display at the top of the page
 var displayThings = [
-    function() {
-        let boost = layers.r.playerPointsBoost(); // Call the boost calculation function
-        return `Time boosts time Shards growth by ×${format(boost)}`; // Display the boost effect
-    }
+   
 ];
 
 // Determines when the game "ends"
