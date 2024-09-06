@@ -40,16 +40,16 @@ function canGenPoints(){
 // Calculate Time gain per second (Replicanti boost applied here)
 function getPointGen() {
 	if (!canGenPoints())
-		return new Decimal(0)
+		return new Decimal(0);
 
-	let gain = new Decimal(1) // Base Time generation
+	let gain = new Decimal(1); // Base Time generation
 
-	// Apply Replicanti effect to boost Time generation
-	if (player.r.points.gt(10)) {
-		gain = gain.times(tmp.r.effect); // Ensure tmp.r.effect is defined or use 1 as default
+	// Apply Time Shard points boost (using a power of 0.3)
+	if (player.r.points.gt(0)) {
+		gain = gain.times(player.r.points.add(1).pow(0.3)); // Time Shard points boost
 	}
 
-	return gain
+	return gain;
 }
 
 // Non-layer related variables to be saved
