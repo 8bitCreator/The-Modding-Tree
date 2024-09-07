@@ -135,7 +135,7 @@ addLayer("r", { // 'r' for "TimeShards"
             description: "Time Shards growth rate is raised to the power of 1.5.",
             cost: new Decimal(5000),
             effect() {
-                return new Decimal(1.5);
+                return new Decimal(1.01);
             },
             effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)); },
             unlocked() { return hasUpgrade('r', 21); } // Unlock after upgrade 21
