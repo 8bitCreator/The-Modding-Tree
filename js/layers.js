@@ -46,6 +46,9 @@ addLayer("r", { // 'r' for "TimeShards"
         if (hasUpgrade('r', 11)) growthRate = growthRate.times(upgradeEffect('r', 11));
         if (hasUpgrade('r', 12)) growthRate = growthRate.times(upgradeEffect('r', 12));
         if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13)); // Apply Upgrade 13 effect
+        if (hasUpgrade('r', 21)) growthRate = growthRate.times(upgradeEffect('r', 21));
+        if (hasUpgrade('r', 23)) growthRate = growthRate.times(upgradeEffect('r', 23));
+        if (hasUpgrade('r', 22)) growthRate = growthRate.pow(upgradeEffect('r', 22));
 
         // Increase Time Shards by the calculated growth rate
         player.r.points = player.r.points.add(growthRate.times(diff)); 
@@ -116,6 +119,36 @@ addLayer("r", { // 'r' for "TimeShards"
                 return "^" + format(upgradeEffect(this.layer, this.id)); 
             },
             unlocked() { return hasUpgrade('r', 12); }
+        },
+         21: {
+            title: "Advanced Time Manipulation",
+            description: "Time Shards grow 200% faster after upgrade 13 exponentiation",
+            cost: new Decimal(1000),
+            effect() {
+                return new Decimal(3); 
+            },
+            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) },
+            unlocked() { return player.r.boosts.gte(3); } // Unlock after 3 Time Shard Boosts
+        },
+        22: {
+            title: "Exponential Time Growth",
+            description: "Time Shards growth rate is raised to the power of 1.5.",
+            cost: new Decimal(5000),
+            effect() {
+                return new Decimal(1.5);
+            },
+            effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)); },
+            unlocked() { return hasUpgrade('r', 21); } // Unlock after upgrade 21
+        },
+        23: {
+            title: "Final Time Shard Boost",
+            description: "Time Shards grow 300% faster after upgrade 13 exponentation and before upgrade 21 exponentation",
+            cost: new Decimal(10000),
+            effect() {
+                return new Decimal(3); 
+            },
+            effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) },
+            unlocked() { return hasUpgrade('r', 22); } // Unlock after upgrade 22
         },
     }, 
 });
