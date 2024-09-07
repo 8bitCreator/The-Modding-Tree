@@ -111,7 +111,7 @@ addLayer("r", { // 'r' for "TimeShards"
         13: {
             title: "Exponential Growth",
             description: "Raise Time Shard growth rate to the power of 2.",
-            cost: new Decimal(100),
+            cost: new Decimal(300),
             effect() {
                 return new Decimal(2);
             },
@@ -123,7 +123,7 @@ addLayer("r", { // 'r' for "TimeShards"
          21: {
             title: "Advanced Time Manipulation",
             description: "Time Shards grow 200% faster after upgrade 13 exponentiation",
-            cost: new Decimal(1000),
+            cost: new Decimal(100000),
             effect() {
                 return new Decimal(3); 
             },
@@ -131,9 +131,9 @@ addLayer("r", { // 'r' for "TimeShards"
             unlocked() { return player.r.boosts.gte(3); } // Unlock after 3 Time Shard Boosts
         },
         22: {
-            title: "Exponential Time Growth",
-            description: "Time Shards growth rate is raised to the power of 1.5.",
-            cost: new Decimal(5000),
+            title: "Useless",
+            description: "Time Shards growth rate is raised to the power of 1.01.",
+            cost: new Decimal(100000),
             effect() {
                 return new Decimal(1.01);
             },
@@ -143,7 +143,7 @@ addLayer("r", { // 'r' for "TimeShards"
         23: {
             title: "Final Time Shard Boost",
             description: "Time Shards grow 300% faster after upgrade 13 exponentation and before upgrade 21 exponentation",
-            cost: new Decimal(10000),
+            cost: new Decimal(100000),
             effect() {
                 return new Decimal(3); 
             },
