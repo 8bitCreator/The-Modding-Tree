@@ -48,7 +48,7 @@ addLayer("r", { // 'r' for "TimeShards"
         if (hasUpgrade('r', 13)) growthRate = growthRate.pow(upgradeEffect('r', 13)); // Apply Upgrade 13 effect
         if (hasUpgrade('r', 21)) growthRate = growthRate.times(upgradeEffect('r', 21));
         if (hasUpgrade('r', 23)) growthRate = growthRate.times(upgradeEffect('r', 23));
-        if (hasUpgrade('r', 22)) growthRate = growthRate.pow(upgradeEffect('r', 22));
+        if (hasUpgrade('r', 22)) growthRate = growthRate.times(upgradeEffect('r', 22));
 
         // Increase Time Shards by the calculated growth rate
         player.r.points = player.r.points.add(growthRate.times(diff)); 
@@ -56,7 +56,7 @@ addLayer("r", { // 'r' for "TimeShards"
 
     // Display Time Shard Boost and Player Points boost in the layer tab
     effectDescription() {
-        return `Time Shard Boosts: ×${format(layers.r.boostMultiplier())} and Player Points boost: ×${format(layers.r.playerPointsBoost())}`;
+        return `Time Shard Boosts: ×${format(layers.r.boostMultiplier())} and Player Points boost: ×${format(layers.r.playerPointsBoost())} and Here is How Many Time Shard Boosts you have: ×${format(layers.r.boosts())} `;
     },
 
     // Clickable to perform Time Shard Boost
@@ -132,17 +132,17 @@ addLayer("r", { // 'r' for "TimeShards"
         },
         22: {
             title: "Useless",
-            description: "Time Shards growth rate is raised to the power of 1.01.",
+            description: "Time Shards growth rate is 10 times faster",
             cost: new Decimal(100000),
             effect() {
                 return new Decimal(1.01);
             },
-            effectDisplay() { return "^" + format(upgradeEffect(this.layer, this.id)); },
+           effectDisplay() { return "×" + format(upgradeEffect(this.layer, this.id)) },
             unlocked() { return hasUpgrade('r', 21); } // Unlock after upgrade 21
         },
         23: {
             title: "Final Time Shard Boost",
-            description: "Time Shards grow 300% faster after upgrade 13 exponentation and before upgrade 21 exponentation",
+            description: "Time Shards grow 3 faster",
             cost: new Decimal(100000),
             effect() {
                 return new Decimal(3); 
