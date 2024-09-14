@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "The Time Tree",
+	name: "The ??? Tree",
 	id: "mymod",
 	author: "nobody",
-	pointsName: "Time",
+	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
@@ -13,71 +13,67 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
-	name: "Replicanti Expansion",
+	num: "0.0",
+	name: "Literally nothing",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.1</h3><br>
-		- Added Replicanti growth mechanics.<br>
-		- Removed old tree mechanics.<br>
-		- Balanced Replicanti boost effect.<br>`
+	<h3>v0.0</h3><br>
+		- Added things.<br>
+		- Added stuff.`
 
-let winText = `Congratulations! You've reached the end of this version! More content coming soon.`
+let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
-// Custom functions that shouldn't be called every tick
+// If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
+// (The ones here are examples, all official functions are already taken care of)
 var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
 
 function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
 }
 
-// Determines if it should show points/sec (Time gain)
+// Determines if it should show points/sec
 function canGenPoints(){
 	return true
 }
 
-// Calculate Time gain per second (Replicanti boost applied here)
+// Calculate points/sec!
 function getPointGen() {
-	if (!canGenPoints())
-		return new Decimal(0);
+	if(!canGenPoints())
+		return new Decimal(0)
 
-	let gain = new Decimal(1); // Base Time generation
-
-	// Apply Time Shard points boost (using a power of 0.3)
-	if (player.r.points.gt(0)) {
-		gain = gain.times(player.r.points.add(1).pow(0.3)); // Time Shard points boost
-	}
-
-	return gain;
+	let gain = new Decimal(1)
+	return gain
 }
 
-// Non-layer related variables to be saved
-function addedPlayerData() { 
-	return {} 
-}
+// You can add non-layer related variables that should to into "player" and be saved here, along with default values
+function addedPlayerData() { return {
+}}
 
-// Extra things to display at the top of the page
+// Display extra things at the top of the page
 var displayThings = [
-   
-];
+]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000")) // Example endgame threshold
+	return player.points.gte(new Decimal("e280000000"))
 }
 
-// Style for the background (can be a function)
+
+
+// Less important things beyond this point!
+
+// Style for the background, can be a function
 var backgroundStyle = {
 
 }
 
-// Maximum tick length (to avoid long ticks breaking the game)
+// You can change this if you have things that can be messed up by long tick lengths
 function maxTickLength() {
-	return(3600) // Default is 1 hour
+	return(3600) // Default is 1 hour which is just arbitrarily large
 }
 
-// Function to fix old saves
+// Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
+// you can cap their current resources with this.
 function fixOldSave(oldVersion){
-	// Add logic here if needed for future save fixing
 }
