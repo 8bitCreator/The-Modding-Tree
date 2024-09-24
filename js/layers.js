@@ -1,6 +1,6 @@
 addLayer("e1", {
     name: "Elements 1-14", // This layer represents the first 14 elements
-    symbol: "E1-14", // Symbol representing this group of elements
+    symbol: "E", // Symbol representing this group of elements
     position: 0, // Horizontal position in the row
     startData() { 
         return {
@@ -67,7 +67,7 @@ addLayer("e1", {
                 return new Decimal(1.5); // 1.5x multiplier effect
             },
             unlocked() { 
-                return hasUpgrade('e1', 11) && hasUpgrade('e1', 13); // Only unlock if both Hydrogen and Lithium boosts are purchased
+                return hasUpgrade('e1', 13); // Only unlock if both Hydrogen and Lithium boosts are purchased
             },
             effectDescription() {
                 return "Multiplies the effects of Hydrogen Boost and Lithium Boost by 1.5x.";
