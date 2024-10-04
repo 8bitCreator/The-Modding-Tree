@@ -1,5 +1,5 @@
-addLayer("e1", {
-    name: "Elements 1-14", // This layer represents the first 14 elements
+addLayer("e", {
+    name: "Elements", // This layer represents the first 14 elements
     symbol: "E", // Symbol representing this group of elements
     position: 0, // Horizontal position in the row
     startData() { 
@@ -18,9 +18,9 @@ addLayer("e1", {
 
     gainMult() { // Multiplier for gaining element points
         let mult = new Decimal(1);
-        if (hasUpgrade('e1', 11)) mult = mult.mul(2); // Hydrogen Boost (2x)
-        if (hasUpgrade('e1', 12)) mult = mult.mul(3); // Helium Boost (3x)
-        if (hasUpgrade('e1', 13)) mult = mult.mul(4); // Lithium Boost (4x)
+        if (hasUpgrade('e', 11)) mult = mult.mul(2); // Hydrogen Boost (2x)
+        if (hasUpgrade('e', 12)) mult = mult.mul(3); // Helium Boost (3x)
+        if (hasUpgrade('e', 13)) mult = mult.mul(4); // Lithium Boost (4x)
         return mult;
     },
     gainExp() { // Exponent for gaining element points
@@ -39,7 +39,7 @@ addLayer("e1", {
             cost: new Decimal(10), // Cost of this upgrade
             effect() { 
                 let baseEffect = new Decimal(2); // Base 2x multiplier for Hydrogen
-                if (hasUpgrade('e1', 21)) baseEffect = baseEffect.mul(1.5); // Apply 1.5x boost from Lithium Hydride
+                if (hasUpgrade('e', 21)) baseEffect = baseEffect.mul(1.5); // Apply 1.5x boost from Lithium Hydride
                 return baseEffect; 
             },
         },
@@ -55,7 +55,7 @@ addLayer("e1", {
             cost: new Decimal(100), // Cost of this upgrade
             effect() { 
                 let baseEffect = new Decimal(4); // Base 4x multiplier for Lithium
-                if (hasUpgrade('e1', 21)) baseEffect = baseEffect.mul(1.5); // Apply 1.5x boost from Lithium Hydride
+                if (hasUpgrade('e', 21)) baseEffect = baseEffect.mul(1.5); // Apply 1.5x boost from Lithium Hydride
                 return baseEffect; 
             },
         },
@@ -67,7 +67,7 @@ addLayer("e1", {
                 return new Decimal(1.5); // 1.5x multiplier effect
             },
             unlocked() { 
-                return hasUpgrade('e1', 13); // Only unlock if both Hydrogen and Lithium boosts are purchased
+                return hasUpgrade('e', 13); // Only unlock if both Hydrogen and Lithium boosts are purchased
             },
             effectDescription() {
                 return "Multiplies the effects of Hydrogen Boost and Lithium Boost by 1.5x.";
